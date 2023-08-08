@@ -14,9 +14,9 @@ public class CloudBlock extends AbstractBlock {
 
     //TODO Un nuage peut te faire passer à travers le sol. Ne PAS corriger, en faire une mécanique.
 
-    public static Identifier identifier = new Identifier("block", "cloud");
-    public AbstractItem drop = new CloudBlockItem();
-    public AbstractItem rareDrop = new CelestiteItem();
+    final public static Identifier identifier = new Identifier("block", "cloud");
+    final public AbstractItem drop = new CloudBlockItem();
+    final public AbstractItem rareDrop = new CelestiteItem();
 
     /**
      * Constructs an AbstractBlock with the specified identifier and block type.
@@ -46,12 +46,11 @@ public class CloudBlock extends AbstractBlock {
         player.getPlayer().getInventory().addItemStack(
                 drop.buildItemStack()
         );
-        player.getPlayer().getInventory().addItemStack(
-                rareDrop.buildItemStack()
-        );
-//        Random random = new Random();
-//        if (random.nextInt(5) == 0) {
-//
-//        }
+        Random random = new Random();
+        if (random.nextInt(5) == 0) {
+            player.getPlayer().getInventory().addItemStack(
+                    rareDrop.buildItemStack()
+            );
+        }
     }
 }

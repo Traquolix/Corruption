@@ -12,9 +12,9 @@ import java.util.List;
 @Getter
 public class FrenzyReceptacleStructure extends Structure {
 
-    int halfStructureSize = 5;
+    final int halfStructureSize = 5;
     @Getter
-    int structureHeight = 9;
+    final int structureHeight = 9;
 
     public FrenzyReceptacleStructure(Instance instance) {
         super(instance);

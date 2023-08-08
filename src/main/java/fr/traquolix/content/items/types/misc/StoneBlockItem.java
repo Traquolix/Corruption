@@ -16,7 +16,7 @@ public class StoneBlockItem extends AbstractItem {
     /**
      * The unique identifier for the StoneBlockItem.
      */
-    public static Identifier identifier = new Identifier("item", "stone_block");
+    public static final Identifier identifier = new Identifier("item", "stone_block");
 
     /**
      * Constructs a new StoneBlockItem with its properties and lore.

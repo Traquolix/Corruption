@@ -10,7 +10,7 @@ public class IndestructibleBedrockBlock extends AbstractBlock {
     /**
      * The unique identifier of the Indestructible bedrock block.
      */
-    public static Identifier identifier = new Identifier("block", "indestructible_bedrock_block");
+    final public static Identifier identifier = new Identifier("block", "indestructible_bedrock_block");
 
     /**
      * Constructs a IndestructibleCoalBlock.

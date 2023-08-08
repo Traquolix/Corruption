@@ -14,8 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class VineGenerator {
-    Instance instance;
-    ConcurrentMap<Point, Integer> vinePoints = new ConcurrentHashMap<>();
+    final Instance instance;
+    final ConcurrentMap<Point, Integer> vinePoints = new ConcurrentHashMap<>();
     public VineGenerator(Instance instance) {
         this.instance = instance;
     }
@@ -35,9 +35,7 @@ public class VineGenerator {
             }
         }
         ChunkUtils.optionalLoadAll(instance, chunkToLoadList.stream().mapToLong(l -> l).toArray(), null)
-                .thenRun(() -> {
-                    batch.apply(instance, null);
-                });
+                .thenRun(() -> batch.apply(instance, null));
         vinePoints.clear();
     }
 

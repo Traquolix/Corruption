@@ -18,7 +18,7 @@ import java.time.Instant;
 public class MapItem extends AbstractItem {
 
     // 1. Corrected identifier
-    public static Identifier identifier = new Identifier("item", "map");
+    final public static Identifier identifier = new Identifier("item", "map");
     private final int MAP_ID = 0;
 
     private final RotatingMapRenderer mapRenderer = new RotatingMapRenderer();

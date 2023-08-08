@@ -13,8 +13,6 @@ import net.minestom.server.instance.block.Block;
 import java.util.HashSet;
 import java.util.Set;
 
-import static fr.traquolix.Main.logger;
-
 /**
  * The AbstractBlock class represents a block in the game world that can be placed and broken by players.
  */
@@ -24,18 +22,18 @@ public abstract class AbstractBlock {
     /**
      * The unique identifier of the block.
      */
-    Identifier identifier;
+    final Identifier identifier;
 
     /**
      * The block type.
      */
-    Block block;
+    final Block block;
 
     /**
      * The list of requirements to place or break the block.
      */
     @Getter
-    protected Set<Requirement> requirements = new HashSet<>();
+    final protected Set<Requirement> requirements = new HashSet<>();
 
     /**
      * Constructs an AbstractBlock with the specified identifier and block type.

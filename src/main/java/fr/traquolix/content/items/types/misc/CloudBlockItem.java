@@ -10,7 +10,7 @@ import net.minestom.server.item.Material;
 
 public class CloudBlockItem extends AbstractItem {
 
-    public static Identifier identifier = new Identifier("item", "cloud");
+    final public static Identifier identifier = new Identifier("item", "cloud");
 
     /**
      * Constructs an AbstractItem with default values and no pure description.

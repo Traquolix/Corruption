@@ -10,14 +10,13 @@ import net.minestom.server.instance.block.Block;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 @Getter
 public class ObservatoryStructure extends Structure {
 
-    int halfStructureSize = 9;
-    int structureHeight = 20;
+    final int halfStructureSize = 9;
+    final int structureHeight = 20;
     Point telescopePointingAt = null;
     public ObservatoryStructure(Instance instance) {
         super(instance);

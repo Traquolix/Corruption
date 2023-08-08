@@ -21,7 +21,7 @@ public class EndSword extends AbstractItem {
     /**
      * The unique identifier for the EndSword item.
      */
-    public static Identifier identifier = new Identifier("item", "end_sword");
+    final public static Identifier identifier = new Identifier("item", "end_sword");
 
     /**
      * The mana cost required to use the special ability.
@@ -99,7 +99,6 @@ public class EndSword extends AbstractItem {
         double dz = targetPos.z() - location.z();
         double speed = 40.0; // Adjust the speed to control the launch intensity
         double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        Vec velocity = new Vec(speed * dx / distance, speed * dy / distance, speed * dz / distance);
-        return velocity;
+        return new Vec(speed * dx / distance, speed * dy / distance, speed * dz / distance);
     }
 }

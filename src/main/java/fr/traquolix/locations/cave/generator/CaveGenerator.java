@@ -46,17 +46,17 @@ import static fr.traquolix.Main.logger;
 public class CaveGenerator implements Generator {
 
     public final Instance instance;
-    public static double caveSizeZ = 300;
-    public static double caveSizeY = 200;
-    public static double caveSizeX = 300;
-    public static double snowStartHeight = caveSizeY - 60;
-    public static double peakStartHeight = caveSizeY - 30;
-    public static double maxHeightSize = 320;
-    Random random = new Random();
-    int seed = random.nextInt();
-    FrenzyManager frenzyManager;
+    final public static double caveSizeZ = 300;
+    final public static double caveSizeY = 200;
+    final public static double caveSizeX = 300;
+    final public static double snowStartHeight = caveSizeY - 60;
+    final public static double peakStartHeight = caveSizeY - 30;
+    final public static double maxHeightSize = 320;
+    final Random random = new Random();
+    final int seed = random.nextInt();
+    final FrenzyManager frenzyManager;
     @Getter
-    List<Structure> structures = new ArrayList<>();
+    final List<Structure> structures = new ArrayList<>();
     final VineGenerator vineGenerator;
     Point highestPoint = new Pos(-1000, -1000, -1000);
     double highestHeight = -1000;
@@ -151,7 +151,7 @@ public class CaveGenerator implements Generator {
                         continue;
                     }
 
-                    // Calculate noise values for terrain generation
+                    // Calculate noise value for terrain generation
                     double noise = combinationModule.evaluateNoise(current.x(), current.y(), current.z());
                     double veinsNoise = veins.evaluateNoise(current.x(), current.y(), current.z());
                     double sandNoise = veins.evaluateNoise(current.y(), current.z(), current.x());
@@ -213,7 +213,7 @@ public class CaveGenerator implements Generator {
 
 
                     if (current.y() == 250) {
-                        // We can even make it so it acts like your going down into it, like quicksand or clouds from the aether mod.
+                        // We can even make it, so it acts like your going down into it, like quicksand or clouds from the aether mod.
 
                         double noiseHeight = cloudsNoise.evaluateNoise(current.z(), current.x());
                         double height = Math.abs(noiseHeight)*4;

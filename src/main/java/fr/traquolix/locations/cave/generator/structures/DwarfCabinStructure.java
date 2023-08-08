@@ -12,9 +12,9 @@ import java.util.List;
 @Getter
 public class DwarfCabinStructure extends Structure {
 
-    int halfStructureSize = 9;
+    final int halfStructureSize = 9;
     @Getter
-    int structureHeight = 20;
+    final int structureHeight = 20;
 
     public DwarfCabinStructure(Instance instance) {
         super(instance);

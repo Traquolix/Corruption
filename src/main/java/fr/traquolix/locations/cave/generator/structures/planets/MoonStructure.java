@@ -5,7 +5,6 @@ import lombok.Getter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
-import net.minestom.server.instance.batch.RelativeBlockBatch;
 import net.minestom.server.instance.block.Block;
 
 import java.util.*;
@@ -14,11 +13,11 @@ import static fr.traquolix.Main.logger;
 
 @Getter
 public class MoonStructure extends PlanetStructure {
-    Block outerShell = Block.GRAY_CONCRETE_POWDER;
-    Block core = Block.AMETHYST_BLOCK;
-    Block coreDecoration = Block.AMETHYST_CLUSTER;
-    List<Point> craterPoints = new ArrayList<>();
-    Set<Point> corePoints = new HashSet<>();
+    final Block outerShell = Block.GRAY_CONCRETE_POWDER;
+    final Block core = Block.AMETHYST_BLOCK;
+    final Block coreDecoration = Block.AMETHYST_CLUSTER;
+    final List<Point> craterPoints = new ArrayList<>();
+    final Set<Point> corePoints = new HashSet<>();
     public MoonStructure(Instance instance) {
         super(instance, 15, 15, 15);
     }
@@ -117,7 +116,7 @@ public class MoonStructure extends PlanetStructure {
                             }
                             break forY;
                         }
-                        break forZ;
+                        break;
                     }
 
                     Pos pos = new Pos(center.blockX(), center.blockY(), center.blockZ());

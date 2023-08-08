@@ -18,6 +18,7 @@ import java.util.Objects;
  * - Avoid using the same name twice
  * - Avoid using plural forms
  */
+@SuppressWarnings("GrazieInspection")
 @Getter
 @Setter
 public class Identifier {

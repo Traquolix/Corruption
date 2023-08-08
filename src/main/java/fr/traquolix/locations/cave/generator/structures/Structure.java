@@ -1,7 +1,5 @@
 package fr.traquolix.locations.cave.generator.structures;
 
-import fr.traquolix.content.blocks.AbstractBlock;
-import fr.traquolix.content.blocks.BlockRegistry;
 import fr.traquolix.content.blocks.misc.CloudBlock;
 import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.locations.cave.generator.CaveGenerator;
@@ -22,19 +20,22 @@ import static fr.traquolix.Main.logger;
 @Getter
 public abstract class Structure {
 
-    Instance instance;
+    final Instance instance;
     @Getter
     @Setter
     Point placedStructure = null;
     @Getter
+    final
     Set<Point> possibleLocations = Collections.newSetFromMap(new ConcurrentHashMap<>());
     @Getter
+    final
     int halfStructureSize = 5;
     @Getter
+    final
     int structureHeight = 9;
     @Getter
     int orientation = 0; // 0 = North, 1 = East, 2 = South, 3 = West
-    protected RelativeBlockBatch batch = new RelativeBlockBatch();
+    protected final RelativeBlockBatch batch = new RelativeBlockBatch();
     public Structure(Instance instance) {
         this.instance = instance;
     }

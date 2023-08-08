@@ -2,7 +2,6 @@ package fr.traquolix.commands;
 
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
-import fr.traquolix.stats.Stat;
 import fr.traquolix.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.command.CommandSender;
@@ -35,8 +34,6 @@ public class GetStatsCommand extends Command {
     private void execute(@NotNull CommandSender commandSender, @NotNull CommandContext commandContext) {
         Player player = (Player) commandSender;
         CPlayer cPlayer = PlayerRegistry.getInstance().getCPlayer(player);
-        cPlayer.getCurrentStats().forEach((stat, value) -> {
-            player.sendMessage(Component.text(Utils.capitalizeFirstLetter(stat.getIdentifier().getId()) + ": " + value));
-        });
+        cPlayer.getCurrentStats().forEach((stat, value) -> player.sendMessage(Component.text(Utils.capitalizeFirstLetter(stat.getIdentifier().getId()) + ": " + value)));
     }
 }

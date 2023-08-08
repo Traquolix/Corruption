@@ -1,7 +1,6 @@
 package fr.traquolix.skills;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Abstract base class representing a generic skill in the game.

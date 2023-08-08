@@ -37,12 +37,12 @@ import static fr.traquolix.Main.logger;
 @Getter
 public class CPlayer {
 
-    Player player;
-    ConcurrentMap<Skill, AbstractSkill> skills = new ConcurrentHashMap<>();
-    ConcurrentMap<Stat, AbstractStat> stats = new ConcurrentHashMap<>();
+    final Player player;
+    final ConcurrentMap<Skill, AbstractSkill> skills = new ConcurrentHashMap<>();
+    final ConcurrentMap<Stat, AbstractStat> stats = new ConcurrentHashMap<>();
     double currentMana = 0;
-    int manaRegenSPeed = 500; // In milliseconds
-    ConcurrentMap<Stat, AbstractStat> bonusStats = new ConcurrentHashMap<>();
+    final int manaRegenSPeed = 500; // In milliseconds
+    final ConcurrentMap<Stat, AbstractStat> bonusStats = new ConcurrentHashMap<>();
     Task manaRegenTask;
 
     /**
@@ -200,9 +200,7 @@ public class CPlayer {
      * Reset all bonus stats to their default values (0).
      */
     public void resetBonusStats() {
-        bonusStats.forEach((identifier, stat) -> {
-            stat.setValue(0);
-        });
+        bonusStats.forEach((identifier, stat) -> stat.setValue(0));
     }
 
     /**

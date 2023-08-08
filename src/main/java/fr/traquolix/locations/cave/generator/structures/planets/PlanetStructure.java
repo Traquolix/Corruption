@@ -1,6 +1,5 @@
 package fr.traquolix.locations.cave.generator.structures.planets;
 
-import fr.traquolix.locations.cave.generator.CaveGenerator;
 import fr.traquolix.locations.cave.generator.structures.Structure;
 import fr.traquolix.utils.Utils;
 import lombok.Getter;
@@ -97,7 +96,7 @@ public class PlanetStructure extends Structure {
                             }
                             break forY;
                         }
-                        break forZ;
+                        break;
                     }
 
                     Pos pos = new Pos(center.blockX(), center.blockY(), center.blockZ());
@@ -133,8 +132,6 @@ public class PlanetStructure extends Structure {
         if (x*x/(rx*rx) + (y+1)*(y+1)/(ry*ry) + z*z/(rz*rz) > 1) return true;
         if (x*x/(rx*rx) + (y-1)*(y-1)/(ry*ry) + z*z/(rz*rz) > 1) return true;
         if (x*x/(rx*rx) + y*y/(ry*ry) + (z+1)*(z+1)/(rz*rz) > 1) return true;
-        if (x*x/(rx*rx) + y*y/(ry*ry) + (z-1)*(z-1)/(rz*rz) > 1) return true;
-
-        return false; // If none of the neighbors are outside, it's not an edge block
+        return x * x / (rx * rx) + y * y / (ry * ry) + (z - 1) * (z - 1) / (rz * rz) > 1;// If none of the neighbors are outside, it's not an edge block
     }
 }

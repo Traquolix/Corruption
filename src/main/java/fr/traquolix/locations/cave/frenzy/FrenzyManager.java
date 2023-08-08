@@ -24,10 +24,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class FrenzyManager {
 
-    Instance instance;
-    Set<Point> frenzyBlocks = new HashSet<>();
-    Map<Point, Block> frenzyBlockOriginals = new HashMap<>();
-    ConcurrentLinkedQueue<Point> sandBlocks = new ConcurrentLinkedQueue<>();
+    final Instance instance;
+    final Set<Point> frenzyBlocks = new HashSet<>();
+    final Map<Point, Block> frenzyBlockOriginals = new HashMap<>();
+    final ConcurrentLinkedQueue<Point> sandBlocks = new ConcurrentLinkedQueue<>();
     int frenzyTime = 60;
 
     boolean frenzyEnded = false;
@@ -115,9 +115,7 @@ public class FrenzyManager {
                         event.setCancelled(true);
                         Block block = event.getBlock();
                         instance.setBlock(pos, BlockRegistry.getInstance().getBlock(IndestructibleBedrockBlock.identifier).getNaturalBlock());
-                        MinecraftServer.getSchedulerManager().scheduleTask(() -> {
-                            instance.setBlock(event.getBlockPosition(), block);
-                        }, TaskSchedule.seconds(5), TaskSchedule.stop());
+                        MinecraftServer.getSchedulerManager().scheduleTask(() -> instance.setBlock(event.getBlockPosition(), block), TaskSchedule.seconds(5), TaskSchedule.stop());
                     }
                 }))
                 .build();

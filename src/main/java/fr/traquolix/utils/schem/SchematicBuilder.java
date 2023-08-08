@@ -84,9 +84,9 @@ public class SchematicBuilder {
                 blockBytes.put(oldBytes);
             }
 
-            int index = i, width = size.blockX(), length = size.blockZ();
-            int y = index / (width * length);
-            int remainder = index - (y * width * length);
+            int width = size.blockX(), length = size.blockZ();
+            int y = i / (width * length);
+            int remainder = i - (y * width * length);
             int z = remainder / width;
             int x = remainder - z * width;
 

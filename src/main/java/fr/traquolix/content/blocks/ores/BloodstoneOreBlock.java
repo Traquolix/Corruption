@@ -19,12 +19,12 @@ public class BloodstoneOreBlock extends AbstractBlock {
     /**
      * The unique identifier of the Bloodstone Ore block.
      */
-    public static Identifier identifier = new Identifier("block", "bloodstone_ore");
+    final public static Identifier identifier = new Identifier("block", "bloodstone_ore");
 
     /**
      * The item that the block drops when broken.
      */
-    public AbstractItem drop = ItemRegistry.getInstance().getItem(BloodstoneOreItem.identifier);
+    final public AbstractItem drop = ItemRegistry.getInstance().getItem(BloodstoneOreItem.identifier);
 
     /**
      * Constructs a BloodstoneOreBlock.

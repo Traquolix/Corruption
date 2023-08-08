@@ -14,7 +14,6 @@ import java.util.Objects;
  * The {@code Modificator} class is used to add modifications to items.
  */
 @Getter
-
 public class Modificator {
 
     /**
@@ -23,7 +22,7 @@ public class Modificator {
 
     public Modificator() {}
     @Getter
-    static Tag<String> modificationsTag = Tag.String("modifications");
+    final static Tag<String> modificationsTag = Tag.String("modifications");
 
     /**
      * Adds a specific modification to the given item stack.
@@ -99,5 +98,6 @@ public class Modificator {
     public static ItemStack addReforging(ItemStack itemStack) {
         return addModification(itemStack, Modification.REFORGED);
     }
+
 }
 

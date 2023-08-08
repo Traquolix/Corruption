@@ -1,8 +1,6 @@
 package fr.traquolix.events;
 
 import fr.traquolix.player.CPlayer;
-import fr.traquolix.player.PlayerRegistry;
-import fr.traquolix.stats.Stat;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerLoginEvent;

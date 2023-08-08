@@ -13,7 +13,7 @@ public class SandOfTimeBlock extends AbstractBlock {
     /**
      * The unique identifier of the Sand of Time block.
      */
-    public static Identifier identifier = new Identifier("block", "sand_of_time");
+    public static final Identifier identifier = new Identifier("block", "sand_of_time");
 
     /**
      * Constructs a SandOfTimeBlock.

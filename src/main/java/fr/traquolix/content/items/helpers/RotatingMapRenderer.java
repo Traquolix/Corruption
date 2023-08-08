@@ -37,7 +37,7 @@ public class RotatingMapRenderer {
         Graphics2D g = rotated.createGraphics();
 
         AffineTransform transform = new AffineTransform();
-        transform.rotate(Math.toRadians(yaw), SIZE / 2, SIZE / 2);
+        transform.rotate(Math.toRadians(yaw), (double) SIZE / 2, (double) SIZE / 2);
         g.setTransform(transform);
         g.drawImage(slice, 0, 0, null);
 

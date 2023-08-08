@@ -8,6 +8,7 @@ import lombok.Getter;
 import java.util.function.Supplier;
 
 
+@Getter
 public enum Skill {
 
     /**
@@ -21,7 +22,6 @@ public enum Skill {
     FARMING(Farming::new, new Identifier(Skill.GROUP, "farming"));
 
     private static final String GROUP = "skill";
-    @Getter
     private final Supplier<AbstractSkill> skillSupplier;
     @Getter
     private final Identifier identifier;

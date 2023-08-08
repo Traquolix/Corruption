@@ -16,7 +16,7 @@ public class CelestiteItem extends AbstractItem {
     /**
      * The unique identifier for the CelestiteItem.
      */
-    public static Identifier identifier = new Identifier("item", "celestite");
+    final public static Identifier identifier = new Identifier("item", "celestite");
 
     /**
      * Constructs a new CelestiteItem with its properties and lore.

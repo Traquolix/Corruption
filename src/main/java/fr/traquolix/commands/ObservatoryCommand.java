@@ -1,6 +1,5 @@
 package fr.traquolix.commands;
 
-import fr.traquolix.Main;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.CommandContext;

@@ -16,7 +16,7 @@ public class BloodstoneOreItem extends AbstractItem {
     /**
      * The unique identifier for the BloodstoneOreItem.
      */
-    public static Identifier identifier = new Identifier("item", "bloodstone_ore");
+    final public static Identifier identifier = new Identifier("item", "bloodstone_ore");
 
     /**
      * Constructs a new BloodstoneOreItem with its properties and lore.

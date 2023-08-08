@@ -29,7 +29,7 @@ public class DwarvenPickaxe extends AbstractItem {
     /**
      * The unique identifier for the DwarvenPickaxe item.
      */
-    public static Identifier identifier = new Identifier("item", "dwarven_pickaxe");
+    final public static Identifier identifier = new Identifier("item", "dwarven_pickaxe");
 
     /**
      * Constructs a new DwarvenPickaxe item with its properties and lore.

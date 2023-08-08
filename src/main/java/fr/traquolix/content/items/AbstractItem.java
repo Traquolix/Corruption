@@ -19,8 +19,6 @@ import org.jetbrains.annotations.Nullable;
 import java.time.Instant;
 import java.util.*;
 
-import static fr.traquolix.Main.logger;
-
 /**
  * The {@code AbstractItem} class represents a base class for different types of items in the game.
  */
@@ -30,22 +28,22 @@ public abstract class AbstractItem {
     /**
      * The unique identifier of the item.
      */
-    Identifier identifier;
+    final Identifier identifier;
 
     /**
      * The display name of the item.
      */
-    Component name;
+    final Component name;
 
     /**
      * The type of the item.
      */
-    ItemType type;
+    final ItemType type;
 
     /**
      * The material of the item.
      */
-    Material material;
+    final Material material;
 
     /**
      * The rarity of the item.
@@ -56,34 +54,34 @@ public abstract class AbstractItem {
      * The description of the item when it is in its pure form.
      */
     @Nullable
-    String pureDescription;
+    final String pureDescription;
 
     /**
      * The date of creation of the item.
      */
     @Nullable
-    Instant dateOfCreation;
+    final Instant dateOfCreation;
 
     /**
      * The creator of the item.
      */
     @Nullable
-    Component creator;
+    final Component creator;
 
     /**
      * Indicates whether the item can be reforged or not.
      */
-    boolean reforgeable;
+    final boolean reforgeable;
 
     /**
      * The usage description of the item.
      */
-    Component usageDescription;
+    final Component usageDescription;
 
     /**
      * The cooldown duration of the item.
      */
-    int cooldown;
+    final int cooldown;
 
     /**
      * Indicates if the item is currently on cooldown.
@@ -93,7 +91,7 @@ public abstract class AbstractItem {
     /**
      * The mana cost required to use the item.
      */
-    int manaCost;
+    final int manaCost;
 
     /**
      * The reforge associated with the item.
@@ -245,15 +243,13 @@ public abstract class AbstractItem {
     private List<Component> buildLore() {
         List<Component> loreBuilder = new ArrayList<>();
 
-        bonuses.forEach((stat, integer) -> {
-            loreBuilder.add(Component.text(Utils.capitalizeFirstLetter(stat.getIdentifier().getId() + ":"))
-                    .decoration(TextDecoration.ITALIC, false)
-                    .color(NamedTextColor.GRAY)
-                    .append(Component.space())
-                    .append(Component.text("+" + integer)
-                            .decoration(TextDecoration.ITALIC, false)
-                            .color(stat.getSecondaryColor())));
-        });
+        bonuses.forEach((stat, integer) -> loreBuilder.add(Component.text(Utils.capitalizeFirstLetter(stat.getIdentifier().getId() + ":"))
+                .decoration(TextDecoration.ITALIC, false)
+                .color(NamedTextColor.GRAY)
+                .append(Component.space())
+                .append(Component.text("+" + integer)
+                        .decoration(TextDecoration.ITALIC, false)
+                        .color(stat.getSecondaryColor()))));
 
         if (usageDescription != null) {
             loreBuilder.add(Component.empty());
@@ -290,7 +286,7 @@ public abstract class AbstractItem {
                     .decoration(TextDecoration.ITALIC, false)
                     .color(NamedTextColor.DARK_GRAY)
                     .append(Component.space())
-                    .append(this.getCreator().decoration(TextDecoration.ITALIC, false)));
+                    .append(Objects.requireNonNull(this.getCreator()).decoration(TextDecoration.ITALIC, false)));
         }
 
         if (pureDescription != null) {

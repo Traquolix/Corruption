@@ -24,7 +24,7 @@ public class CelestiteItem extends AbstractItem {
     public CelestiteItem() {
         super(identifier,
                 Component.text("Celestite"),
-                ItemType.NONE,
+                ItemType.ITEM,
                 Material.WHITE_DYE,
                 Rarity.UNCOMMON,
                 "Fallen from the sky." +

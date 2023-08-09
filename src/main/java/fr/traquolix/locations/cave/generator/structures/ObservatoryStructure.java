@@ -3,6 +3,7 @@ package fr.traquolix.locations.cave.generator.structures;
 import fr.traquolix.locations.cave.generator.CaveGenerator;
 import fr.traquolix.locations.cave.generator.structures.helpers.RaycastResult;
 import lombok.Getter;
+import lombok.Setter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
@@ -15,9 +16,14 @@ import java.util.Random;
 @Getter
 public class ObservatoryStructure extends Structure {
 
+    @Getter
     final int halfStructureSize = 9;
+    @Getter
     final int structureHeight = 20;
+    @Setter
     Point telescopePointingAt = null;
+    @Getter
+    final static int STRUCTURE_HEIGHT = 20;
     public ObservatoryStructure(Instance instance) {
         super(instance);
     }
@@ -61,19 +67,19 @@ public class ObservatoryStructure extends Structure {
         List<Point> points = switch (orientationBaseValue) {
             case 0 ->  // North
                     List.of(
-                            center.add(0, structureHeight, -halfStructureSize -1)
+                            center.add(0, getStructureHeight(), -getHalfStructureSize() -1)
                     );
             case 1 ->  // East
                     List.of(
-                            center.add(halfStructureSize +1, structureHeight, 0)
+                            center.add(getHalfStructureSize() +1, getStructureHeight(), 0)
                     );
             case 2 ->  // South
                     List.of(
-                            center.add(0, structureHeight, halfStructureSize +1)
+                            center.add(0, getStructureHeight(), getHalfStructureSize() +1)
                     );
             case 3 ->  // West
                     List.of(
-                            center.add(-halfStructureSize -1, structureHeight, 0)
+                            center.add(-getHalfStructureSize() -1, getStructureHeight(), 0)
                     );
             default -> new ArrayList<>(); // or throw an error
         };
@@ -83,12 +89,12 @@ public class ObservatoryStructure extends Structure {
 
         RaycastResult raycastResult = null;
         for (Point point : points) {
-            raycastResult = raycastAirBlocks(point, direction, 50, instance);
+            raycastResult = raycastAirBlocks(point, direction, 50, getInstance());
             averageAir.add(orientationBaseValue * 100 + raycastResult.count());
         }
 
         assert raycastResult != null;
-        telescopePointingAt = raycastResult.lastAirPosition();
+        setTelescopePointingAt(raycastResult.lastAirPosition());
 
         return averageAir;
     }

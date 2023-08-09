@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 public class FrenzyReceptacleStructure extends Structure {
 
+    @Getter
     final int halfStructureSize = 5;
     @Getter
     final int structureHeight = 9;
@@ -29,59 +30,59 @@ public class FrenzyReceptacleStructure extends Structure {
         List<Point> points = switch (orientationBaseValue) {
             case 0 ->  // North
                     List.of(
-                            center.add(-halfStructureSize, structureHeight / 2f, -halfStructureSize -1),
-                            center.add(0, structureHeight / 2f, -halfStructureSize -1),
-                            center.add(halfStructureSize, structureHeight / 2f, -halfStructureSize -1),
+                            center.add(-getHalfStructureSize(), getStructureHeight() / 2f, -getHalfStructureSize() -1),
+                            center.add(0, getStructureHeight() / 2f, -getHalfStructureSize() -1),
+                            center.add(getHalfStructureSize(), getStructureHeight() / 2f, -getHalfStructureSize() -1),
 
-                            center.add(-halfStructureSize, 1, -halfStructureSize -1),
-                            center.add(0, 1, -halfStructureSize -1),
-                            center.add(halfStructureSize, 1, -halfStructureSize -1),
+                            center.add(-getHalfStructureSize(), 1, -getHalfStructureSize() -1),
+                            center.add(0, 1, -getHalfStructureSize() -1),
+                            center.add(getHalfStructureSize(), 1, -getHalfStructureSize() -1),
 
-                            center.add(-halfStructureSize, structureHeight -1, -halfStructureSize -1),
-                            center.add(0, structureHeight -1, -halfStructureSize -1),
-                            center.add(halfStructureSize, structureHeight -1, -halfStructureSize -1)
+                            center.add(-getHalfStructureSize(), getStructureHeight() -1, -getHalfStructureSize() -1),
+                            center.add(0, getStructureHeight() -1, -getHalfStructureSize() -1),
+                            center.add(getHalfStructureSize(), getStructureHeight() -1, -getHalfStructureSize() -1)
                     );
             case 1 ->  // East
                     List.of(
-                            center.add(halfStructureSize +1, structureHeight / 2f, -halfStructureSize),
-                            center.add(halfStructureSize +1, structureHeight / 2f, 0),
-                            center.add(halfStructureSize +1, structureHeight / 2f, halfStructureSize),
+                            center.add(getHalfStructureSize() +1, getStructureHeight() / 2f, -getHalfStructureSize()),
+                            center.add(getHalfStructureSize() +1, getStructureHeight() / 2f, 0),
+                            center.add(getHalfStructureSize() +1, getStructureHeight() / 2f, getHalfStructureSize()),
 
-                            center.add(halfStructureSize +1, 1, -halfStructureSize),
-                            center.add(halfStructureSize +1, 1, 0),
-                            center.add(halfStructureSize +1, 1, halfStructureSize),
+                            center.add(getHalfStructureSize() +1, 1, -getHalfStructureSize()),
+                            center.add(getHalfStructureSize() +1, 1, 0),
+                            center.add(getHalfStructureSize() +1, 1, getHalfStructureSize()),
 
-                            center.add(halfStructureSize +1, structureHeight -1, -halfStructureSize),
-                            center.add(halfStructureSize +1, structureHeight -1, 0),
-                            center.add(halfStructureSize +1, structureHeight -1, halfStructureSize)
+                            center.add(getHalfStructureSize() +1, getStructureHeight() -1, -getHalfStructureSize()),
+                            center.add(getHalfStructureSize() +1, getStructureHeight() -1, 0),
+                            center.add(getHalfStructureSize() +1, getStructureHeight() -1, getHalfStructureSize())
                     );
             case 2 ->  // South
                     List.of(
-                            center.add(-halfStructureSize, structureHeight / 2f, halfStructureSize +1),
-                            center.add(0, structureHeight / 2f, halfStructureSize +1),
-                            center.add(halfStructureSize, structureHeight / 2f, halfStructureSize +1),
+                            center.add(-getHalfStructureSize(), getStructureHeight() / 2f, getHalfStructureSize() +1),
+                            center.add(0, getStructureHeight() / 2f, getHalfStructureSize() +1),
+                            center.add(getHalfStructureSize(), getStructureHeight() / 2f, getHalfStructureSize() +1),
 
-                            center.add(-halfStructureSize, 1, halfStructureSize +1),
-                            center.add(0, 1, halfStructureSize +1),
-                            center.add(halfStructureSize, 1, halfStructureSize +1),
+                            center.add(-getHalfStructureSize(), 1, getHalfStructureSize() +1),
+                            center.add(0, 1, getHalfStructureSize() +1),
+                            center.add(getHalfStructureSize(), 1, getHalfStructureSize() +1),
 
-                            center.add(-halfStructureSize, structureHeight -1, halfStructureSize +1),
-                            center.add(0, structureHeight -1, halfStructureSize +1),
-                            center.add(halfStructureSize, structureHeight -1, halfStructureSize +1)
+                            center.add(-getHalfStructureSize(), getStructureHeight() -1, getHalfStructureSize() +1),
+                            center.add(0, getStructureHeight() -1, getHalfStructureSize() +1),
+                            center.add(getHalfStructureSize(), getStructureHeight() -1, getHalfStructureSize() +1)
                     );
             case 3 ->  // West
                     List.of(
-                            center.add(-halfStructureSize -1, structureHeight / 2f, -halfStructureSize),
-                            center.add(-halfStructureSize -1, structureHeight / 2f, 0),
-                            center.add(-halfStructureSize -1, structureHeight / 2f, halfStructureSize),
+                            center.add(-getHalfStructureSize() -1, getStructureHeight() / 2f, -getHalfStructureSize()),
+                            center.add(-getHalfStructureSize() -1, getStructureHeight() / 2f, 0),
+                            center.add(-getHalfStructureSize() -1, getStructureHeight() / 2f, getHalfStructureSize()),
 
-                            center.add(-halfStructureSize -1, 1, -halfStructureSize),
-                            center.add(-halfStructureSize -1, 1, 0),
-                            center.add(-halfStructureSize -1, 1, halfStructureSize),
+                            center.add(-getHalfStructureSize() -1, 1, -getHalfStructureSize()),
+                            center.add(-getHalfStructureSize() -1, 1, 0),
+                            center.add(-getHalfStructureSize() -1, 1, getHalfStructureSize()),
 
-                            center.add(-halfStructureSize -1, structureHeight -1, -halfStructureSize),
-                            center.add(-halfStructureSize -1, structureHeight -1, 0),
-                            center.add(-halfStructureSize -1, structureHeight -1, halfStructureSize)
+                            center.add(-getHalfStructureSize() -1, getStructureHeight() -1, -getHalfStructureSize()),
+                            center.add(-getHalfStructureSize() -1, getStructureHeight() -1, 0),
+                            center.add(-getHalfStructureSize() -1, getStructureHeight() -1, getHalfStructureSize())
                     );
             default -> new ArrayList<>(); // or throw an error
         };
@@ -90,7 +91,7 @@ public class FrenzyReceptacleStructure extends Structure {
         List<Integer> averageAir = new ArrayList<>();
 
         for (Point point : points) {
-            averageAir.add(orientationBaseValue * 100 + raycastAirBlocks(point, direction, 50, instance).count());
+            averageAir.add(orientationBaseValue * 100 + raycastAirBlocks(point, direction, 50, getInstance()).count());
         }
 
         return averageAir;

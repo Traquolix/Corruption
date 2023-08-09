@@ -61,7 +61,7 @@ public class PlayerUseGearEvent {
             return;
         }
 
-        CPlayer cplayer = PlayerRegistry.getInstance().getCPlayer(player);
+        CPlayer cplayer = PlayerRegistry.getInstance().getCPlayer(player.getUuid());
         if (cplayer == null || !playerMeetsItemRequirements(cplayer, item)) return;
 
         item.use(cplayer, item);

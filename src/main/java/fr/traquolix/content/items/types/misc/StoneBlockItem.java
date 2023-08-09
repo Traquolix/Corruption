@@ -24,7 +24,7 @@ public class StoneBlockItem extends AbstractItem {
     public StoneBlockItem() {
         super(identifier,
                 Component.text("Stone Block"),
-                ItemType.NONE,
+                ItemType.ITEM,
                 Material.STONE,
                 Rarity.COMMON);
     }

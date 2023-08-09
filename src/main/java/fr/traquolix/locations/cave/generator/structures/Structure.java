@@ -17,9 +17,9 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static fr.traquolix.Main.logger;
-@Getter
 public abstract class Structure {
 
+    @Getter
     final Instance instance;
     @Getter
     @Setter
@@ -33,8 +33,9 @@ public abstract class Structure {
     @Getter
     final
     int structureHeight = 9;
-    @Getter
+    @Getter @Setter
     int orientation = 0; // 0 = North, 1 = East, 2 = South, 3 = West
+    @Getter
     protected final RelativeBlockBatch batch = new RelativeBlockBatch();
     public Structure(Instance instance) {
         this.instance = instance;
@@ -65,7 +66,7 @@ public abstract class Structure {
 
 
         // Get orientation of the receptacle and then execute the subsequent logic
-        this.orientation = findOrientation(toBeGeneratedAt);
+        setOrientation(findOrientation(toBeGeneratedAt));
 
         Set<Point> bluePoints = new HashSet<>();
         colorOrientationFace(bluePoints, toBeGeneratedAt);
@@ -75,17 +76,17 @@ public abstract class Structure {
         addPillarPoints(corners, toBeGeneratedAt);
 
         for (Point point : rectanglePoints) {
-            batch.setBlock(point, rectanglePoint);
+            getBatch().setBlock(point, rectanglePoint);
         }
         for (Point point : corners) {
-            batch.setBlock(point, cornerPoint);
+            getBatch().setBlock(point, cornerPoint);
         }
 
         for (Point bluePoint : bluePoints) {
-            batch.setBlock(bluePoint, orientationPoint);
+            getBatch().setBlock(bluePoint, orientationPoint);
         }
 
-        batch.apply(instance, null);
+        getBatch().apply(instance, null);
     }
 
     protected Set<Point> generateComponentsPoints(Point bottomCenter) {
@@ -110,7 +111,7 @@ public abstract class Structure {
         int halfSize = getHalfStructureSize();
         int height = getStructureHeight();
 
-        switch (orientation) {
+        switch (getOrientation()) {
             case 0 -> {  // North
                 for (int x = bottomCenter.blockX() - halfSize; x <= bottomCenter.blockX() + halfSize; x++) {
                     for (int y = bottomCenter.blockY() + 1; y < bottomCenter.blockY() + height; y++) {
@@ -155,7 +156,7 @@ public abstract class Structure {
         Set<Point> pillars = new HashSet<>();
         for (Point corner : corners) {
             Point belowCorner = corner.withY(corner.blockY() - 1);
-            while (instance.getBlock(belowCorner).isAir()) {
+            while (getInstance().getBlock(belowCorner).isAir()) {
                 pillars.add(belowCorner);
                 belowCorner = belowCorner.withY(belowCorner.blockY() - 1);
             }
@@ -234,5 +235,41 @@ public abstract class Structure {
         }
 
         return new RaycastResult(count, lastPoint);
+    }
+
+    public Point pointDirection(int i) {
+        switch (i) {
+            case 0 -> { // North
+                return new Pos(0, 0, -1);
+            }
+            case 1 -> { // East
+                return new Pos(1, 0, 0);
+            }
+            case 2 -> { // South
+                return new Pos(0, 0, 1);
+            }
+            case 3 -> { // West
+                return new Pos(-1, 0, 0);
+            }
+        }
+        return new Pos(0, 0, 0);
+    }
+
+    public int getComplementaryDirection(int direction) {
+        switch (direction) {
+            case 0 -> { // North
+                return 2;
+            }
+            case 1 -> { // East
+                return 3;
+            }
+            case 2 -> { // South
+                return 0;
+            }
+            case 3 -> { // West
+                return 1;
+            }
+        }
+        return 0;
     }
 }

@@ -1,8 +1,10 @@
 package fr.traquolix.player;
 
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import lombok.Getter;
 import net.minestom.server.entity.Player;
 
 /**
@@ -10,7 +12,7 @@ import net.minestom.server.entity.Player;
  */
 public class PlayerRegistry {
     private static final PlayerRegistry INSTANCE = new PlayerRegistry();
-    private final ConcurrentMap<Player, CPlayer> cPlayerMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<UUID, CPlayer> cPlayerMap = new ConcurrentHashMap<>();
 
     /**
      * Private constructor to prevent instantiation from outside.
@@ -33,8 +35,8 @@ public class PlayerRegistry {
      * @param player  The Minestom Player entity to register.
      * @param cPlayer The custom player wrapper (CPlayer) to associate with the player.
      */
-    public void registerPlayer(Player player, CPlayer cPlayer) {
-        cPlayerMap.put(player, cPlayer);
+    public void registerPlayer(UUID playerUUID, CPlayer cPlayer) {
+        cPlayerMap.put(playerUUID, cPlayer);
     }
 
     /**
@@ -42,8 +44,8 @@ public class PlayerRegistry {
      *
      * @param player The Minestom Player entity to unregister.
      */
-    public void unregisterPlayer(Player player) {
-        cPlayerMap.remove(player);
+    public void unregisterPlayer(UUID playerUUID) {
+        cPlayerMap.remove(playerUUID);
     }
 
     /**
@@ -52,7 +54,7 @@ public class PlayerRegistry {
      * @param player The Minestom Player entity to look up.
      * @return The custom player wrapper (CPlayer) associated with the player, or null if not found.
      */
-    public CPlayer getCPlayer(Player player) {
-        return cPlayerMap.get(player);
+    public CPlayer getCPlayer(UUID playerUUID) {
+        return cPlayerMap.get(playerUUID);
     }
 }

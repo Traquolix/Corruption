@@ -33,7 +33,7 @@ public class GetStatsCommand extends Command {
      */
     private void execute(@NotNull CommandSender commandSender, @NotNull CommandContext commandContext) {
         Player player = (Player) commandSender;
-        CPlayer cPlayer = PlayerRegistry.getInstance().getCPlayer(player);
+        CPlayer cPlayer = PlayerRegistry.getInstance().getCPlayer(player.getUuid());
         cPlayer.getCurrentStats().forEach((stat, value) -> player.sendMessage(Component.text(Utils.capitalizeFirstLetter(stat.getIdentifier().getId()) + ": " + value)));
     }
 }

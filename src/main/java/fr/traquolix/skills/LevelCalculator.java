@@ -23,6 +23,7 @@ public class LevelCalculator {
         levelExperienceMap.put(1, 50);     // Level 1 requires 50 experience
         levelExperienceMap.put(2, 150);    // Level 2 requires 150 experience
         levelExperienceMap.put(3, 300);    // Level 3 requires 300 experience
+        levelExperienceMap.put(4, 500);    // Level 4 requires 500 experience
         // Add more levels and experience requirements as needed
     }
 

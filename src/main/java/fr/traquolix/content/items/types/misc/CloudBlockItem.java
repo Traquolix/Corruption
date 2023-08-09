@@ -17,7 +17,7 @@ public class CloudBlockItem extends AbstractItem {
      */
     public CloudBlockItem() {
         super(identifier, Component.text("Cloud"),
-                ItemType.NONE,
+                ItemType.ITEM,
                 Material.WHITE_STAINED_GLASS,
                 Rarity.UNCOMMON,
                 "A literal cloud as a block.");

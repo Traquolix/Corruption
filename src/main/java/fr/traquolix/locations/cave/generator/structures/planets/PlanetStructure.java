@@ -22,9 +22,9 @@ public class PlanetStructure extends Structure {
 
     public PlanetStructure(Instance instance, double radiusX, double radiusY, double radiusZ) {
         super(instance);
-        this.radiusX = radiusX;
-        this.radiusY = radiusY;
-        this.radiusZ = radiusZ;
+        setRadiusX(radiusX);
+        setRadiusY(radiusY);
+        setRadiusZ(radiusZ);
     }
 
     @Override
@@ -53,10 +53,10 @@ public class PlanetStructure extends Structure {
 
 
         for (Point point : rectanglePoints) {
-            batch.setBlock(point, getBlock());
+            getBatch().setBlock(point, getBlock());
         }
 
-        batch.apply(this.getInstance(), null);
+        getBatch().apply(this.getInstance(), null);
     }
 
     @Override

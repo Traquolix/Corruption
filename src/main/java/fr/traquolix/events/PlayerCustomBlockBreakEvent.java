@@ -28,7 +28,7 @@ public class PlayerCustomBlockBreakEvent {
     }
 
     private void handleBlockBreakEvent(PlayerBlockBreakEvent event) {
-        CPlayer cPlayer = PlayerRegistry.getInstance().getCPlayer(event.getPlayer());
+        CPlayer cPlayer = PlayerRegistry.getInstance().getCPlayer(event.getPlayer().getUuid());
         assert cPlayer != null;
 
         if (event.getBlock().hasTag(Identifier.getGlobalTag())) {
@@ -63,7 +63,7 @@ public class PlayerCustomBlockBreakEvent {
 
     private boolean shouldCancelBreakForBlockRequirements(PlayerBlockBreakEvent event) {
         AbstractBlock abstractBlock = BlockRegistry.getInstance().getBlock(new Identifier(event.getBlock().getTag(Identifier.getGlobalTag())));
-        return abstractBlock.getRequirements().stream().anyMatch(req -> !req.isMet(PlayerRegistry.getInstance().getCPlayer(event.getPlayer())));
+        return abstractBlock.getRequirements().stream().anyMatch(req -> !req.isMet(PlayerRegistry.getInstance().getCPlayer(event.getPlayer().getUuid())));
     }
 
     private boolean shouldCancelBreakForItemRequirements(CPlayer cPlayer) {

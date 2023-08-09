@@ -99,4 +99,7 @@ public enum ItemType {
         this.name = name;
     }
 
+    public boolean isArmor() {
+        return this == HELMET || this == CHESTPLATE || this == LEGGINGS || this == BOOTS;
+    }
 }

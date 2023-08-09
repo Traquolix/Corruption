@@ -24,7 +24,7 @@ public class BloodstoneOreItem extends AbstractItem {
     public BloodstoneOreItem() {
         super(identifier,
                 Component.text("Bloodstone Ore"),
-                ItemType.NONE,
+                ItemType.ITEM,
                 Material.RED_STAINED_GLASS,
                 Rarity.UNCOMMON,
                 "A rare ore that can be found in the depths of the world." +

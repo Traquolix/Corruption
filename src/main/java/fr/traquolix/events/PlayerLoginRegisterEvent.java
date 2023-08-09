@@ -1,6 +1,7 @@
 package fr.traquolix.events;
 
 import fr.traquolix.player.CPlayer;
+import fr.traquolix.player.PlayerRegistry;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerLoginEvent;
@@ -22,7 +23,9 @@ public class PlayerLoginRegisterEvent {
             Player player = event.getPlayer();
 
             // Create a new CPlayer for the player and register it in the PlayerRegistry
-            new CPlayer(player);
+            if (PlayerRegistry.getInstance().getCPlayer(player.getUuid()) == null) {
+                new CPlayer(player);
+            }
 
             // Set the base health value of the player to 20 (if needed)
             // player.setBaseStatValue(Stat.HEALTH, 20);

@@ -22,7 +22,7 @@ public class CloudBlock extends AbstractBlock {
      * Constructs an AbstractBlock with the specified identifier and block type.
      */
     public CloudBlock() {
-        super(identifier, Block.WHITE_STAINED_GLASS);
+        super(identifier, Block.POWDER_SNOW);
     }
 
     /**

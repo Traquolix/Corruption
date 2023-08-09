@@ -4,6 +4,7 @@ import fr.traquolix.commands.*;
 import fr.traquolix.content.blocks.BlockRegistry;
 import fr.traquolix.content.blocks.misc.CloudBlock;
 import fr.traquolix.content.items.ItemRegistry;
+import fr.traquolix.content.items.types.armor.helmets.FrostHelmetItem;
 import fr.traquolix.content.items.types.misc.*;
 import fr.traquolix.events.*;
 import fr.traquolix.content.blocks.misc.IndestructibleBedrockBlock;
@@ -18,12 +19,19 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
+import net.minestom.server.entity.PlayerSkin;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerLoginEvent;
+import net.minestom.server.event.player.PlayerSkinInitEvent;
+import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
+import net.minestom.server.utils.mojang.MojangUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * The main class of the Corruption Minecraft server.
@@ -76,6 +84,16 @@ public class Main {
             event.setSpawningInstance(instanceContainer);
             player.setRespawnPoint(new Pos(0, 320, 0));
         });
+
+        // Use Mojang uuid
+        MojangAuth.init();
+
+        // Set the skin provider
+        globalEventHandler.addListener(PlayerSkinInitEvent.class, event -> {
+            PlayerSkin skin = PlayerSkin.fromUuid(String.valueOf(event.getPlayer().getUuid()));
+            event.setSkin(skin);
+        });
+
         // Start the server on port 25565
         minecraftServer.start("0.0.0.0", 25565);
     }
@@ -105,7 +123,6 @@ public class Main {
         new PlayerLoginRegisterEvent(globalEventHandler);
         new PlayerUseGearEvent(globalEventHandler);
         new PlayerCustomBlockBreakEvent(globalEventHandler);
-        new PlayerMoveOnCloudEvent(globalEventHandler);
         new PlayerPlaceCustomBlockEvent(globalEventHandler);
     }
 
@@ -114,23 +131,28 @@ public class Main {
      */
     private static void registerItems() {
 
-        // Special
+        // -- Special
         //new MapItem(); // Temporary disabled because if eats all the RAM. We will see later.
 
-        // Pickaxes
+        // -- Pickaxes
         new DwarvenPickaxe();
 
-        // Swords
+        // -- Swords
         new EndSword();
 
-        // Misc
+        // -- Misc
         new StoneBlockItem();
         new CloudBlockItem();
+        new AirItem();
 
-        // Minerals
+        // -- Minerals
         new BloodstoneItem();
         new BloodstoneOreItem();
         new CelestiteItem();
+
+        // -- Armor
+        // - Helmets
+        new FrostHelmetItem();
 
         logger.info("[Registry] - " + ItemRegistry.getInstance().getSize() + " items registered.");
     }

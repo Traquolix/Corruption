@@ -31,7 +31,7 @@ public class MoonStructure extends PlanetStructure {
 
         Set<Point> mainMoonPoints = generateComponentsPoints(toBeGeneratedAt);
         Random random = new Random();
-        Point craterSource = craterPoints.get(random.nextInt(craterPoints.size()-1));
+        Point craterSource = getCraterPoints().get(random.nextInt(getCraterPoints().size()-1));
         Set<Point> crater = generateComponentsPoints(craterSource,
                 15 + random.nextInt(5),
                 15 + random.nextInt(5),
@@ -41,40 +41,40 @@ public class MoonStructure extends PlanetStructure {
 
         for (Point point : mainMoonPoints) {
             if (!crater.contains(point)) {
-                batch.setBlock(point, outerShell);
+                getBatch().setBlock(point, getOuterShell());
             }
         }
 
-        for (Point point : corePoints) {
+        for (Point point : getCorePoints()) {
             if (!crater.contains(point)) {
-                batch.setBlock(point, core);
+                getBatch().setBlock(point, getCore());
             } else if (crater.contains(point)
                     && mainMoonPoints.contains(point)
                     && !crater.contains(point.add(0, -1, 0))){
                 if (random.nextInt(5) == 0) {
-                    batch.setBlock(point, coreDecoration);
+                    getBatch().setBlock(point, getCoreDecoration());
                 }
             }
         }
 
-        batch.apply(this.getInstance(), null);
+        getBatch().apply(this.getInstance(), null);
     }
 
     protected Set<Point> generateComponentsPoints(Point toBeGeneratedAt, double radiusX, double radiusY, double radiusZ) {
 
-        double tempRadiusX = this.radiusX;
-        double tempRadiusY = this.radiusY;
-        double tempRadiusZ = this.radiusZ;
+        double tempRadiusX = getRadiusX();
+        double tempRadiusY = getRadiusY();
+        double tempRadiusZ = getRadiusZ();
 
-        this.radiusX = radiusX;
-        this.radiusY = radiusY;
-        this.radiusZ = radiusZ;
+        setRadiusX(radiusX);
+        setRadiusY(radiusY);
+        setRadiusZ(radiusZ);
 
         Set<Point> craterDigger = this.generateComponentsPoints(toBeGeneratedAt);
 
-        this.radiusX = tempRadiusX;
-        this.radiusY = tempRadiusY;
-        this.radiusZ = tempRadiusZ;
+        setRadiusX(tempRadiusX);
+        setRadiusY(tempRadiusY);
+        setRadiusZ(tempRadiusZ);
 
         return craterDigger;
     }
@@ -122,22 +122,22 @@ public class MoonStructure extends PlanetStructure {
                     Pos pos = new Pos(center.blockX(), center.blockY(), center.blockZ());
 
 
-                    if (isOnEdge(x, y, z, radiusX, radiusY, radiusZ) && y>=5 && y<=radiusY-2) {
-                        craterPoints.add(pos.add(x-6, y, z-6));
-                        craterPoints.add(pos.add(x-6, y, -z-6));
-                        craterPoints.add(pos.add(-x-6, y, z-6));
-                        craterPoints.add(pos.add(-x-6, y, -z-6));
+                    if (isOnEdge(x, y, z, getRadiusX(), getRadiusY(), getRadiusZ()) && y>=5 && y<=getRadiusY()-2) {
+                        getCraterPoints().add(pos.add(x-6, y, z-6));
+                        getCraterPoints().add(pos.add(x-6, y, -z-6));
+                        getCraterPoints().add(pos.add(-x-6, y, z-6));
+                        getCraterPoints().add(pos.add(-x-6, y, -z-6));
                     }
 
-                    if (!isOnEdge(x, y, z, radiusX, radiusY, radiusZ)) {
-                        corePoints.add(pos.add(x, y, z));
-                        corePoints.add(pos.add(x, y, -z));
-                        corePoints.add(pos.add(x, -y, z));
-                        corePoints.add(pos.add(x, -y, -z));
-                        corePoints.add(pos.add(-x, y, z));
-                        corePoints.add(pos.add(-x, y, -z));
-                        corePoints.add(pos.add(-x, -y, z));
-                        corePoints.add(pos.add(-x, -y, -z));
+                    if (!isOnEdge(x, y, z, getRadiusX(), getRadiusY(), getRadiusZ())) {
+                        getCorePoints().add(pos.add(x, y, z));
+                        getCorePoints().add(pos.add(x, y, -z));
+                        getCorePoints().add(pos.add(x, -y, z));
+                        getCorePoints().add(pos.add(x, -y, -z));
+                        getCorePoints().add(pos.add(-x, y, z));
+                        getCorePoints().add(pos.add(-x, y, -z));
+                        getCorePoints().add(pos.add(-x, -y, z));
+                        getCorePoints().add(pos.add(-x, -y, -z));
                     }
 
 

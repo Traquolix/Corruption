@@ -84,5 +84,8 @@ public class Utils {
         return (x * x) + (y * y) + (z * z);
     }
 
+    public static boolean isArmorSlot(int slot) {
+        return slot >= 41 && slot <= 44;
+    }
 
 }

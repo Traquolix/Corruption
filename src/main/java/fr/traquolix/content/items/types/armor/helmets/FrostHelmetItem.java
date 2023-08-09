@@ -1,33 +1,31 @@
-package fr.traquolix.content.items.types.misc;
+package fr.traquolix.content.items.types.armor.helmets;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.Rarity;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemType;
-import fr.traquolix.content.Rarity;
+import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
+import fr.traquolix.stats.Stat;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.item.Material;
 
-/**
- * The BloodstoneItem class represents an item called "Bloodstone," which is a material that feels a bit mushy and is believed to be the blood of the gods.
- */
-public class BloodstoneItem extends AbstractItem {
+public class FrostHelmetItem extends AbstractItem {
 
     /**
      * The unique identifier for the BloodstoneItem.
      */
-   final public static Identifier identifier = new Identifier("item", "bloodstone");
+    final public static Identifier identifier = new Identifier("item", "frost_helmet");
 
     /**
      * Constructs a new BloodstoneItem with its properties and lore.
      */
-    public BloodstoneItem() {
+    public FrostHelmetItem() {
         super(identifier,
-                Component.text("Bloodstone"),
-                ItemType.ITEM,
-                Material.RED_DYE,
-                Rarity.UNCOMMON,
-                "A material that feels a bit mushy. It is said that it is the blood of the gods.");
+                Component.text("Frost Helmet"),
+                ItemType.HELMET,
+                Material.LEATHER_HELMET,
+                Rarity.RARE,
+                "A cold resistant helmet.");
     }
 
     /**
@@ -43,7 +41,7 @@ public class BloodstoneItem extends AbstractItem {
      */
     @Override
     public void initBonuses() {
-
+        bonuses.put(Stat.HEALTH, 50);
     }
 
     /**
@@ -57,3 +55,4 @@ public class BloodstoneItem extends AbstractItem {
 
     }
 }
+

@@ -17,7 +17,9 @@ import net.minestom.server.timer.TaskSchedule;
 import net.minestom.server.utils.chunk.ChunkUtils;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * A manager class responsible for handling the frenzy event in the cave instance.
@@ -26,7 +28,7 @@ public class FrenzyManager {
 
     final Instance instance;
     final Set<Point> frenzyBlocks = new HashSet<>();
-    final Map<Point, Block> frenzyBlockOriginals = new HashMap<>();
+    final ConcurrentMap<Point, Block> frenzyBlockOriginals = new ConcurrentHashMap<>();
     final ConcurrentLinkedQueue<Point> sandBlocks = new ConcurrentLinkedQueue<>();
     int frenzyTime = 60;
 

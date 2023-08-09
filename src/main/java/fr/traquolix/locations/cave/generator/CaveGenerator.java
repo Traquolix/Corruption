@@ -22,6 +22,9 @@ import fr.traquolix.locations.cave.generator.structures.ObservatoryStructure;
 import fr.traquolix.locations.cave.generator.structures.Structure;
 import fr.traquolix.locations.cave.generator.structures.planets.MoonStructure;
 import fr.traquolix.locations.cave.generator.structures.planets.PlanetStructure;
+import fr.traquolix.locations.cave.generator.structures.planets.RingedPlanetStructure;
+import fr.traquolix.locations.cave.generator.zones.Blizzard;
+import fr.traquolix.locations.cave.generator.zones.Space;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Point;
@@ -52,6 +55,7 @@ public class CaveGenerator implements Generator {
     final public static double snowStartHeight = caveSizeY - 60;
     final public static double peakStartHeight = caveSizeY - 30;
     final public static double maxHeightSize = 320;
+    final public static double cloudsHeight = 250;
     final Random random = new Random();
     final int seed = random.nextInt();
     final FrenzyManager frenzyManager;
@@ -59,7 +63,8 @@ public class CaveGenerator implements Generator {
     final List<Structure> structures = new ArrayList<>();
     final VineGenerator vineGenerator;
     Point highestPoint = new Pos(-1000, -1000, -1000);
-    double highestHeight = -1000;
+    @Getter
+    static double highestHeight = -1000;
 
     Point telescopePoint;
 
@@ -111,7 +116,13 @@ public class CaveGenerator implements Generator {
         structures.add(new DwarfCabinStructure(instance));
         structures.add(new FrenzyReceptacleStructure(instance));
         structures.add(new ObservatoryStructure(instance));
-        structures.add(new MoonStructure(instance));
+
+        int planetChoice = random.nextInt(2);
+        switch (planetChoice) {
+            case 0 -> structures.add(new MoonStructure(instance));
+            case 1 -> structures.add(new RingedPlanetStructure(instance));
+        }
+
         vineGenerator = new VineGenerator(instance);
 
         MinecraftServer.getSchedulerManager().scheduleTask(
@@ -146,7 +157,7 @@ public class CaveGenerator implements Generator {
                     }
 
                     // Generate indestructible_coal_block for the borders of the cave area
-                    if (current.y() == 0 || Math.abs(current.x()) == caveSizeX || Math.abs(current.z()) == caveSizeZ /*|| current.y() == 200*/) {
+                    if (current.y() == 0 || Math.abs(current.x()) == caveSizeX || Math.abs(current.z()) == caveSizeZ || current.y() == maxHeightSize-1) {
                         unit.modifier().setBlock(current, BlockRegistry.getInstance().getBlock(IndestructibleCoalBlock.identifier).getNaturalBlock());
                         continue;
                     }
@@ -212,7 +223,7 @@ public class CaveGenerator implements Generator {
 
 
 
-                    if (current.y() == 250) {
+                    if (current.y() == cloudsHeight) {
                         // We can even make it, so it acts like your going down into it, like quicksand or clouds from the aether mod.
 
                         double noiseHeight = cloudsNoise.evaluateNoise(current.z(), current.x());
@@ -275,7 +286,7 @@ public class CaveGenerator implements Generator {
                             // The gradient is primarily vertical and positive; this is a floor
                             if (isFlat(current, flatnessThreshold)) {
                                 if (current.y() > 5
-                                        && current.y() < caveSizeY-25
+                                        && current.y() < snowStartHeight-40
                                         && Math.abs(current.x()) < caveSizeX-25
                                         && Math.abs(current.z()) < caveSizeZ-25) {
                                     for (Structure structure : structures) {
@@ -368,9 +379,15 @@ public class CaveGenerator implements Generator {
             buildStructures();
             loadLocationInCommands();
             // TODO Generate a random planet
+            loadZones();
             // TODO Add elements (gas pockets, etc.)
             logger.info("--- Generation finished ---");
         });
+    }
+
+    private void loadZones() {
+        new Blizzard(instance).generateZone(new Pos(-caveSizeX, snowStartHeight, -caveSizeZ), new Pos(caveSizeX, maxHeightSize, caveSizeZ));
+        new Space(instance).generateZone(new Pos(-caveSizeX, highestPoint.y() + ObservatoryStructure.getSTRUCTURE_HEIGHT(), -caveSizeZ), new Pos(caveSizeX, maxHeightSize, caveSizeZ));
     }
 
     private void loadLocationInCommands() {
@@ -388,7 +405,7 @@ public class CaveGenerator implements Generator {
 
     private @NotNull CompletableFuture<Void> preLoad() {
 
-        double safetyNet = 100;
+        double safetyNet = 10;
 
         Set<Long> chunkToLoadList = new HashSet<>();
         for (double x = -caveSizeX-safetyNet; x < caveSizeX+safetyNet; x++) {
@@ -448,7 +465,7 @@ public class CaveGenerator implements Generator {
     private void prepopulate() {
         for (Structure structure : structures) {
             if (structure instanceof ObservatoryStructure) {
-                if (highestPoint != null) {
+                if (highestPoint != null && Math.abs(highestPoint.x()) < caveSizeX-30 && Math.abs(highestPoint.z()) < caveSizeZ-30) {
                     structure.getPossibleLocations().add(highestPoint);
                 }
                 Point telescopePointingAt = ((ObservatoryStructure) structure).getTelescopePointingAt();

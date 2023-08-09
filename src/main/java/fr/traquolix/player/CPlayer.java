@@ -1,5 +1,6 @@
 package fr.traquolix.player;
 
+import fr.traquolix.content.items.types.misc.AirItem;
 import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
@@ -37,6 +38,7 @@ import static fr.traquolix.Main.logger;
 @Getter
 public class CPlayer {
 
+    final Equipment equipment = new Equipment();
     final Player player;
     final ConcurrentMap<Skill, AbstractSkill> skills = new ConcurrentHashMap<>();
     final ConcurrentMap<Stat, AbstractStat> stats = new ConcurrentHashMap<>();
@@ -54,7 +56,7 @@ public class CPlayer {
         this.player = player;
 
         // Register the player with the PlayerRegistry
-        PlayerRegistry.getInstance().registerPlayer(player, this);
+        PlayerRegistry.getInstance().registerPlayer(player.getUuid(), this);
         logger.info("[REGISTRY] - " + player.getUsername());
 
         // Load skills, stats, and set default values
@@ -341,5 +343,32 @@ public class CPlayer {
 
     public Pos getPosition() {
         return player.getPosition();
+    }
+
+    public void addItemInMainHandToEquipment(AbstractItem item) {
+        equipment.setItemInMainHand(item);
+    }
+    public void addItemInOffHandToEquipment(AbstractItem item) {
+        equipment.setItemInOffHand(item);
+    }
+
+    public void addArmor(int slot, AbstractItem item) {
+        equipment.set(slot, item);
+    }
+    public void removeArmor(int slot) {
+        equipment.set(slot, ItemRegistry.getInstance().getItem(AirItem.identifier));
+    }
+
+    public void refreshBonuses() {
+        resetBonusStats();
+        equipment.getAllItems().forEach(item -> item.getBonuses().forEach((stat, value) -> addBonusStatValue(stat, value)));
+    }
+
+    public void removeItemInMainHandFromEquipment() {
+        equipment.setItemInMainHand(ItemRegistry.getInstance().getItem(AirItem.identifier));
+    }
+
+    public void removeItemInOffHandFromEquipment() {
+        equipment.setItemInOffHand(ItemRegistry.getInstance().getItem(AirItem.identifier));
     }
 }

@@ -10,8 +10,11 @@ import java.util.List;
 
 public class TutorialQuest extends AbstractQuest {
 
+    public static int ID = 0;
+
     public TutorialQuest(int id) {
         super(id);
+        TutorialQuest.ID = id;
     }
 
     @Override

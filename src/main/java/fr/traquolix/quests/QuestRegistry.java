@@ -1,7 +1,5 @@
 package fr.traquolix.quests;
 
-import fr.traquolix.identifiers.Identifier;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -26,7 +24,11 @@ public class QuestRegistry {
     }
 
     public AbstractQuest getQuest(Integer id) {
-        return itemMap.get(id);
+        AbstractQuest quest = itemMap.get(id);
+        if (quest != null) {
+            return quest.clone();
+        }
+        return null;
     }
 
     public int getSize() {

@@ -24,6 +24,7 @@ import net.minestom.server.network.player.PlayerConnection;
 import net.minestom.server.timer.Scheduler;
 import net.minestom.server.timer.Task;
 import net.minestom.server.timer.TaskSchedule;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -434,4 +435,7 @@ public class CPlayer {
         completedQuests.add(abstractQuest.getId());
     }
 
+    public @NotNull UUID getUuid() {
+        return player.getUuid();
+    }
 }

@@ -12,11 +12,14 @@ import fr.traquolix.content.items.types.armor.helmets.FrostHelmetItem;
 import fr.traquolix.content.items.types.misc.*;
 import fr.traquolix.content.items.types.pickaxes.DwarvenPickaxe;
 import fr.traquolix.content.items.types.swords.EndSword;
+import fr.traquolix.entity.npc.npc.TutorialGuy;
 import fr.traquolix.events.*;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.tutorial.TutorialQuest;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.coordinate.Pos;
+import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.PlayerSkin;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerSkinInitEvent;
@@ -87,6 +90,8 @@ public class Main {
             event.setSkin(skin);
         });
 
+        TutorialGuy tutorialGuy = new TutorialGuy(EntityType.VILLAGER);
+        tutorialGuy.spawn(instance, new Pos(0, 40, 0));
 
 
         // Start the server on port 25565
@@ -130,6 +135,7 @@ public class Main {
         new PlayerUseGearEvent(globalEventHandler);
         new PlayerCustomBlockBreakEvent(globalEventHandler);
         new PlayerPlaceCustomBlockEvent(globalEventHandler);
+        new PlayerInteractWithNPCsEvent(globalEventHandler);
 
     }
 

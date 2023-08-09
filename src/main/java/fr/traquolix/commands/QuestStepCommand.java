@@ -29,17 +29,7 @@ public class QuestStepCommand extends Command {
             int questId = context.get(idArg);
             player.getCurrentQuests().forEach((id, quest) -> {
                 if (id == questId) {
-                    if (quest.step(player)) {
-                        player.sendMessage(Component.text("Step " + quest.getCurrentStep() + " completed !"));
-                    } else {
-                        player.sendMessage(Component.text("You cannot proceed."));
-                        player.sendMessage(Component.text("This step requires : "));
-                        quest.getSteps().get(quest.getCurrentStep()).getRequirements().forEach(requirement -> {
-                            if (!requirement.isMet(player)) {
-                                player.sendMessage(requirement.getText());
-                            }
-                        });
-                    }
+                    quest.step(player);
                 }
             });
 

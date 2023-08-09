@@ -367,3 +367,34 @@ public class TutorialQuest extends AbstractQuest {
     }
 }
 ```
+
+## Add NPC
+To add an NPC, you have to create a class in the package `fr.traquolix.entity.npc.npc` which extends the class `fr.traquolix.npc.NPCEntity`. You can use this stub as an example:
+**Warning : Don't forget to override most of the methods of NPCEntity, otherwise the NPC won't work properly.**
+```java
+public class TutorialGuy extends NPCEntity {
+    TutorialQuest quest = (TutorialQuest) QuestRegistry.getInstance().getQuest(TutorialQuest.ID);
+    public TutorialGuy(EntityType entityType) {
+        super(entityType);
+    }
+
+    @Override
+    public void initId() {
+        id = "tutorial_guy";
+    }
+
+    @Override
+    public void initName() {
+        name = Component.text("Tutorial Guy");
+    }
+
+    @Override
+    public void onInteract(CPlayer player) {
+        if (player.getCurrentQuests().get(TutorialQuest.ID) == null) {
+            quest.start(player);
+        } else {
+            quest.step(player);
+        }
+    }
+}
+```

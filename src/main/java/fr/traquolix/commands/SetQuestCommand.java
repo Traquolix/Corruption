@@ -35,11 +35,6 @@ public class SetQuestCommand extends Command {
                 return;
             }
             quest.start(player);
-
-            player.sendMessage(
-                    Component.text("Quest ")
-                    .append(quest.getName()).hoverEvent(quest.getDescription())
-                    .append(Component.text(" started")));
         }, id);
     }
 }

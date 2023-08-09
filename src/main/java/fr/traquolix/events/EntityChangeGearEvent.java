@@ -6,6 +6,8 @@ import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
 import fr.traquolix.utils.Utils;
+import net.minestom.server.event.Event;
+import net.minestom.server.event.EventNode;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.inventory.PlayerInventoryItemChangeEvent;
 import net.minestom.server.event.item.ItemDropEvent;

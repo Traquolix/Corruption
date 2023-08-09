@@ -3,6 +3,7 @@ package fr.traquolix.content.requirements;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.stats.Stat;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
@@ -49,7 +50,7 @@ public class StatRequirement implements Requirement {
      * @return The component representing the requirement text.
      */
     @Override
-    public Component getText() {
+    public TextComponent getText() {
         return Component.text("- ")
                 .decoration(TextDecoration.ITALIC, false)
                 .color(NamedTextColor.BLUE)

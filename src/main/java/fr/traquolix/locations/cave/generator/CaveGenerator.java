@@ -48,6 +48,16 @@ import static fr.traquolix.Main.logger;
  */
 public class CaveGenerator implements Generator {
 
+    // TODO Faire les menus
+    // TODO faire les NPC, système de dialogue, de quêtes locales et globales. Valider des quêtes, les suivre etc.
+    // TODO TAB ou affichage sur le côté
+    // TODO Affichage des stats accessible rapidement (barre milieu bas comme hypixel)
+    // TODO système de combat, système de mobs, système de vague, spawn naturel (packs sélectionnés pendant la génération ?).
+    // TODO Les mobs sont de plus en plus fort au fil du temps, comme dans Risk of Rain 2 par exemple.
+    // TODO Réfléchir à des items pour le déplacement. (grappin, jetpack, double saut, speed, jump boost, teleportation etc.)
+    // TODO Sens d'urgence, sens des priorités, et on peut pas rester à l'infini non plus sans se faire one shot.
+    // TODO Traps ?
+    // TODO Missions / achievements locaux ? Pas sur, ça pourrait rendre le système un peu trop externe au jeu principal.
     public final Instance instance;
     final public static double caveSizeZ = 300;
     final public static double caveSizeY = 200;
@@ -182,6 +192,10 @@ public class CaveGenerator implements Generator {
                                 }
                             }
                             continue;
+                        } else if ((current.y() > snowStartHeight && current.y() < peakStartHeight) && (emeraldAndLapisNoise > 0.85 && (noise > 0.0000001 && noise < 0.02))) {
+                            System.out.println(current);
+                            unit.modifier().setBlock(current, Block.LAPIS_BLOCK);
+                            continue;
                         }
                         if (current.y() == peakStartHeight/* && noise > 0.00001*/) {
                             double noiseHeight = peaksNoise.evaluateNoise(current.x(), current.z());
@@ -221,8 +235,6 @@ public class CaveGenerator implements Generator {
                         }
                     }
 
-
-
                     if (current.y() == cloudsHeight) {
                         // We can even make it, so it acts like your going down into it, like quicksand or clouds from the aether mod.
 
@@ -256,9 +268,7 @@ public class CaveGenerator implements Generator {
                     }
 
                     // Generate rare ores and blocks based on noise values
-                    if ((current.y() > caveSizeY - 49 && current.y() < caveSizeY) && (emeraldAndLapisNoise > 0.85 && (noise > 0.0000001 && noise < 0.02))) {
-                        unit.modifier().setBlock(current, Block.LAPIS_BLOCK);
-                    } else if ((current.y() > 1 && current.y() < 50) && (emeraldAndLapisNoise > 0.85 && (noise > 0.0000001 && noise < 0.02))) {
+                    if ((current.y() > 1 && current.y() < 50) && (emeraldAndLapisNoise > 0.85 && (noise > 0.0000001 && noise < 0.02))) {
                         unit.modifier().setBlock(current, Block.EMERALD_BLOCK);
                     } else if ((noise > 0.0000001 && noise < 0.01) && veinsNoise > 0.85 && (current.y() >= 50 && current.y() <= caveSizeY-50)) {
                         Block block = BlockRegistry.getInstance().getBlock(BloodstoneOreBlock.identifier).getNaturalBlock();

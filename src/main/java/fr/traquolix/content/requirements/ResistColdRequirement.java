@@ -4,7 +4,11 @@ import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.content.items.types.armor.helmets.FrostHelmetItem;
 import fr.traquolix.player.CPlayer;
+import fr.traquolix.utils.Utils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,7 +43,9 @@ public class ResistColdRequirement implements Requirement {
      * @return The text description as a {@link Component}.
      */
     @Override
-    public Component getText() {
-        return null;
+    public TextComponent getText() {
+        return Component.text(Utils.capitalizeFirstLetter("- Being cold resistant"))
+                .decoration(TextDecoration.ITALIC, false)
+                .color(NamedTextColor.BLUE);
     }
 }

@@ -6,6 +6,7 @@ import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.utils.Utils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.item.ItemStack;
@@ -53,7 +54,7 @@ public class ItemInMainHandRequirement implements Requirement {
      * @return The text representation as a {@link Component}.
      */
     @Override
-    public Component getText() {
+    public TextComponent getText() {
         return Component.text("- " + Utils.cleanName(item.getIdentifier().getId()) + " in main hand")
                 .decoration(TextDecoration.ITALIC, false)
                 .color(NamedTextColor.BLUE);

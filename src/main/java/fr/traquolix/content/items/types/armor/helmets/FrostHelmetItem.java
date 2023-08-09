@@ -14,7 +14,7 @@ public class FrostHelmetItem extends AbstractItem {
     /**
      * The unique identifier for the BloodstoneItem.
      */
-    final public static Identifier identifier = new Identifier("item", "frost_helmet");
+    final public static Identifier identifier = new Identifier("item", "helmet");
 
     /**
      * Constructs a new BloodstoneItem with its properties and lore.

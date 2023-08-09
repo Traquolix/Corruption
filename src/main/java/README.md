@@ -316,3 +316,54 @@ Modifications are what is applied to an item when it is modified. You can add a 
 - Items
 
 Append the modification to the Modification enum. You will then have to modify the Modificator for it to behave as wished.
+
+## Adding an equipment component
+Add an equipement to the Equipement class, make sure you listen to the fact that it is added / removed, and add it to the refreshEquipment method in Cplayer. 
+
+## Adding a quest
+Just add a new quest in the quests package. Making it its own package would be better for organization. You will have to register it in the Main class in the method `registerQuests()`.
+Here is an example :
+```java
+public class TutorialQuest extends AbstractQuest {
+
+    public TutorialQuest(int id) {
+        super(id);
+    }
+
+    @Override
+    public void initSteps() {
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        Component.text("Coucou, je suis un test !")));
+
+        addStep(new QuestStep(
+                        List.of(
+                                new ResistColdRequirement()
+                        ),
+                        Component.text("Tu résistes au froid, bravo !")));
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        Component.text("Voilà ta récompense !")));
+    }
+
+    @Override
+    public void initRewards() {
+        addReward(new CoinReward(100));
+    }
+
+    @Override
+    public void initName() {
+        name = Component.text("Tutorial Quest");
+    }
+
+    @Override
+    public void initDescription() {
+        description = Component.text("This is a tutorial quest");
+    }
+}
+```

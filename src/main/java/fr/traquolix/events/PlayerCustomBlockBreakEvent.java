@@ -9,6 +9,8 @@ import fr.traquolix.content.items.PureItem;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
 import net.minestom.server.entity.GameMode;
+import net.minestom.server.event.Event;
+import net.minestom.server.event.EventNode;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerBlockBreakEvent;
 import net.minestom.server.item.ItemStack;
@@ -57,7 +59,7 @@ public class PlayerCustomBlockBreakEvent {
     private boolean shouldCancelBreakForCreative(CPlayer cPlayer, PlayerBlockBreakEvent event) {
         AbstractBlock block = BlockRegistry.getInstance().getBlock(new Identifier(event.getBlock().getTag(Identifier.getGlobalTag())));
         return cPlayer.getPlayer().getGameMode() == GameMode.CREATIVE
-                && !cPlayer.getItemInMainHand().isAir()
+                && !cPlayer.getEquipment().getItemInMainHand().isAir()
                 && block.getIdentifier().toString().contains("indestructible");
     }
 

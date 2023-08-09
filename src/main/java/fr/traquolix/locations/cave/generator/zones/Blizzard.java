@@ -31,7 +31,6 @@ public class Blizzard extends Zone {
 
                 if (isInZone(player.getPosition())) {
                     if (doNotHaveRequirements(player)) {
-                        System.out.println();
                         player.getEntityMeta().setTickFrozen(Math.min(100, player.getEntityMeta().getTickFrozen() + 10));
                         player.damage(DamageType.VOID, 0.1f);
                     } else {

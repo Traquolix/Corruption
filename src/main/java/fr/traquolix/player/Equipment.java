@@ -41,4 +41,13 @@ public class Equipment {
     public List<AbstractItem> getAllItems() {
         return List.of(helmet, chestplate, leggings, boots, itemInMainHand, itemInOffHand);
     }
+
+    public void reset() {
+        helmet = ItemRegistry.getInstance().getItem(AirItem.identifier);
+        chestplate = ItemRegistry.getInstance().getItem(AirItem.identifier);
+        leggings = ItemRegistry.getInstance().getItem(AirItem.identifier);
+        boots = ItemRegistry.getInstance().getItem(AirItem.identifier);
+        itemInMainHand = ItemRegistry.getInstance().getItem(AirItem.identifier);
+        itemInOffHand = ItemRegistry.getInstance().getItem(AirItem.identifier);
+    }
 }

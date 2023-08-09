@@ -1,5 +1,6 @@
 package fr.traquolix.content.items;
 
+import fr.traquolix.content.items.types.misc.AirItem;
 import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.content.Rarity;
 import fr.traquolix.content.modifications.Modificator;
@@ -351,5 +352,9 @@ public abstract class AbstractItem {
      */
     public void reforge() {
         // Implement reforge logic here
+    }
+
+    public boolean isAir() {
+        return this == ItemRegistry.getInstance().getItem(AirItem.identifier);
     }
 }

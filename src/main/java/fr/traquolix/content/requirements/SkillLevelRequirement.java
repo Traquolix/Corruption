@@ -4,6 +4,7 @@ import fr.traquolix.player.CPlayer;
 import fr.traquolix.skills.Skill;
 import fr.traquolix.utils.Utils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
@@ -52,7 +53,7 @@ public class SkillLevelRequirement implements Requirement {
      * @return The text representation as a {@link Component}.
      */
     @Override
-    public Component getText() {
+    public TextComponent getText() {
         return Component.text(Utils.capitalizeFirstLetter("- " + Utils.capitalizeFirstLetter(skill.getIdentifier().getId())))
                 .decoration(TextDecoration.ITALIC, false)
                 .color(NamedTextColor.BLUE)

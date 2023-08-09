@@ -4,6 +4,7 @@ import fr.traquolix.content.items.types.misc.AirItem;
 import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
+import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.skills.AbstractSkill;
 import fr.traquolix.skills.Skill;
 import fr.traquolix.skills.farming.PureFarmingGainRegistry;
@@ -24,10 +25,9 @@ import net.minestom.server.timer.Scheduler;
 import net.minestom.server.timer.Task;
 import net.minestom.server.timer.TaskSchedule;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 
 import static fr.traquolix.Main.logger;
@@ -42,8 +42,10 @@ public class CPlayer {
     final Player player;
     final ConcurrentMap<Skill, AbstractSkill> skills = new ConcurrentHashMap<>();
     final ConcurrentMap<Stat, AbstractStat> stats = new ConcurrentHashMap<>();
+    final ConcurrentMap<Integer, AbstractQuest> currentQuests = new ConcurrentHashMap<>();
+    final ConcurrentLinkedQueue<Integer> completedQuests = new ConcurrentLinkedQueue<>();
     double currentMana = 0;
-    final int manaRegenSPeed = 500; // In milliseconds
+    final int manaRegenSpeed = 500; // In milliseconds
     final ConcurrentMap<Stat, AbstractStat> bonusStats = new ConcurrentHashMap<>();
     Task manaRegenTask;
 
@@ -189,13 +191,13 @@ public class CPlayer {
     }
 
     /**
-     * Check if the player has completed a specific quest.
+     * Check if the player has completed a specific quest.json.
      *
-     * @param questId The identifier of the quest to check completion.
-     * @return true if the player has completed the quest, false otherwise.
+     * @param questId The identifier of the quest.json to check completion.
+     * @return true if the player has completed the quest.json, false otherwise.
      */
-    public boolean hasCompletedQuest(String questId) {
-        return false;
+    public boolean hasCompletedQuest(int questId) {
+        return completedQuests.contains(questId);
     }
 
     /**
@@ -253,7 +255,7 @@ public class CPlayer {
             if (currentMana < stats.get(Stat.MANA).getValue()) {
                 currentMana++;
                 player.sendMessage(Component.text(currentMana + " / " + stats.get(Stat.MANA).getValue()));
-                return TaskSchedule.millis(manaRegenSPeed); // Schedule next regeneration after 500 ms.
+                return TaskSchedule.millis(manaRegenSpeed); // Schedule next regeneration after 500 ms.
             } else {
                 return TaskSchedule.stop(); // Stop the task when mana has been fully regenerated.
             }
@@ -364,6 +366,10 @@ public class CPlayer {
         equipment.getAllItems().forEach(item -> item.getBonuses().forEach((stat, value) -> addBonusStatValue(stat, value)));
     }
 
+    public void resetEquipment() {
+        equipment.reset();
+    }
+
     public void removeItemInMainHandFromEquipment() {
         equipment.setItemInMainHand(ItemRegistry.getInstance().getItem(AirItem.identifier));
     }
@@ -371,4 +377,61 @@ public class CPlayer {
     public void removeItemInOffHandFromEquipment() {
         equipment.setItemInOffHand(ItemRegistry.getInstance().getItem(AirItem.identifier));
     }
+
+    public void refreshEquipment() {
+        ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
+        if (!itemInMainHand.isAir()) {
+            String identifier = itemInMainHand.getTag(Identifier.getGlobalTag());
+            equipment.setItemInMainHand(ItemRegistry.getInstance().getItem(new Identifier(identifier)));
+        }
+
+        ItemStack itemInOffHand = player.getInventory().getItemInOffHand();
+        if (!itemInOffHand.isAir()) {
+            String identifier = itemInOffHand.getTag(Identifier.getGlobalTag());
+            equipment.setItemInOffHand(ItemRegistry.getInstance().getItem(new Identifier(identifier)));
+        }
+
+        ItemStack helmet = player.getInventory().getHelmet();
+        if (!helmet.isAir()) {
+            String identifier = helmet.getTag(Identifier.getGlobalTag());
+            equipment.set(41, ItemRegistry.getInstance().getItem(new Identifier(identifier)));
+        }
+
+        ItemStack chestplate = player.getInventory().getChestplate();
+        if (!chestplate.isAir()) {
+            String identifier = chestplate.getTag(Identifier.getGlobalTag());
+            equipment.set(42, ItemRegistry.getInstance().getItem(new Identifier(identifier)));
+        }
+
+        ItemStack leggings = player.getInventory().getLeggings();
+        if (!leggings.isAir()) {
+            String identifier = leggings.getTag(Identifier.getGlobalTag());
+            equipment.set(43, ItemRegistry.getInstance().getItem(new Identifier(identifier)));
+        }
+
+        ItemStack boots = player.getInventory().getBoots();
+        if (!boots.isAir()) {
+            String identifier = boots.getTag(Identifier.getGlobalTag());
+            equipment.set(44, ItemRegistry.getInstance().getItem(new Identifier(identifier)));
+        }
+
+        refreshBonuses();
+    }
+
+    public void addItemStack(AbstractItem item) {
+        player.getInventory().addItemStack(item.buildItemStack());
+    }
+
+    public void addCurrentQuests(AbstractQuest abstractQuest) {
+        currentQuests.put(abstractQuest.getId(), abstractQuest);
+    }
+
+    public void removeCurrentQuests(AbstractQuest abstractQuest) {
+        currentQuests.remove(abstractQuest.getId());
+    }
+
+    public void addCompletedQuests(AbstractQuest abstractQuest) {
+        completedQuests.add(abstractQuest.getId());
+    }
+
 }

@@ -4,13 +4,13 @@ import fr.traquolix.entity.AbstractEntity;
 import fr.traquolix.entity.npc.NPCEntity;
 import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
-import fr.traquolix.quests.QuestRegistry;
-import fr.traquolix.quests.tutorial.TutorialQuest;
+import fr.traquolix.quests.tutorial.TutorialQuestLine;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.minestom.server.entity.EntityType;
 
 public class TutorialGuy extends AbstractEntity implements NPCEntity {
-    TutorialQuest quest = (TutorialQuest) QuestRegistry.getInstance().getQuest(TutorialQuest.ID);
+    TutorialQuestLine quest = new TutorialQuestLine();
     public TutorialGuy(EntityType entityType) {
         super(entityType);
     }
@@ -31,11 +31,14 @@ public class TutorialGuy extends AbstractEntity implements NPCEntity {
     }
 
     @Override
+    public TextComponent getDefaultMessage() {
+        return Component.text("Hello, I'm a NPC!");
+    }
+
+    @Override
     public void onInteract(CPlayer player) {
-        if (player.getCurrentQuests().get(TutorialQuest.ID) == null && !player.getCompletedQuests().contains(TutorialQuest.ID)) {
-            quest.start(player);
-        } else if (!player.getCompletedQuests().contains(TutorialQuest.ID)) {
-            quest.step(player);
+        if (!quest.step(player)) {
+            player.sendMessage(getDefaultMessage());
         }
     }
 }

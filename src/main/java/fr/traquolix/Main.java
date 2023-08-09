@@ -15,6 +15,7 @@ import fr.traquolix.content.items.types.swords.EndSword;
 import fr.traquolix.entity.npc.npc.TutorialGuy;
 import fr.traquolix.events.*;
 import fr.traquolix.quests.QuestRegistry;
+import fr.traquolix.quests.tutorial.Tutorial2Quest;
 import fr.traquolix.quests.tutorial.TutorialQuest;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
@@ -100,6 +101,7 @@ public class Main {
 
     private static void registerQuests() {
         new TutorialQuest(0);
+        new Tutorial2Quest(1);
 
         logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");
 

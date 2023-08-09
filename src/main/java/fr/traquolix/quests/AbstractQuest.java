@@ -1,5 +1,6 @@
 package fr.traquolix.quests;
 
+import fr.traquolix.content.requirements.Requirement;
 import fr.traquolix.player.CPlayer;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -11,20 +12,26 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static fr.traquolix.Main.logger;
 
+// TODO Make a quest per branching path ? (like a quest tree composed of micro quests)
+// TODO To make multiple quests on the same NPC, you can just check with a requirement if the other have been completed.
 @Getter
 public abstract class AbstractQuest implements Cloneable {
     protected Component description;
-    protected Component name;
+    protected String name;
+    protected List<Requirement> questRequirements = new ArrayList<>();
     protected List<QuestStep> steps = new ArrayList<>();
     protected List<QuestReward> rewards = new ArrayList<>();
     protected int id;
     protected int currentStep = 1;
+    @Getter
+    protected boolean finished = false;
     public abstract void initSteps();
     public abstract void initRewards();
     public abstract void initName();
     public abstract void initDescription();
 
     protected AbstractQuest(int id) {
+        initQuestRequirements();
         initSteps();
         initRewards();
         initName();
@@ -34,14 +41,30 @@ public abstract class AbstractQuest implements Cloneable {
         QuestRegistry.getInstance().registerQuest(this);
     }
 
+    public abstract void initQuestRequirements();
+
 
     public void start(CPlayer player) {
-        player.sendMessage(
-                Component.text("Quest ")
-                        .append(getName()).hoverEvent(getDescription())
-                        .append(Component.text(" started")));
-        player.addCurrentQuests(this);
-        step(player);
+        boolean canStart = true;
+        for (Requirement requirement : questRequirements) {
+            if (!requirement.isMet(player)) {
+                player.sendMessage(Component.text("You don't meet the requirements to start this quest"));
+                canStart = false;
+            }
+        }
+        if (!canStart) {
+            player.sendMessage(Component.text("This quest requires: "));
+            questRequirements.forEach(requirement -> {
+                player.sendMessage(requirement.getText());
+            });
+        } else {
+            player.sendMessage(
+                    Component.text("Quest ")
+                            .append(Component.text(getName())).hoverEvent(getDescription())
+                            .append(Component.text(" started")));
+            player.addCurrentQuests(this);
+            step(player);
+        }
     }
     public void finish(CPlayer player) {
         player.removeCurrentQuests(this);
@@ -69,6 +92,8 @@ public abstract class AbstractQuest implements Cloneable {
 
             logger.info("Step " + (currentStep) + " of quest " + name + " (" + id +") completed by " + player.getUuid());
             if (currentStep == getSteps().size()) {
+                logger.info("Quest " + name + " (" + id +") completed by " + player.getUuid());
+                finished = true;
                 player.sendMessage(getSteps().get(currentStep-1).getText());
                 finish(player);
             } else {
@@ -96,5 +121,14 @@ public abstract class AbstractQuest implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    public boolean canStartQuest(CPlayer player) {
+        for (Requirement requirement : questRequirements) {
+            if (!requirement.isMet(player)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

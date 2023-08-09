@@ -9,18 +9,18 @@ import net.kyori.adventure.text.Component;
 
 import java.util.List;
 
-public class TutorialQuest extends AbstractQuest {
+public class Tutorial2Quest extends AbstractQuest {
 
-    public static int ID = 0;
+    public static int ID = 1;
 
-    public TutorialQuest(int id) {
+    public Tutorial2Quest(int id) {
         super(id);
-        TutorialQuest.ID = id;
+        Tutorial2Quest.ID = id;
     }
 
     @Override
     public void initQuestRequirements() {
-
+        questRequirements.add(new QuestRequirement(TutorialQuest.ID));
     }
 
     @Override
@@ -29,19 +29,19 @@ public class TutorialQuest extends AbstractQuest {
                         List.of(
 
                         ),
-                        Component.text("Coucou, je suis un test !")));
+                        Component.text("2 - Coucou, je suis un test !")));
 
         addStep(new QuestStep(
                         List.of(
                                 new ResistColdRequirement()
                         ),
-                        Component.text("Tu résistes au froid, bravo !")));
+                        Component.text("2 - Tu résistes au froid, bravo !")));
 
         addStep(new QuestStep(
                         List.of(
 
                         ),
-                        Component.text("Voilà ta récompense !")));
+                        Component.text("2 - Voilà ta récompense !")));
     }
 
     @Override
@@ -51,11 +51,11 @@ public class TutorialQuest extends AbstractQuest {
 
     @Override
     public void initName() {
-        name = "Tutorial Quest";
+        name = "2 - Tutorial Quest";
     }
 
     @Override
     public void initDescription() {
-        description = Component.text("This is a tutorial quest");
+        description = Component.text("2 - This is a tutorial quest");
     }
 }

@@ -19,6 +19,7 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.block.Block;
+import net.minestom.server.inventory.Inventory;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.network.player.PlayerConnection;
 import net.minestom.server.timer.Scheduler;
@@ -437,5 +438,13 @@ public class CPlayer {
 
     public @NotNull UUID getUuid() {
         return player.getUuid();
+    }
+
+    public void openGui(Inventory inventory) {
+        player.openInventory(inventory);
+    }
+
+    public void closeGui() {
+        player.closeInventory();
     }
 }

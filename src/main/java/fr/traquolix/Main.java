@@ -14,6 +14,8 @@ import fr.traquolix.content.items.types.pickaxes.DwarvenPickaxe;
 import fr.traquolix.content.items.types.swords.EndSword;
 import fr.traquolix.entity.npc.npc.TutorialGuy;
 import fr.traquolix.events.*;
+import fr.traquolix.gui.GuiRegistry;
+import fr.traquolix.gui.rumorsGUI.RumorGui;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.tutorial.Tutorial2Quest;
 import fr.traquolix.quests.tutorial.TutorialQuest;
@@ -67,6 +69,7 @@ public class Main {
         registerEvents(globalEventHandler);
         registerCommands();
         registerQuests();
+        registerGuis();
 
         // Create the instance
         instance = instanceManager.createInstanceContainer();
@@ -97,6 +100,12 @@ public class Main {
 
         // Start the server on port 25565
         minecraftServer.start("0.0.0.0", 25565);
+    }
+
+    private static void registerGuis() {
+        new RumorGui();
+
+        logger.info("[Registry] - " + GuiRegistry.getInstance().getSize() + " guis registered.");
     }
 
     private static void registerQuests() {

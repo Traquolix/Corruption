@@ -2,15 +2,20 @@ package fr.traquolix.entity.npc.npc;
 
 import fr.traquolix.entity.AbstractEntity;
 import fr.traquolix.entity.npc.NPCEntity;
+import fr.traquolix.gui.AbstractGui;
+import fr.traquolix.gui.GuiRegistry;
+import fr.traquolix.gui.rumorsGUI.RumorGui;
 import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
+import fr.traquolix.quests.tutorial.TutorialCircularQuestLine;
 import fr.traquolix.quests.tutorial.TutorialQuestLine;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minestom.server.entity.EntityType;
 
 public class TutorialGuy extends AbstractEntity implements NPCEntity {
-    TutorialQuestLine quest = new TutorialQuestLine();
+    TutorialCircularQuestLine quest = new TutorialCircularQuestLine();
+    AbstractGui gui = GuiRegistry.getInstance().getGui(RumorGui.identifier);
     public TutorialGuy(EntityType entityType) {
         super(entityType);
     }
@@ -37,8 +42,13 @@ public class TutorialGuy extends AbstractEntity implements NPCEntity {
 
     @Override
     public void onInteract(CPlayer player) {
+
+        gui.open(player);
+        /*
         if (!quest.step(player)) {
             player.sendMessage(getDefaultMessage());
         }
+
+         */
     }
 }

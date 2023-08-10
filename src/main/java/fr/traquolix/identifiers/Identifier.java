@@ -58,16 +58,21 @@ public class Identifier {
         this.id = id;
     }
 
+
     /**
      * Constructs an Identifier from the given full identifier string.
      * The full identifier string should be in the format "[projectName]:[group]:[identifier]".
      *
      * @param fullIdentifier The full identifier string.
      */
-    public Identifier(String fullIdentifier) {
-        String[] split = fullIdentifier.split(":");
-        this.group = split[1];
-        this.id = split[2];
+    public Identifier(String fullIdentifierOrGroup) {
+        String[] split = fullIdentifierOrGroup.split(":");
+        if (split.length == 1) {
+            this.group = split[0];
+        } else {
+            this.group = split[1];
+            this.id = split[2];
+        }
     }
 
     /**

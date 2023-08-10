@@ -60,13 +60,13 @@ public abstract class AbstractCircularQuestLine {
         return false;
     }
 
-    public void start(CPlayer cPlayer, int id) {
+    public boolean start(CPlayer cPlayer, int id) {
         for (AbstractQuest quest : quests) {
             if (quest.getId() == id) {
-                quest.start(cPlayer);
-                return;
+                return quest.start(cPlayer);
             }
         }
         cPlayer.sendMessage(Component.text("This quest doesn't exist"));
+        return false;
     }
 }

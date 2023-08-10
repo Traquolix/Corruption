@@ -22,6 +22,7 @@ public class Tutorial2Quest extends AbstractQuest {
 
     @Override
     public void initQuestRequirements() {
+        questRequirements.add(new QuestRequirement(TutorialQuest.ID));
     }
 
     @Override

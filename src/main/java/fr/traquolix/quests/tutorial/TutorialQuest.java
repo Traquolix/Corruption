@@ -27,6 +27,12 @@ public class TutorialQuest extends AbstractQuest {
     public void initSteps() {
 
         addStep(new QuestStep(
+                List.of(
+
+                ),
+                Component.text("On a tout un tas de problèmes, help !")));
+
+        addStep(new QuestStep(
                         List.of(
                                 new ResistColdRequirement()
                         ),

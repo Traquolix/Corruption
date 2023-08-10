@@ -44,7 +44,7 @@ public abstract class AbstractQuest implements Cloneable {
     public abstract void initQuestRequirements();
 
 
-    public void start(CPlayer player) {
+    public boolean start(CPlayer player) {
         boolean canStart = true;
         for (Requirement requirement : questRequirements) {
             if (!requirement.isMet(player)) {
@@ -52,12 +52,7 @@ public abstract class AbstractQuest implements Cloneable {
                 canStart = false;
             }
         }
-        if (!canStart) {
-            player.sendMessage(Component.text("This quest requires: "));
-            questRequirements.forEach(requirement -> {
-                player.sendMessage(requirement.getText());
-            });
-        } else {
+        if (canStart) {
             player.sendMessage(
                     Component.text("Quest ")
                             .append(Component.text(getName())).hoverEvent(getDescription())
@@ -65,6 +60,8 @@ public abstract class AbstractQuest implements Cloneable {
             player.addCurrentQuests(this);
             step(player);
         }
+
+        return canStart;
     }
     public void finish(CPlayer player) {
         player.removeCurrentQuests(this);
@@ -94,7 +91,9 @@ public abstract class AbstractQuest implements Cloneable {
             if (currentStep == getSteps().size()) {
                 logger.info("Quest " + name + " (" + id +") completed by " + player.getUuid());
                 finished = true;
-                player.sendMessage(getSteps().get(currentStep-1).getText());
+                player.sendMessage(Component.text("Quest ")
+                        .append(Component.text(getName())).hoverEvent(getDescription())
+                        .append(Component.text(" finished")));
                 finish(player);
             } else {
                 this.currentStep++;

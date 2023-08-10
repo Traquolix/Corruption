@@ -4,6 +4,7 @@ import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.condition.InventoryCondition;
@@ -13,7 +14,7 @@ import net.minestom.server.item.Material;
 public abstract class AbstractGui {
     protected Inventory inventory;
     ItemStack closeItem = ItemStack.of(Material.BARRIER);
-    protected ItemStack backGroundItem = ItemStack.of(Material.BLACK_STAINED_GLASS_PANE);
+    protected ItemStack backGroundItem = ItemStack.of(Material.BLACK_STAINED_GLASS_PANE).withDisplayName(Component.text(""));
     protected Identifier identifier;
 
     protected AbstractGui(InventoryType inventoryType, String name) {

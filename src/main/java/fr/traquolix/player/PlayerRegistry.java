@@ -57,4 +57,8 @@ public class PlayerRegistry {
     public CPlayer getCPlayer(UUID playerUUID) {
         return cPlayerMap.get(playerUUID);
     }
+
+    public void flush() {
+        cPlayerMap.clear();
+    }
 }

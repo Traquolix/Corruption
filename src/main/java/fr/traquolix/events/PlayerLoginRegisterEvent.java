@@ -34,6 +34,8 @@ public class PlayerLoginRegisterEvent {
             if (PlayerRegistry.getInstance().getCPlayer(player.getUuid()) == null) {
                 new CPlayer(player);
             } else {
+                PlayerRegistry.getInstance().unregisterPlayer(player.getUuid());
+                new CPlayer(player);
                 PlayerRegistry.getInstance().getCPlayer(player.getUuid()).refreshEquipment();
             }
 

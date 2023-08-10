@@ -71,10 +71,9 @@ public abstract class RumorGui extends AbstractGui {
                             && inventory.getItemStack(slot) != backGroundItem
                             && inventory.getItemStack(slot).getTag(Identifier.getGlobalTag()).contains(String.valueOf(abstractQuest.getId()))) {
                         if (quest.start(cPlayer, abstractQuest.getId())) {
-                            System.out.println("Starting quest " + abstractQuest.getId());
+                            refresh(cPlayer);
+                            inventory.update(cPlayer.getPlayer());
                         }
-                        refresh(cPlayer);
-                        inventory.update(cPlayer.getPlayer());
                     }
                 });
                 addInventoryCondition(condition);
@@ -96,7 +95,6 @@ public abstract class RumorGui extends AbstractGui {
                     if (currentSlot == slot && (cPlayer.getCurrentQuests().containsKey(abstractQuest.getId()))
                             && inventory.getItemStack(slot).getTag(Identifier.getGlobalTag()).contains(String.valueOf(abstractQuest.getId()))) {
                         if (quest.step(cPlayer, alreadyRunningQuest)) {
-                            System.out.println("Quest stepped");
                             refresh(cPlayer);
                             inventory.update(cPlayer.getPlayer());
                         }

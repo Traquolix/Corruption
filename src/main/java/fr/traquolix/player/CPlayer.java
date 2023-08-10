@@ -1,10 +1,12 @@
 package fr.traquolix.player;
 
-import fr.traquolix.content.items.types.misc.AirItem;
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
+import fr.traquolix.content.items.types.misc.AirItem;
 import fr.traquolix.quests.AbstractQuest;
+import fr.traquolix.quests.QuestRegistry;
+import fr.traquolix.rewards.PersonalRewardRegistry;
 import fr.traquolix.skills.AbstractSkill;
 import fr.traquolix.skills.Skill;
 import fr.traquolix.skills.farming.PureFarmingGainRegistry;
@@ -15,7 +17,12 @@ import fr.traquolix.utils.Utils;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.advancements.FrameType;
+import net.minestom.server.advancements.notifications.Notification;
+import net.minestom.server.advancements.notifications.NotificationCenter;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
 import net.minestom.server.instance.block.Block;
@@ -50,6 +57,8 @@ public class CPlayer {
     final int manaRegenSpeed = 500; // In milliseconds
     final ConcurrentMap<Stat, AbstractStat> bonusStats = new ConcurrentHashMap<>();
     Task manaRegenTask;
+    PersonalRewardRegistry personalRewardRegistry = new PersonalRewardRegistry();
+    ConcurrentMap<Flag, Boolean> configFlags = new ConcurrentHashMap<>();
 
     /**
      * Constructor to create a new CPlayer instance for the given Minestom Player entity.
@@ -63,11 +72,25 @@ public class CPlayer {
         PlayerRegistry.getInstance().registerPlayer(player.getUuid(), this);
         logger.info("[REGISTRY] - " + player.getUsername());
 
+
+        //TODO Test values
+
+        configFlags.put(Flag.REWARD_STASH_SHOW_CLAIMED, false);
+        configFlags.put(Flag.RUMORS_SHOW_COMPLETED, true);
+
         // Load skills, stats, and set default values
         loadSkills();
         loadBaseStats();
         loadBonusStats();
         setDefaultStats();
+        loadRewardRegistry();
+    }
+
+    private void loadRewardRegistry() {
+        QuestRegistry.getInstance().getItemMap().forEach((id, quest) -> {
+            personalRewardRegistry.registerAllRewards(id, quest.getRewards());
+        });
+        // Other sources of rewards...
     }
 
     /**
@@ -118,9 +141,14 @@ public class CPlayer {
      */
     public void gainExperience(Skill skill, double amount) {
         if (skills.get(skill).gainExperience(amount)) {
-            player.sendMessage(Utils.capitalizeFirstLetter(skill.getIdentifier().getId()) + " level up!");
+            int currentLevel = getLevel(skill);
+            int previousLevel = currentLevel-1;
+
+            Notification notification = new Notification(Component.text(Utils.capitalizeFirstLetter(skill.name()), NamedTextColor.DARK_AQUA).append(Component.text(" " + Utils.toRomanNumeral(previousLevel) + " -> ", NamedTextColor.DARK_GRAY)).append(Component.text(Utils.toRomanNumeral(currentLevel))), FrameType.GOAL, skill.getRepresentation());
+            NotificationCenter.send(notification, player);
         }
     }
+
 
     /**
      * Get the experience points of a specific skill.
@@ -446,5 +474,13 @@ public class CPlayer {
 
     public void closeGui() {
         player.closeInventory();
+    }
+
+    public void toggle(Flag flag) {
+        configFlags.put(flag, !configFlags.get(flag));
+    }
+
+    public boolean hasFlag(Flag flag) {
+        return configFlags.get(flag);
     }
 }

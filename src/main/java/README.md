@@ -1,6 +1,6 @@
 ## Pure item / Pure block
 
-Not transformed, basic from minecraft. Usually have the form of a common rarity object. It is unregistered because it has no special effect. They do not have a [Corruption Identifier](fr/traquolix/identifiers/Identifier.java), and will simply be added to the player inventory on break / be placed regularly (they are not even tagged natural to avoid bulk RAM usage by useless tags). Any custom loot must be implemented via the creation of Corruption blocks and Corruption items.
+Not transformed, basic from minecraft. Usually have the form of a common rarity object. It is unregistered because it has no special effect. They do not have a [Corruption Identifier](fr/traquolix/content/generalities/identifiers/Identifier.java), and will simply be added to the player inventory on break / be placed regularly (they are not even tagged natural to avoid bulk RAM usage by useless tags). Any custom loot must be implemented via the creation of Corruption blocks and Corruption items.
 
 
 ## What is an Identifier ?
@@ -421,7 +421,8 @@ public class TutorialGuy extends NPCEntity  {
 ```
 
 ## Adding a GUI
-To add a GUI, you have to create a package structure (depending on the type, try to stay organized) in the package `fr.traquolix.gui` which extends the class `fr.traquolix.gui.AbstractGui` (or another sub-class that extends AbstractGui as its parent). You can use this stub as an example:
+To add a GUI, you have to create a package structure (depending on the type, try to stay organized) in the package `fr.traquolix.gui` which extends the class `fr.traquolix.gui.AbstractGUI` (or another sub-class that extends AbstractGui as its parent). You can use this stub as an example:
+**Gui do not have to be registered. They are generated on the fly.**
 ```java
 public class TutorialGuyRumors extends RumorGui {
  public static final Identifier identifier = new Identifier("gui", "rumors");

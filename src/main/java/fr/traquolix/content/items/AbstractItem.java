@@ -1,11 +1,11 @@
 package fr.traquolix.content.items;
 
 import fr.traquolix.content.items.types.misc.AirItem;
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.Rarity;
 import fr.traquolix.content.modifications.Modificator;
 import fr.traquolix.content.modifications.reforges.Reforge;
-import fr.traquolix.content.requirements.Requirement;
+import fr.traquolix.content.generalities.requirements.Requirement;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.stats.Stat;
 import fr.traquolix.utils.Utils;
@@ -254,13 +254,15 @@ public abstract class AbstractItem {
 
         if (usageDescription != null) {
             loreBuilder.add(Component.empty());
-            loreBuilder.add(Component.text("Cost:")
-                    .decoration(TextDecoration.ITALIC, false)
-                    .color(Stat.MANA.getSecondaryColor())
-                    .append(Component.space())
-                    .append(Component.text(Stat.MANA.getSymbol() + " " + manaCost)
-                            .decoration(TextDecoration.ITALIC, false)
-                            .color(Stat.MANA.getSecondaryColor())));
+            if (manaCost != 0) {
+                loreBuilder.add(Component.text("Cost:")
+                        .decoration(TextDecoration.ITALIC, false)
+                        .color(Stat.MANA.getSecondaryColor())
+                        .append(Component.space())
+                        .append(Component.text(Stat.MANA.getSymbol() + " " + manaCost)
+                                .decoration(TextDecoration.ITALIC, false)
+                                .color(Stat.MANA.getSecondaryColor())));
+            }
             loreBuilder.add(usageDescription.decoration(TextDecoration.ITALIC, false)
                     .decoration(TextDecoration.BOLD, true)
                     .color(NamedTextColor.GRAY));
@@ -268,9 +270,9 @@ public abstract class AbstractItem {
 
         if (requirements != null && !requirements.isEmpty()) {
             loreBuilder.add(Component.empty());
-            loreBuilder.add(Component.text("Requires:")
+            loreBuilder.add(Component.text("Requirements")
                     .decoration(TextDecoration.ITALIC, false)
-                    .color(NamedTextColor.BLUE));
+                    .color(NamedTextColor.LIGHT_PURPLE));
             requirements.forEach(requirement -> loreBuilder.add(requirement.getText()));
         }
 

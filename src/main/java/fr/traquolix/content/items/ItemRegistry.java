@@ -1,6 +1,6 @@
 package fr.traquolix.content.items;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

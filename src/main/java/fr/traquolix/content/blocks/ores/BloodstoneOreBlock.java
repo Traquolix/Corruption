@@ -1,12 +1,12 @@
 package fr.traquolix.content.blocks.ores;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.blocks.AbstractBlock;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.content.items.types.misc.BloodstoneOreItem;
 import fr.traquolix.content.items.types.pickaxes.DwarvenPickaxe;
-import fr.traquolix.content.requirements.ItemInMainHandRequirement;
+import fr.traquolix.content.generalities.requirements.ItemInMainHandRequirement;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.skills.Skill;
 import net.minestom.server.instance.block.Block;

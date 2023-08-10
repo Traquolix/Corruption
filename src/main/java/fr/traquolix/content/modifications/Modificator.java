@@ -1,6 +1,6 @@
 package fr.traquolix.content.modifications;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.content.items.PureItem;

@@ -1,7 +1,7 @@
 package fr.traquolix.locations.cave.generator.structures;
 
 import fr.traquolix.content.blocks.misc.CloudBlock;
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.locations.cave.generator.CaveGenerator;
 import fr.traquolix.locations.cave.generator.structures.helpers.RaycastResult;
 import lombok.Getter;

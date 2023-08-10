@@ -1,8 +1,10 @@
 package fr.traquolix.quests;
 
+import lombok.Getter;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
+@Getter
 public class QuestRegistry {
     private static final QuestRegistry INSTANCE = new QuestRegistry();
 
@@ -24,11 +26,7 @@ public class QuestRegistry {
     }
 
     public AbstractQuest getQuest(Integer id) {
-        AbstractQuest quest = itemMap.get(id);
-        if (quest != null) {
-            return quest;
-        }
-        return null;
+        return itemMap.get(id);
     }
 
     public int getSize() {

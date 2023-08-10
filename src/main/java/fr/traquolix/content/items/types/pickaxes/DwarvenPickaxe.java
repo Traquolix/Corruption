@@ -1,11 +1,11 @@
 package fr.traquolix.content.items.types.pickaxes;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemType;
 import fr.traquolix.content.Rarity;
-import fr.traquolix.content.requirements.Requirement;
-import fr.traquolix.content.requirements.SkillLevelRequirement;
+import fr.traquolix.content.generalities.requirements.Requirement;
+import fr.traquolix.content.generalities.requirements.SkillLevelRequirement;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.skills.Skill;
 import fr.traquolix.stats.Stat;

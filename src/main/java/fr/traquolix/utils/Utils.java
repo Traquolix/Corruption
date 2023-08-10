@@ -1,5 +1,9 @@
 package fr.traquolix.utils;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.ComponentSerializer;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +12,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static fr.traquolix.Main.logger;
 
@@ -81,7 +86,7 @@ public class Utils {
             return word;
         }
 
-        return Character.toUpperCase(word.charAt(0)) + word.substring(1);
+        return Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase();
     }
 
     public static double lengthSq(double x, double y, double z) {
@@ -103,6 +108,25 @@ public class Utils {
         return resultStringBuilder.toString();
     }
 
+    public static TextComponent concatenateComponents(List<Component> components) {
+        TextComponent.Builder concatenatedComponent = Component.text();
+        int size = components.size();
 
+        for (int i = 0; i < size; i++) {
+            concatenatedComponent.append(components.get(i));
+            if (i < size - 1) {
+                concatenatedComponent.append(Component.newline());
+            }
+        }
 
+        return concatenatedComponent.build();
+    }
+
+    public static String toRomanNumeral(int num) {
+        String[] M = {"", "M", "MM", "MMM"};
+        String[] C = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+        String[] X = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+        String[] I = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+        return M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10];
+    }
 }

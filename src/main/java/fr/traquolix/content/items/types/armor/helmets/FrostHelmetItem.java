@@ -3,7 +3,7 @@ package fr.traquolix.content.items.types.armor.helmets;
 import fr.traquolix.content.Rarity;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemType;
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.stats.Stat;
 import net.kyori.adventure.text.Component;

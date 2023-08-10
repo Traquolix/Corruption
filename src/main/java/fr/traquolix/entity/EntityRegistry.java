@@ -1,6 +1,8 @@
 package fr.traquolix.entity;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
+import fr.traquolix.entity.npc.NPCEntity;
+import fr.traquolix.quests.AbstractQuest;
 import lombok.Getter;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +10,7 @@ import java.util.concurrent.ConcurrentMap;
 
 public class EntityRegistry {
     private static final EntityRegistry INSTANCE = new EntityRegistry();
-@Getter
+    @Getter
     private final ConcurrentMap<Identifier, AbstractEntity> EntityMap = new ConcurrentHashMap<>();
 
     // Private constructor to prevent external instantiation (singleton pattern)

@@ -1,6 +1,6 @@
 package fr.traquolix.commands;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
 import net.kyori.adventure.text.Component;

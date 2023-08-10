@@ -1,8 +1,8 @@
 package fr.traquolix.content.blocks;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.items.PureItem;
-import fr.traquolix.content.requirements.Requirement;
+import fr.traquolix.content.generalities.requirements.Requirement;
 import fr.traquolix.player.CPlayer;
 import lombok.Getter;
 import net.minestom.server.coordinate.Point;

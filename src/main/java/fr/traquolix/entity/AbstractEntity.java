@@ -1,6 +1,6 @@
 package fr.traquolix.entity;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;

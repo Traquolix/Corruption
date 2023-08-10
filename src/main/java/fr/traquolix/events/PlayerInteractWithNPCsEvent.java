@@ -1,8 +1,7 @@
 package fr.traquolix.events;
 
-import fr.traquolix.entity.AbstractEntity;
 import fr.traquolix.entity.EntityRegistry;
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
 import net.minestom.server.event.GlobalEventHandler;

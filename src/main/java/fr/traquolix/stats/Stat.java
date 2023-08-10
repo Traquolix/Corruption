@@ -1,6 +1,6 @@
 package fr.traquolix.stats;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.stats.damage.Damage;
 import fr.traquolix.stats.defense.Defense;
 import fr.traquolix.stats.health.Health;

@@ -1,6 +1,6 @@
 package fr.traquolix.locations.cave.generator.zones;
 
-import fr.traquolix.content.requirements.SkillLevelRequirement;
+import fr.traquolix.content.generalities.requirements.SkillLevelRequirement;
 import fr.traquolix.skills.Skill;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.damage.DamageType;

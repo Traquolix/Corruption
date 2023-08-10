@@ -1,6 +1,6 @@
 package fr.traquolix.content.blocks.misc;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.blocks.AbstractBlock;
 import fr.traquolix.player.CPlayer;
 import net.minestom.server.instance.block.Block;

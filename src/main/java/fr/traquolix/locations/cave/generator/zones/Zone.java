@@ -1,17 +1,12 @@
 package fr.traquolix.locations.cave.generator.zones;
 
-import fr.traquolix.content.requirements.Requirement;
+import fr.traquolix.content.generalities.requirements.Requirement;
 import fr.traquolix.player.PlayerRegistry;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
-import net.minestom.server.entity.damage.DamageType;
-import net.minestom.server.event.player.PlayerDisconnectEvent;
-import net.minestom.server.event.player.PlayerLoginEvent;
-import net.minestom.server.event.player.PlayerMoveEvent;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.network.packet.server.play.ParticlePacket;
 import net.minestom.server.particle.Particle;

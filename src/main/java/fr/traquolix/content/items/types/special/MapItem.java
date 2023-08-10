@@ -1,6 +1,6 @@
 package fr.traquolix.content.items.types.special;
 
-import fr.traquolix.identifiers.Identifier;
+import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.Rarity;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemType;

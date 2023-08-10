@@ -57,8 +57,8 @@ public abstract class AbstractQuest implements Cloneable {
                     Component.text("Quest ")
                             .append(Component.text(getName())).hoverEvent(getDescription())
                             .append(Component.text(" started")));
+            logger.info("Quest " + name + " (" + id +") started by " + player.getUuid());
             player.addCurrentQuests(this);
-            step(player);
         }
 
         return canStart;
@@ -86,7 +86,6 @@ public abstract class AbstractQuest implements Cloneable {
         });
 
         if (canStep.get()) {
-
             logger.info("Step " + (currentStep) + " of quest " + name + " (" + id +") completed by " + player.getUuid());
             if (currentStep == getSteps().size()) {
                 logger.info("Quest " + name + " (" + id +") completed by " + player.getUuid());

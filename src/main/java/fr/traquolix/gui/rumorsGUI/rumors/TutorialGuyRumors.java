@@ -4,7 +4,7 @@ import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.TutorialGuy;
 import fr.traquolix.gui.rumorsGUI.RumorGui;
 import fr.traquolix.identifiers.Identifier;
-import fr.traquolix.quests.tutorial.TutorialCircularQuestLine;
+import fr.traquolix.quests.dwarf.TutorialCircularQuestLine;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.item.ItemStack;

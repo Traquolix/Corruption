@@ -1,15 +1,10 @@
-package fr.traquolix.quests.tutorial;
+package fr.traquolix.quests.dwarf;
 
-import fr.traquolix.quests.AbstractQuestLine;
+import fr.traquolix.quests.AbstractCircularQuestLine;
 import fr.traquolix.quests.QuestRegistry;
 import net.kyori.adventure.text.Component;
 
-public class TutorialQuestLine extends AbstractQuestLine {
-
-    public TutorialQuestLine() {
-        super();
-    }
-
+public class TutorialCircularQuestLine extends AbstractCircularQuestLine {
     @Override
     public void initQuests() {
         getQuests().add(QuestRegistry.getInstance().getQuest(TutorialQuest.ID));

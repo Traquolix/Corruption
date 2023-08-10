@@ -8,7 +8,6 @@ import fr.traquolix.player.CPlayer;
 import fr.traquolix.quests.AbstractCircularQuestLine;
 import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.quests.QuestStep;
-import fr.traquolix.quests.tutorial.TutorialCircularQuestLine;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minestom.server.inventory.InventoryType;
@@ -16,6 +15,7 @@ import net.minestom.server.inventory.condition.InventoryCondition;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,14 +42,26 @@ public abstract class RumorGui extends AbstractGui {
     @Override
     public void refresh(CPlayer cPlayer) {
         inventory.getInventoryConditions().clear();
+        inventory.clear();
+
+        AtomicInteger slotCounters = new AtomicInteger(0);
+        List<Integer> questSlotsAvailable = List.of(19, 21, 23, 25, 37, 39, 41, 43);
+
+        fill(slotCounters.get(), inventory.getSize(), backGroundItem);
+        addNpcHeadAt(4);
+
         ConcurrentLinkedQueue<AbstractQuest> quests = quest.getQuests();
-        AtomicInteger slotCounters = new AtomicInteger(9);
         quests.forEach(abstractQuest -> {
-            int currentSlot = slotCounters.get(); // Capture the current slot value
+            int currentSlot;
+            try {
+                currentSlot = questSlotsAvailable.get(slotCounters.get()); // Capture the current slot value
+            } catch (IndexOutOfBoundsException e) {
+                return;
+            }
             if (!cPlayer.getCurrentQuests().containsKey(abstractQuest.getId())
                     && !cPlayer.getCompletedQuests().contains(abstractQuest.getId())) {
                 Component text = abstractQuest.getDescription();
-                setItemStack(slotCounters.get(), ItemStack.of(Material.PAPER).withDisplayName(text).withTag(
+                setItemStack(questSlotsAvailable.get(slotCounters.get()), ItemStack.of(Material.PAPER).withDisplayName(text).withTag(
                         Identifier.getGlobalTag(), String.valueOf(abstractQuest.getId())
                 ));
                 InventoryCondition condition = ((player, slot, clickType, inventoryConditionResult) -> {
@@ -64,7 +76,6 @@ public abstract class RumorGui extends AbstractGui {
                         refresh(cPlayer);
                         inventory.update(cPlayer.getPlayer());
                     }
-                    inventoryConditionResult.setCancel(true);
                 });
                 addInventoryCondition(condition);
             } else {
@@ -73,7 +84,7 @@ public abstract class RumorGui extends AbstractGui {
                     return;
                 }
                 QuestStep currentStep = alreadyRunningQuest.getSteps().get(alreadyRunningQuest.getCurrentStep()-1);
-                setItemStack(slotCounters.get(), ItemStack.of(Material.PAPER)
+                setItemStack(questSlotsAvailable.get(slotCounters.get()), ItemStack.of(Material.PAPER)
                         .withDisplayName(Component.text(alreadyRunningQuest.getName()))
                         .withTag(Identifier.getGlobalTag(), String.valueOf(abstractQuest.getId()))
                         .withLore(List.of(
@@ -90,13 +101,14 @@ public abstract class RumorGui extends AbstractGui {
                             inventory.update(cPlayer.getPlayer());
                         }
                     }
-                    inventoryConditionResult.setCancel(true);
                 }));
             }
             slotCounters.getAndIncrement();
         });
-        fill(slotCounters.get(), inventory.getSize(), backGroundItem);
-        if (slotCounters.get() == 9) {
+        addInventoryCondition(((player, slot, clickType, inventoryConditionResult) -> {
+            inventoryConditionResult.setCancel(true);
+        }));
+        if (slotCounters.get() == 0) {
             addNpcHeadAt(22);
             fill(0, 8, backGroundItem);
         }

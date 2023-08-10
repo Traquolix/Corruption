@@ -1,12 +1,9 @@
 package fr.traquolix.entity.npc.npc;
 
 import fr.traquolix.entity.npc.NPCEntity;
-import fr.traquolix.gui.AbstractGui;
-import fr.traquolix.gui.GuiRegistry;
 import fr.traquolix.gui.rumorsGUI.rumors.TutorialGuyRumors;
 import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
-import fr.traquolix.quests.tutorial.TutorialCircularQuestLine;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.minestom.server.entity.EntityType;

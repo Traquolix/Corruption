@@ -1,6 +1,5 @@
-package fr.traquolix.quests.tutorial;
+package fr.traquolix.quests.dwarf;
 
-import fr.traquolix.content.requirements.QuestRequirement;
 import fr.traquolix.content.requirements.ResistColdRequirement;
 import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.quests.QuestStep;

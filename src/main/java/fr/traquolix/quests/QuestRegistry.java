@@ -26,7 +26,7 @@ public class QuestRegistry {
     public AbstractQuest getQuest(Integer id) {
         AbstractQuest quest = itemMap.get(id);
         if (quest != null) {
-            return quest.clone();
+            return quest;
         }
         return null;
     }

@@ -1,10 +1,8 @@
-package fr.traquolix.quests.tutorial;
+package fr.traquolix.quests.dwarf;
 
 import fr.traquolix.content.requirements.QuestRequirement;
-import fr.traquolix.content.requirements.ResistColdRequirement;
 import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.quests.QuestStep;
-import fr.traquolix.quests.rewards.CoinReward;
 import fr.traquolix.quests.rewards.ExperienceReward;
 import fr.traquolix.skills.Skill;
 import net.kyori.adventure.text.Component;

@@ -1,6 +1,7 @@
 package fr.traquolix.content.requirements;
 
 import fr.traquolix.player.CPlayer;
+import fr.traquolix.quests.QuestRegistry;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -44,7 +45,7 @@ public class QuestRequirement implements Requirement {
      */
     @Override
     public TextComponent getText() {
-        return Component.text("- Quest " + questId + " completed")
+        return Component.text("- Quest " + QuestRegistry.getInstance().getQuest(questId).getName() + " completed")
                 .decoration(TextDecoration.ITALIC, false)
                 .color(NamedTextColor.BLUE);
     }

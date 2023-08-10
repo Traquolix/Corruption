@@ -46,18 +46,8 @@ public abstract class AbstractCircularQuestLine {
             player.sendMessage(Component.text("You finished the quest " + quest.getName()));
             return true;
         } else {
-            AtomicBoolean canContinue = new AtomicBoolean(true);
-            quest.getSteps().get(quest.currentStep-1).getRequirements().forEach(requirement -> {
-                if (!requirement.isMet(player)) {
-                    canContinue.set(false);
-                }
-            });
-            if (canContinue.get()) {
-                quest.step(player);
-                return true;
-            }
+            return quest.step(player);
         }
-        return false;
     }
 
     public boolean start(CPlayer cPlayer, int id) {

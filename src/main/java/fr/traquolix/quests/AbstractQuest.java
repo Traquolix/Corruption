@@ -4,7 +4,6 @@ import fr.traquolix.content.requirements.Requirement;
 import fr.traquolix.player.CPlayer;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,6 @@ public abstract class AbstractQuest implements Cloneable {
         boolean canStart = true;
         for (Requirement requirement : questRequirements) {
             if (!requirement.isMet(player)) {
-                player.sendMessage(Component.text("You don't meet the requirements to start this quest"));
                 canStart = false;
             }
         }
@@ -59,6 +57,14 @@ public abstract class AbstractQuest implements Cloneable {
                             .append(Component.text(" started")));
             logger.info("Quest " + name + " (" + id +") started by " + player.getUuid());
             player.addCurrentQuests(this);
+        } else {
+            player.sendMessage(Component.text("You don't meet the requirements to start this quest"));
+            player.sendMessage(Component.text("This quest requires : "));
+            questRequirements.forEach(requirement -> {
+                if (!requirement.isMet(player)) {
+                    player.sendMessage(requirement.getText());
+                }
+            });
         }
 
         return canStart;
@@ -77,7 +83,7 @@ public abstract class AbstractQuest implements Cloneable {
         getRewards().add(reward);
     }
 
-    public void step(CPlayer player) {
+    public boolean step(CPlayer player) {
         AtomicBoolean canStep = new AtomicBoolean(true);
         getSteps().get(currentStep-1).getRequirements().forEach(requirement -> {
             if (!requirement.isMet(player)) {
@@ -97,6 +103,7 @@ public abstract class AbstractQuest implements Cloneable {
             } else {
                 this.currentStep++;
             }
+            return true;
         } else {
             player.sendMessage(Component.text("You cannot proceed."));
             player.sendMessage(Component.text("This step requires : "));
@@ -105,6 +112,7 @@ public abstract class AbstractQuest implements Cloneable {
                     player.sendMessage(requirement.getText());
                 }
             });
+            return false;
         }
     }
 

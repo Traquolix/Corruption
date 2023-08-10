@@ -2,8 +2,8 @@ package fr.traquolix.gui;
 
 import fr.traquolix.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
+import fr.traquolix.player.PlayerRegistry;
 import lombok.Getter;
-import net.minestom.server.entity.Player;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.condition.InventoryCondition;
@@ -19,6 +19,9 @@ public abstract class AbstractGui {
     protected AbstractGui(InventoryType inventoryType, String name) {
         initIdentifier();
         inventory = new Inventory(inventoryType, name);
+        inventory.addInventoryCondition((p, slot, clickType, inventoryConditionResult) -> {
+            inventoryConditionResult.setCancel(true);
+        });
 
         GuiRegistry.getInstance().registerGui(this);
     }
@@ -41,18 +44,21 @@ public abstract class AbstractGui {
 
 
     public void open(CPlayer cPlayer) {
+        refresh(cPlayer);
         cPlayer.openGui(inventory);
     }
 
-    public void close(Player cPlayer) {
-        cPlayer.closeInventory();
+    public abstract void refresh(CPlayer cPlayer);
+
+    public void close(CPlayer cPlayer) {
+        cPlayer.closeGui();
     }
 
     public void addCloseItem(int slot) {
         inventory.setItemStack(slot, closeItem);
         inventory.addInventoryCondition((p, slot1, clickType1, inventoryConditionResult) -> {
             if (slot1 == slot) {
-                close(p);
+                close(PlayerRegistry.getInstance().getCPlayer(p.getUuid()));
             }
         });
     }

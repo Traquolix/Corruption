@@ -1,21 +1,24 @@
 package fr.traquolix.gui.rumorsGUI;
 
+import fr.traquolix.entity.AbstractEntity;
 import fr.traquolix.gui.AbstractGui;
-import fr.traquolix.identifiers.Identifier;
 import net.minestom.server.inventory.InventoryType;
 
-public class RumorGui extends AbstractGui {
+public abstract class RumorGui extends AbstractGui {
 
-    public static final Identifier identifier = new Identifier("gui", "rumors");
-    public RumorGui() {
-        super(InventoryType.CHEST_6_ROW, "Rumors");
+    protected AbstractEntity entity;
+    public RumorGui(String name) {
+        super(InventoryType.CHEST_6_ROW, name + " rumors");
 
+        initEntity();
         fillInventoryWith(this.backGroundItem);
         addCloseItem(49);
+        addNpcHeadAt(4);
     }
 
-    @Override
-    public void initIdentifier() {
-        super.identifier = identifier;
-    }
+
+    public abstract void initEntity();
+
+    public abstract void addNpcHeadAt(int slot);
+
 }

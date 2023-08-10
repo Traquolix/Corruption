@@ -425,7 +425,7 @@ public class CPlayer {
     }
 
     public void addCurrentQuests(AbstractQuest abstractQuest) {
-        currentQuests.put(abstractQuest.getId(), abstractQuest);
+        currentQuests.put(abstractQuest.getId(), abstractQuest.clone());
     }
 
     public void removeCurrentQuests(AbstractQuest abstractQuest) {

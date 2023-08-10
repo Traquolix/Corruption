@@ -97,9 +97,6 @@ public abstract class AbstractQuest implements Cloneable {
                 player.sendMessage(getSteps().get(currentStep-1).getText());
                 finish(player);
             } else {
-                player.sendMessage(getSteps().get(currentStep-1).getText()
-                        .clickEvent(ClickEvent.runCommand("/step " + id))
-                        .hoverEvent(Component.text("Click for a step forward")));
                 this.currentStep++;
             }
         } else {

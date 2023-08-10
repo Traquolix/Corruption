@@ -25,23 +25,12 @@ public class TutorialQuest extends AbstractQuest {
 
     @Override
     public void initSteps() {
-        addStep(new QuestStep(
-                        List.of(
-
-                        ),
-                        Component.text("Coucou, je suis un test !")));
 
         addStep(new QuestStep(
                         List.of(
                                 new ResistColdRequirement()
                         ),
-                        Component.text("Tu résistes au froid, bravo !")));
-
-        addStep(new QuestStep(
-                        List.of(
-
-                        ),
-                        Component.text("Voilà ta récompense !")));
+                        Component.text("On a besoin de gens résistants au froid !")));
     }
 
     @Override

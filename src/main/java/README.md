@@ -4,11 +4,11 @@ Not transformed, basic from minecraft. Usually have the form of a common rarity 
 
 
 ## What is an Identifier ?
- The Identifier class represents an identifier for a specific object in the game.
- An identifier is a string that is used to uniquely identify an object.
- It follows the format "[projectName]:[group]:[identifier]".
- For example: "corruption:skill:mining","corruption:item:wheat", "corruption:item:trick_or_treat" are all valid.
- Some rules for identifiers:
+The Identifier class represents an identifier for a specific object in the game.
+An identifier is a string that is used to uniquely identify an object.
+It follows the format "[projectName]:[group]:[identifier]".
+For example: "corruption:skill:mining","corruption:item:wheat", "corruption:item:trick_or_treat" are all valid.
+Some rules for identifiers:
 - No spaces (use "_" instead)
 - No uppercase letters
 - No numbers
@@ -16,7 +16,7 @@ Not transformed, basic from minecraft. Usually have the form of a common rarity 
 - Avoid using plural forms
 
 
-## Adding a Corruption item 
+## Adding a Corruption item
 Create a class in the package `fr.traquolix.content.items.types.[YOUR_TYPE]` and extend the class `fr.traquolix.items.AbstractItem`.
 You then register it in the Main class in the method `registerItems()`.
 Use the following code as a stub.
@@ -25,49 +25,49 @@ import fr.traquolix.content.Rarity;
 
 public class YourItem extends AbstractItem {
 
-    /**
-     * The unique identifier for the item.
-     */
-    public static Identifier identifier = new Identifier("item", "unique_item_identifier");
+ /**
+  * The unique identifier for the item.
+  */
+ public static Identifier identifier = new Identifier("item", "unique_item_identifier");
 
-    /**
-     * Constructs a new item with its properties and lore.
-     */
-    public BloodstoneItem() {
-        super(identifier,
-                Component.text("ItemName"),
-                ItemType.NONE,
-                Material.AIR,
-                Rarity,
-                "Description of an item."); // Each dot will be a new line in the lore.
-    }
+ /**
+  * Constructs a new item with its properties and lore.
+  */
+ public BloodstoneItem() {
+  super(identifier,
+          Component.text("ItemName"),
+          ItemType.NONE,
+          Material.AIR,
+          Rarity,
+          "Description of an item."); // Each dot will be a new line in the lore.
+ }
 
-    /**
-     * Initializes the requirements for using the item. In this case, it has no requirements, so the method is left empty.
-     */
-    @Override
-    public void initRequirements() {
+ /**
+  * Initializes the requirements for using the item. In this case, it has no requirements, so the method is left empty.
+  */
+ @Override
+ public void initRequirements() {
 
-    }
+ }
 
-    /**
-     * Initializes the bonus stats of the item. Since it is a material item and doesn't provide any bonuses, the method is left empty.
-     */
-    @Override
-    public void initBonuses() {
+ /**
+  * Initializes the bonus stats of the item. Since it is a material item and doesn't provide any bonuses, the method is left empty.
+  */
+ @Override
+ public void initBonuses() {
 
-    }
+ }
 
-    /**
-     * Executes the use of the item. Since it is a material item and doesn't have any specific use, the method is left empty.
-     *
-     * @param cplayer The player who is using the BloodstoneItem.
-     * @param item    The BloodstoneItem being used.
-     */
-    @Override
-    public void use(CPlayer cplayer, AbstractItem item) {
+ /**
+  * Executes the use of the item. Since it is a material item and doesn't have any specific use, the method is left empty.
+  *
+  * @param cplayer The player who is using the BloodstoneItem.
+  * @param item    The BloodstoneItem being used.
+  */
+ @Override
+ public void use(CPlayer cplayer, AbstractItem item) {
 
-    }
+ }
 }
 ```
 
@@ -78,52 +78,52 @@ Use the following code as a stub.
 ```java
 public class BloodstoneOreBlock extends AbstractBlock {
 
-    /**
-     * The unique identifier of the Bloodstone Ore block.
-     */
-    public static Identifier identifier = new Identifier("block", "unique_block_identifier");
+ /**
+  * The unique identifier of the Bloodstone Ore block.
+  */
+ public static Identifier identifier = new Identifier("block", "unique_block_identifier");
 
-    /**
-     * The item that the block drops when broken.
-     */
-    public AbstractItem drop = ItemRegistry.getInstance().getItem(YourItem.identifier);
+ /**
+  * The item that the block drops when broken.
+  */
+ public AbstractItem drop = ItemRegistry.getInstance().getItem(YourItem.identifier);
 
-    /**
-     * Constructs a BloodstoneOreBlock.
-     */
-    public Block() {
-        super(identifier, Block.GLASS);
-    }
+ /**
+  * Constructs a BloodstoneOreBlock.
+  */
+ public Block() {
+  super(identifier, Block.GLASS);
+ }
 
-    /**
-     * Initializes the requirements for breaking the Bloodstone Ore block.
-     * The block requires a Dwarven Pickaxe to be held in the player's main hand to be broken.
-     */
-    @Override
-    public void initRequirements() {
-        //requirements.add(new ItemInMainHandRequirement(ItemRegistry.getInstance().getItem(DwarvenPickaxe.identifier)));
-    }
+ /**
+  * Initializes the requirements for breaking the Bloodstone Ore block.
+  * The block requires a Dwarven Pickaxe to be held in the player's main hand to be broken.
+  */
+ @Override
+ public void initRequirements() {
+  //requirements.add(new ItemInMainHandRequirement(ItemRegistry.getInstance().getItem(DwarvenPickaxe.identifier)));
+ }
 
-    /**
-     * Called when the Bloodstone Ore block is broken by a player.
-     * The player gains mining experience and receives the drop item in their inventory.
-     *
-     * @param player The player who broke the block.
-     */
-    @Override
-    public void broke(CPlayer player) {
-        player.getPlayer().getInventory().addItemStack(
-                drop.buildItemStack()
-        );
-    }
-    // What happens when the block has the natural state, usually generated by the server. A placed block cannot have that natural tag.
-    @Override
-    public void brokeNatural(CPlayer player) {
-        player.getPlayer().getInventory().addItemStack(
-                drop.buildItemStack()
-        );
-        player.gainExperience(Skill.MINING, 10);
-    }
+ /**
+  * Called when the Bloodstone Ore block is broken by a player.
+  * The player gains mining experience and receives the drop item in their inventory.
+  *
+  * @param player The player who broke the block.
+  */
+ @Override
+ public void broke(CPlayer player) {
+  player.getPlayer().getInventory().addItemStack(
+          drop.buildItemStack()
+  );
+ }
+ // What happens when the block has the natural state, usually generated by the server. A placed block cannot have that natural tag.
+ @Override
+ public void brokeNatural(CPlayer player) {
+  player.getPlayer().getInventory().addItemStack(
+          drop.buildItemStack()
+  );
+  player.gainExperience(Skill.MINING, 10);
+ }
 
 }
 ```
@@ -135,23 +135,23 @@ Use the following code as a stub:
 ```java
 public class YourCommand extends Command {
 
-    /**
-     * Constructs a new EffectCommand.
-     */
-    public EffectCommand() {
-        super("yourCommandName");
-        addSyntax(this::execute);
-        setCondition(Conditions::playerOnly);
-    }
+ /**
+  * Constructs a new EffectCommand.
+  */
+ public EffectCommand() {
+  super("yourCommandName");
+  addSyntax(this::execute);
+  setCondition(Conditions::playerOnly);
+ }
 
-    /**
-     * Executes the command.
-     *
-     * @param commandSender The command sender who executed the command.
-     * @param commandContext The context of the command, containing the arguments and sender information.
-     */
-    private void execute(@NotNull CommandSender commandSender, @NotNull CommandContext commandContext) {
-    }
+ /**
+  * Executes the command.
+  *
+  * @param commandSender The command sender who executed the command.
+  * @param commandContext The context of the command, containing the arguments and sender information.
+  */
+ private void execute(@NotNull CommandSender commandSender, @NotNull CommandContext commandContext) {
+ }
 }
 ```
 
@@ -160,34 +160,34 @@ Create a package in `fr.traquolix.stats` with the name of your stat. Then, creat
 Reference it in the Stat enum, and add it to the CPlayer class in those three methods:
 ```java
 public class CPlayer {
-    private void setDefaultStats() {
-        setBaseStatValue(Stat.HEALTH, 100);
-        setBaseStatValue(Stat.DAMAGE, 5);
-        setBaseStatValue(Stat.MANA, 100);
-        setBaseStatValue(Stat.DEFENSE, 0);
+ private void setDefaultStats() {
+  setBaseStatValue(Stat.HEALTH, 100);
+  setBaseStatValue(Stat.DAMAGE, 5);
+  setBaseStatValue(Stat.MANA, 100);
+  setBaseStatValue(Stat.DEFENSE, 0);
 
-        currentMana = getCurrentStatValue(Stat.MANA);
-    }
+  currentMana = getCurrentStatValue(Stat.MANA);
+ }
 
-    /**
-     * Load bonus stats with initial values.
-     */
-    private void loadBonusStats() {
-        bonusStats.put(Stat.HEALTH, Stat.HEALTH.createNewInstance());
-        bonusStats.put(Stat.DAMAGE, Stat.DAMAGE.createNewInstance());
-        bonusStats.put(Stat.MANA, Stat.MANA.createNewInstance());
-        bonusStats.put(Stat.DEFENSE, Stat.DEFENSE.createNewInstance());
-    }
+ /**
+  * Load bonus stats with initial values.
+  */
+ private void loadBonusStats() {
+  bonusStats.put(Stat.HEALTH, Stat.HEALTH.createNewInstance());
+  bonusStats.put(Stat.DAMAGE, Stat.DAMAGE.createNewInstance());
+  bonusStats.put(Stat.MANA, Stat.MANA.createNewInstance());
+  bonusStats.put(Stat.DEFENSE, Stat.DEFENSE.createNewInstance());
+ }
 
-    /**
-     * Load base stats with initial values.
-     */
-    private void loadBaseStats() {
-        stats.put(Stat.HEALTH, Stat.HEALTH.createNewInstance());
-        stats.put(Stat.DAMAGE, Stat.DAMAGE.createNewInstance());
-        stats.put(Stat.MANA, Stat.MANA.createNewInstance());
-        stats.put(Stat.DEFENSE, Stat.DEFENSE.createNewInstance());
-    }
+ /**
+  * Load base stats with initial values.
+  */
+ private void loadBaseStats() {
+  stats.put(Stat.HEALTH, Stat.HEALTH.createNewInstance());
+  stats.put(Stat.DAMAGE, Stat.DAMAGE.createNewInstance());
+  stats.put(Stat.MANA, Stat.MANA.createNewInstance());
+  stats.put(Stat.DEFENSE, Stat.DEFENSE.createNewInstance());
+ }
 }
 ```
 
@@ -199,24 +199,24 @@ You can use this stub as an example:
 
 public enum PureMiningGainRegistry {
 
-    /**
-     * Represents the mining gain for Gold Block.
-     */
-    GOLD_BLOCK("minecraft:gold_block", 10);
+ /**
+  * Represents the mining gain for Gold Block.
+  */
+ GOLD_BLOCK("minecraft:gold_block", 10);
 
-    private final String name;
-    private final float xp;
+ private final String name;
+ private final float xp;
 
-    /**
-     * Constructor for each PureMiningGainRegistry enum instance.
-     *
-     * @param name The name of the item obtained through mining.
-     * @param xp   The amount of experience points gained when mining the item.
-     */
-    PureMiningGainRegistry(String name, float xp) {
-        this.name = name;
-        this.xp = xp;
-    }
+ /**
+  * Constructor for each PureMiningGainRegistry enum instance.
+  *
+  * @param name The name of the item obtained through mining.
+  * @param xp   The amount of experience points gained when mining the item.
+  */
+ PureMiningGainRegistry(String name, float xp) {
+  this.name = name;
+  this.xp = xp;
+ }
 }
 ```
 
@@ -227,23 +227,23 @@ Here is an example :
 ```java
 public class PlayerLoginRegisterEvent {
 
-    /**
-     * Constructs a new PlayerLoginRegisterEvent with the given global event handler.
-     *
-     * @param globalEventHandler The global event handler to register the listener.
-     */
-    public PlayerLoginRegisterEvent(GlobalEventHandler globalEventHandler) {
-        globalEventHandler.addListener(PlayerLoginEvent.class, event -> {
-            // Handle the PlayerLoginEvent
-            Player player = event.getPlayer();
+ /**
+  * Constructs a new PlayerLoginRegisterEvent with the given global event handler.
+  *
+  * @param globalEventHandler The global event handler to register the listener.
+  */
+ public PlayerLoginRegisterEvent(GlobalEventHandler globalEventHandler) {
+  globalEventHandler.addListener(PlayerLoginEvent.class, event -> {
+   // Handle the PlayerLoginEvent
+   Player player = event.getPlayer();
 
-            // Create a new CPlayer for the player and register it in the PlayerRegistry
-            new CPlayer(player);
+   // Create a new CPlayer for the player and register it in the PlayerRegistry
+   new CPlayer(player);
 
-            // Set the base health value of the player to 20 (if needed)
-            // player.setBaseStatValue(Stat.HEALTH, 20);
-        });
-    }
+   // Set the base health value of the player to 20 (if needed)
+   // player.setBaseStatValue(Stat.HEALTH, 20);
+  });
+ }
 }
 ```
 
@@ -254,60 +254,60 @@ Just add to the Rarity enum a new rarity with the name and the color you want. Y
 Requirements are what is necessary for a player to proceed an action. You can apply a requirement on :
 - (equippable or not) items. (It then won't yield stat bonuses nor be usable)
 - Blocks.
-Create a class in `fr.traquolix.content.requirements` with the name of your requirement. Then extend the class `fr.traquolix.content.requirements.Requirement`. Here is an example of a requirement that checks if the player has a high enough stat:
+  Create a class in `fr.traquolix.content.requirements` with the name of your requirement. Then extend the class `fr.traquolix.content.requirements.Requirement`. Here is an example of a requirement that checks if the player has a high enough stat:
 ```java
 public class StatRequirement implements Requirement {
 
-    /**
-     * The stat associated with the requirement.
-     */
-    private final Stat stat;
+ /**
+  * The stat associated with the requirement.
+  */
+ private final Stat stat;
 
-    /**
-     * The required value for the stat.
-     */
-    private final int requiredValue;
+ /**
+  * The required value for the stat.
+  */
+ private final int requiredValue;
 
-    /**
-     * Constructor to set the stat and required value for the requirement.
-     *
-     * @param stat          The stat associated with the requirement.
-     * @param requiredValue The required value for the stat.
-     */
-    public StatRequirement(Stat stat, int requiredValue) {
-        this.stat = stat;
-        this.requiredValue = requiredValue;
-    }
+ /**
+  * Constructor to set the stat and required value for the requirement.
+  *
+  * @param stat          The stat associated with the requirement.
+  * @param requiredValue The required value for the stat.
+  */
+ public StatRequirement(Stat stat, int requiredValue) {
+  this.stat = stat;
+  this.requiredValue = requiredValue;
+ }
 
-    /**
-     * Check if the requirement is met for the given player.
-     *
-     * @param player The player to check the requirement for.
-     * @return {@code true} if the requirement is met, {@code false} otherwise.
-     */
-    @Override
-    public boolean isMet(CPlayer player) {
-        return (player.getCurrentStatValue(stat) >= requiredValue);
-    }
+ /**
+  * Check if the requirement is met for the given player.
+  *
+  * @param player The player to check the requirement for.
+  * @return {@code true} if the requirement is met, {@code false} otherwise.
+  */
+ @Override
+ public boolean isMet(CPlayer player) {
+  return (player.getCurrentStatValue(stat) >= requiredValue);
+ }
 
-    /**
-     * Get the text representation of the requirement.
-     *
-     * @return The component representing the requirement text.
-     */
-    @Override
-    public Component getText() {
-        return Component.text("- ")
-                .decoration(TextDecoration.ITALIC, false)
-                .color(NamedTextColor.BLUE)
-                .append(Component.text(requiredValue)
-                        .decoration(TextDecoration.ITALIC, false)
-                        .color(stat.getColor()))
-                .append(Component.space().decoration(TextDecoration.ITALIC, false))
-                .append(Component.text(stat.getSymbol())
-                        .color(stat.getColor()))
-                .decoration(TextDecoration.ITALIC, false);
-    }
+ /**
+  * Get the text representation of the requirement.
+  *
+  * @return The component representing the requirement text.
+  */
+ @Override
+ public Component getText() {
+  return Component.text("- ")
+          .decoration(TextDecoration.ITALIC, false)
+          .color(NamedTextColor.BLUE)
+          .append(Component.text(requiredValue)
+                  .decoration(TextDecoration.ITALIC, false)
+                  .color(stat.getColor()))
+          .append(Component.space().decoration(TextDecoration.ITALIC, false))
+          .append(Component.text(stat.getSymbol())
+                  .color(stat.getColor()))
+          .decoration(TextDecoration.ITALIC, false);
+ }
 }
 ```
 
@@ -318,7 +318,7 @@ Modifications are what is applied to an item when it is modified. You can add a 
 Append the modification to the Modification enum. You will then have to modify the Modificator for it to behave as wished.
 
 ## Adding an equipment component
-Add an equipement to the Equipement class, make sure you listen to the fact that it is added / removed, and add it to the refreshEquipment method in Cplayer. 
+Add an equipement to the Equipement class, make sure you listen to the fact that it is added / removed, and add it to the refreshEquipment method in Cplayer.
 
 ## Adding a quest
 Just add a new quest in the quests package. Making it its own package would be better for organization. You will have to register it in the Main class in the method `registerQuests()`.
@@ -326,75 +326,124 @@ Here is an example :
 ```java
 public class TutorialQuest extends AbstractQuest {
 
-    public TutorialQuest(int id) {
-        super(id);
-    }
+ public TutorialQuest(int id) {
+  super(id);
+ }
 
-    @Override
-    public void initSteps() {
-        addStep(new QuestStep(
-                        List.of(
+ @Override
+ public void initSteps() {
+  addStep(new QuestStep(
+          List.of(
 
-                        ),
-                        Component.text("Coucou, je suis un test !")));
+          ),
+          Component.text("Coucou, je suis un test !")));
 
-        addStep(new QuestStep(
-                        List.of(
-                                new ResistColdRequirement()
-                        ),
-                        Component.text("Tu résistes au froid, bravo !")));
+  addStep(new QuestStep(
+          List.of(
+                  new ResistColdRequirement()
+          ),
+          Component.text("Tu résistes au froid, bravo !")));
 
-        addStep(new QuestStep(
-                        List.of(
+  addStep(new QuestStep(
+          List.of(
 
-                        ),
-                        Component.text("Voilà ta récompense !")));
-    }
+          ),
+          Component.text("Voilà ta récompense !")));
+ }
 
-    @Override
-    public void initRewards() {
-        addReward(new CoinReward(100));
-    }
+ @Override
+ public void initRewards() {
+  addReward(new CoinReward(100));
+ }
 
-    @Override
-    public void initName() {
-        name = Component.text("Tutorial Quest");
-    }
+ @Override
+ public void initName() {
+  name = Component.text("Tutorial Quest");
+ }
 
-    @Override
-    public void initDescription() {
-        description = Component.text("This is a tutorial quest");
-    }
+ @Override
+ public void initDescription() {
+  description = Component.text("This is a tutorial quest");
+ }
 }
 ```
 
 ## Add NPC
 To add an NPC, you have to create a class in the package `fr.traquolix.entity.npc.npc` which extends the class `fr.traquolix.npc.NPCEntity`. You can use this stub as an example:
 **Warning : Don't forget to override most of the methods of NPCEntity, otherwise the NPC won't work properly.**
+YOu also have to register it in Main. You can link it to a quest (or even better, a GUI) if you want to.
 ```java
-public class TutorialGuy extends NPCEntity {
-    TutorialQuest quest = (TutorialQuest) QuestRegistry.getInstance().getQuest(TutorialQuest.ID);
-    public TutorialGuy(EntityType entityType) {
-        super(entityType);
-    }
+public class TutorialGuy extends NPCEntity  {
+ TutorialCircularQuestLine quest = new TutorialCircularQuestLine();
+ public static final Identifier identifier = new Identifier(getGroup(), "tutorial_guy");
+ public TutorialGuy(EntityType entityType) {
+  super(entityType);
+  initGui();
+ }
 
-    @Override
-    public void initId() {
-        id = "tutorial_guy";
-    }
+ @Override
+ public void initGui() {
+  gui = new TutorialGuyRumors();
+ }
 
-    @Override
-    public void initName() {
-        name = Component.text("Tutorial Guy");
-    }
+ @Override
+ public void initId() {
+  id = "tutorial_guy";
+ }
 
-    @Override
-    public void onInteract(CPlayer player) {
-        if (player.getCurrentQuests().get(TutorialQuest.ID) == null) {
-            quest.start(player);
-        } else {
-            quest.step(player);
+ @Override
+ public void initIdentifier() {
+  super.identifier = identifier;
+ }
+
+ @Override
+ public void initName() {
+  name = Component.text("Tutorial Guy");
+ }
+
+ @Override
+ public TextComponent getDefaultMessage() {
+  return Component.text("Hello, I'm a NPC!");
+ }
+
+ @Override
+ public void onInteract(CPlayer player) {
+
+  gui.open(player);
+        /*
+        if (!quest.step(player)) {
+            player.sendMessage(getDefaultMessage());
         }
-    }
+
+         */
+ }
+}
+```
+
+## Adding a GUI
+To add a GUI, you have to create a package structure (depending on the type, try to stay organized) in the package `fr.traquolix.gui` which extends the class `fr.traquolix.gui.AbstractGui` (or another sub-class that extends AbstractGui as its parent). You can use this stub as an example:
+```java
+public class TutorialGuyRumors extends RumorGui {
+ public static final Identifier identifier = new Identifier("gui", "rumors");
+ AbstractEntity entity = EntityRegistry.getInstance().getEntity(TutorialGuy.identifier);
+
+ public TutorialGuyRumors() {
+  super("Inventory guy");
+ }
+
+ @Override
+ public void addNpcHeadAt(int slot) {
+  ItemStack itemStack = ItemStack.of(Material.PLAYER_HEAD);
+  if (entity.getType() == EntityType.PLAYER) {
+   itemStack = itemStack.withDisplayName(Component.text("Player"));
+  }
+  itemStack = itemStack.withDisplayName(entity.getName());
+  setItemStack(slot, itemStack);
+ }
+
+ @Override
+ public void initIdentifier() {
+  super.identifier = identifier;
+ }
 }
 ```

@@ -30,13 +30,7 @@ public class Tutorial2Quest extends AbstractQuest {
                         List.of(
 
                         ),
-                        Component.text("2 - Coucou, je suis un test !")));
-
-        addStep(new QuestStep(
-                        List.of(
-
-                        ),
-                        Component.text("2 - Voilà ta récompense !")));
+                        Component.text("Clique pour avoir ta récompense !")));
     }
 
     @Override

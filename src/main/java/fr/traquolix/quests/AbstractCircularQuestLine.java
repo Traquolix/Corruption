@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 //TODO Bon début, mais utiliser un coffre pour afficher les différentes quêtes et leurs progressions en
@@ -34,28 +35,38 @@ public abstract class AbstractCircularQuestLine {
     public abstract void initQuests();
     public abstract void initName();
 
-    public boolean step(CPlayer player) {
-        // Ask the player about which quest he wants to do in the ones that are still available.
-        player.sendMessage(Component.text("Welcome to the ")
-                .append(questLineName)
-                .append(Component.text(" !")));
-        player.sendMessage(Component.text("You have the following quests available: "));
-        quests.forEach(quest -> {
-            if (player.getCurrentQuests().containsKey(quest.getId())) return;
-            player.sendMessage(Component.text("Quest " + quest.getName() + " with id " + quest.getId())
-                    .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.RUN_COMMAND, "/quest " + quest.getId()))
-                    .hoverEvent(quest.getDescription()));
-        });
-
-        System.out.println(player.getCurrentQuests());
-        for (AbstractQuest quest : quests) {
-            if (player.getCurrentQuests().containsKey(quest.getId())) {
-                quest.step(player);
-                if (quest.isFinished()) {
-                    quests.remove(quest);
+    public boolean step(CPlayer player, AbstractQuest quest) {
+        if (quest.getCurrentStep()-1 == quest.getSteps().size()) {
+            quest.finished = true;
+            quest.getRewards().forEach(questReward -> {
+                questReward.applyToPlayer(player);
+            });
+            player.removeCurrentQuests(quest);
+            player.addCompletedQuests(quest);
+            player.sendMessage(Component.text("You finished the quest " + quest.getName()));
+            return true;
+        } else {
+            AtomicBoolean canContinue = new AtomicBoolean(true);
+            quest.getSteps().get(quest.currentStep-1).getRequirements().forEach(requirement -> {
+                if (!requirement.isMet(player)) {
+                    canContinue.set(false);
                 }
+            });
+            if (canContinue.get()) {
+                quest.step(player);
+                return true;
             }
         }
-        return !quests.isEmpty();
+        return false;
+    }
+
+    public void start(CPlayer cPlayer, int id) {
+        for (AbstractQuest quest : quests) {
+            if (quest.getId() == id) {
+                quest.start(cPlayer);
+                return;
+            }
+        }
+        cPlayer.sendMessage(Component.text("This quest doesn't exist"));
     }
 }

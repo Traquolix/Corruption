@@ -12,10 +12,11 @@ import fr.traquolix.content.items.types.armor.helmets.FrostHelmetItem;
 import fr.traquolix.content.items.types.misc.*;
 import fr.traquolix.content.items.types.pickaxes.DwarvenPickaxe;
 import fr.traquolix.content.items.types.swords.EndSword;
+import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.TutorialGuy;
 import fr.traquolix.events.*;
 import fr.traquolix.gui.GuiRegistry;
-import fr.traquolix.gui.rumorsGUI.RumorGui;
+import fr.traquolix.gui.rumorsGUI.rumors.TutorialGuyRumors;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.tutorial.Tutorial2Quest;
 import fr.traquolix.quests.tutorial.TutorialQuest;
@@ -69,7 +70,8 @@ public class Main {
         registerEvents(globalEventHandler);
         registerCommands();
         registerQuests();
-        registerGuis();
+        registerEntities();
+
 
         // Create the instance
         instance = instanceManager.createInstanceContainer();
@@ -94,7 +96,7 @@ public class Main {
             event.setSkin(skin);
         });
 
-        TutorialGuy tutorialGuy = new TutorialGuy(EntityType.VILLAGER);
+        TutorialGuy tutorialGuy = (TutorialGuy) EntityRegistry.getInstance().getEntity(TutorialGuy.identifier);
         tutorialGuy.spawn(instance, new Pos(0, 40, 0));
 
 
@@ -102,10 +104,10 @@ public class Main {
         minecraftServer.start("0.0.0.0", 25565);
     }
 
-    private static void registerGuis() {
-        new RumorGui();
+    private static void registerEntities() {
+        new TutorialGuy(EntityType.VILLAGER);
 
-        logger.info("[Registry] - " + GuiRegistry.getInstance().getSize() + " guis registered.");
+        logger.info("[Registry] - " + EntityRegistry.getInstance().getSize() + " entities registered.");
     }
 
     private static void registerQuests() {

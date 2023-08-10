@@ -17,11 +17,13 @@ public abstract class AbstractEntity {
     protected String id;
     protected Component name;
     protected Identifier identifier;
+    protected EntityType type;
 
     protected AbstractEntity(EntityType type) {
         initId();
         initName();
         initIdentifier();
+        this.type = type;
         entity = new EntityCreature(type);
         entity.setTag(Identifier.getGlobalTag(), identifier.toString());
         entity.setCustomName(name);

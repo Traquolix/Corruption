@@ -15,6 +15,8 @@ import fr.traquolix.stats.AbstractStat;
 import fr.traquolix.stats.Stat;
 import fr.traquolix.utils.Utils;
 import lombok.Getter;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -146,6 +148,8 @@ public class CPlayer {
 
             Notification notification = new Notification(Component.text(Utils.capitalizeFirstLetter(skill.name()), NamedTextColor.DARK_AQUA).append(Component.text(" " + Utils.toRomanNumeral(previousLevel) + " -> ", NamedTextColor.DARK_GRAY)).append(Component.text(Utils.toRomanNumeral(currentLevel))), FrameType.GOAL, skill.getRepresentation());
             NotificationCenter.send(notification, player);
+            if (currentLevel % 25 == 0) player.playSound(Sound.sound(Key.key("ui.toast.challenge_complete"), Sound.Source.MASTER, 1f, 0f));
+            else player.playSound(Sound.sound(Key.key("ui.toast.challenge_complete"), Sound.Source.MASTER, 1f, 1.5f));
         }
     }
 

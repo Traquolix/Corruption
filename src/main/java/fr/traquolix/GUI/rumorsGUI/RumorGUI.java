@@ -19,9 +19,12 @@ import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.condition.InventoryCondition;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
+import net.minestom.server.item.metadata.PlayerHeadMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,8 +47,13 @@ public abstract class RumorGUI extends AbstractGUI {
     public abstract void initEntity();
 
     public void addNpcHeadAt(int slot) {
-        ItemStack itemStack = ItemStack.of(Material.PLAYER_HEAD);
+
         NPCEntity npcEntity = (NPCEntity) entity;
+
+        PlayerHeadMeta.Builder metaBuilder = new PlayerHeadMeta.Builder();
+        metaBuilder.skullOwner(UUID.randomUUID()).playerSkin(npcEntity.getSkin());
+        ItemStack itemStack = ItemStack.of(Material.PLAYER_HEAD).withMeta(metaBuilder.build());
+
         itemStack = itemStack.withDisplayName(entity.getName().decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
         itemStack = itemStack.withLore(npcEntity.getDefaultDialogues().getRandomDialogue());
 

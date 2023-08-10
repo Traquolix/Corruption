@@ -105,6 +105,7 @@ public class RewardStashGUI extends AbstractGUI {
             inventoryConditionResult.setCancel(true);
         }));
         addCloseItem(49);
-        addToggleFlagItem(ItemStack.of(Material.GREEN_CONCRETE), ItemStack.of(Material.RED_CONCRETE), 53, Flag.REWARD_STASH_SHOW_CLAIMED, cPlayer);
+        addToggleFlagItem(ItemStack.of(Material.GREEN_CONCRETE).withDisplayName(Component.text("Show claimed rewards", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false)),
+                ItemStack.of(Material.RED_CONCRETE).withDisplayName(Component.text("Do not show claimed rewards", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)), 53, Flag.REWARD_STASH_SHOW_CLAIMED, cPlayer);
     }
 }

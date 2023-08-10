@@ -21,15 +21,23 @@ import lombok.Getter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.EntityType;
+import net.minestom.server.entity.Player;
 import net.minestom.server.entity.PlayerSkin;
+import net.minestom.server.entity.fakeplayer.FakePlayer;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerSkinInitEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.Block;
+import net.minestom.server.network.packet.server.play.TeamsPacket;
+import net.minestom.server.scoreboard.Team;
+import net.minestom.server.scoreboard.TeamBuilder;
+import net.minestom.server.scoreboard.TeamManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.UUID;
 
 /**
  * The main class of the Corruption Minecraft server.
@@ -75,6 +83,8 @@ public class Main {
         // Add an event callback to specify the spawning instance (and the spawn position)
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 
+        // init
+        InitTeams();
 
         // Register items, blocks, events, and commands
         registerItems();
@@ -83,7 +93,6 @@ public class Main {
         registerCommands();
         registerEntities();
         registerQuests();
-
 
         // Create the instance
         instance = instanceManager.createInstanceContainer();
@@ -116,8 +125,30 @@ public class Main {
         minecraftServer.start("0.0.0.0", 25565);
     }
 
+    private static void InitTeams() {
+        //TODO Trouver un moyen pour qu'on puisse définir la distance de visibilité du nom. Pas envie qu'on puisse le voir à 700 blocs de là.
+        MinecraftServer.getTeamManager()
+                .createBuilder("players")
+                .collisionRule(TeamsPacket.CollisionRule.NEVER)
+                .nameTagVisibility(TeamsPacket.NameTagVisibility.ALWAYS)
+                .build();
+
+        MinecraftServer.getTeamManager()
+                .createBuilder("npc")
+                .collisionRule(TeamsPacket.CollisionRule.NEVER)
+                .nameTagVisibility(TeamsPacket.NameTagVisibility.ALWAYS)
+                .build();
+
+        MinecraftServer.getTeamManager()
+                .createBuilder("mobs")
+                .collisionRule(TeamsPacket.CollisionRule.NEVER)
+                .nameTagVisibility(TeamsPacket.NameTagVisibility.ALWAYS)
+                .build();
+    }
+
     private static void registerEntities() {
-        new Dwarf(EntityType.VILLAGER);
+
+        new Dwarf(EntityType.PLAYER);
 
         logger.info("[Registry] - " + EntityRegistry.getInstance().getSize() + " entities registered.");
     }
@@ -126,7 +157,6 @@ public class Main {
         new FirstColdResistanceItemQuest(0);
 
         logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");
-
     }
 
     /**

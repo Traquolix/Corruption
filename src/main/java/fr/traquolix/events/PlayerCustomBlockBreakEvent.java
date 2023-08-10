@@ -8,12 +8,15 @@ import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.content.items.PureItem;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerBlockBreakEvent;
 import net.minestom.server.item.ItemStack;
 
 import java.util.Optional;
+import java.util.Random;
 
 import static fr.traquolix.Main.logger;
 
@@ -28,6 +31,7 @@ public class PlayerCustomBlockBreakEvent {
     }
 
     private void handleBlockBreakEvent(PlayerBlockBreakEvent event) {
+        Random random = new Random();
         CPlayer cPlayer = PlayerRegistry.getInstance().getCPlayer(event.getPlayer().getUuid());
         assert cPlayer != null;
 
@@ -45,8 +49,10 @@ public class PlayerCustomBlockBreakEvent {
             boolean natural = event.getBlock().getTag(Identifier.getNaturalTag());
             AbstractBlock abstractBlock = BlockRegistry.getInstance().getBlock(new Identifier(event.getBlock().getTag(Identifier.getGlobalTag())));
             if (natural) {
+                cPlayer.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
                 abstractBlock.brokeNatural(cPlayer);
             } else {
+                cPlayer.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
                 abstractBlock.broke(cPlayer);
             }
         } else {
@@ -100,8 +106,10 @@ public class PlayerCustomBlockBreakEvent {
             return;
         }
         if (cPlayer.getItemInMainHand().isAir()) return;
+        Random random = new Random();
 
         ItemStack itemStack = PureItem.getPureItem(event.getBlock());
         cPlayer.getPlayer().getInventory().addItemStack(itemStack);
+        cPlayer.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
     }
 }

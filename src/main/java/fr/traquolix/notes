@@ -1,0 +1,9 @@
+block.end_portal.spawn (pitch 2) -> Ressemble un peu à un grognement.
+block.ender_chest.close (pitch 0) -> Coffre qui se ferme lentement.
+block.ender_chest.open (pitch 0) -> Le pas d'un mob un peu lourd et imposant ?
+block.comparator.click (pitch 0) -> Un clic.
+event.raid.horn (pitch 2) -> Ridicule trompette.
+entity.player.levelup (pitch 2) -> Bruit quand on casse un bloc.
+
+player.playSound(Sound.sound(Key.key("ui.toast.challenge_complete"), Sound.Source.MASTER, 1f, 2f));
+^ Ce son quand on finit un advancement me semble bien

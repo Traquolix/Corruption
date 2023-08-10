@@ -1,6 +1,6 @@
 ## Pure item / Pure block
 
-Not transformed, basic from minecraft. Usually have the form of a common rarity object. It is unregistered because it has no special effect. They do not have a [Corruption Identifier](fr/traquolix/content/generalities/identifiers/Identifier.java), and will simply be added to the player inventory on break / be placed regularly (they are not even tagged natural to avoid bulk RAM usage by useless tags). Any custom loot must be implemented via the creation of Corruption blocks and Corruption items.
+Not transformed, basic from minecraft. Usually have the form of a common rarity object. It is unregistered because it has no special effect. They do not have a [Corruption Identifier](src/main/java/fr/traquolix/content/generalities/identifiers/Identifier.java), and will simply be added to the player inventory on break / be placed regularly (they are not even tagged natural to avoid bulk RAM usage by useless tags). Any custom loot must be implemented via the creation of Corruption blocks and Corruption items.
 
 
 ## What is an Identifier ?

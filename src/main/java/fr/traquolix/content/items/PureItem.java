@@ -1,15 +1,18 @@
 package fr.traquolix.content.items;
 
+import fr.traquolix.content.PureLootTable;
 import fr.traquolix.content.Rarity;
 import fr.traquolix.utils.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.ItemStack;
+import net.minestom.server.item.Material;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * The PureItem class is used to create and build pure items with a specified rarity and lore.
@@ -38,8 +41,28 @@ public class PureItem {
      * @return The ItemStack representing the pure item.
      */
     public static ItemStack getPureItem(Block block) {
-        return buildItemStack(block);
+        Random random = new Random();
+
+        ItemStack itemStack;
+        try {
+            Block blockResult = Block.fromNamespaceId(PureLootTable.getResult(block.name()));
+            itemStack = buildItemStack(blockResult, random.nextInt(PureLootTable.getMinimum(block.name()), PureLootTable.getMaximum(block.name())));
+            return itemStack;
+        } catch (Exception ignored) {}
+
+        try {
+            Material materialResult = Material.fromNamespaceId(PureLootTable.getResult(block.name()));
+            itemStack = buildItemStack(ItemStack.of(materialResult).withDisplayName(Component.text(Utils.cleanName(block.name()))), random.nextInt(PureLootTable.getMinimum(block.name()), PureLootTable.getMaximum(block.name())));
+            return itemStack;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // We should never get here, unless PureLootTable is fucked.
+        throw new IllegalStateException("Could not fetch item from Block or Material!");
     }
+
+
 
     /**
      * Create a pure item from an existing ItemStack.
@@ -78,6 +101,16 @@ public class PureItem {
                 .build();
     }
 
+    private static ItemStack buildItemStack(ItemStack itemStack, int quantity) {
+        List<Component> lore = lore();
+        assert itemStack.getDisplayName() != null;
+        return ItemStack.builder(itemStack.material())
+                .displayName(itemStack.getDisplayName().color(RARITY.getColor()).decoration(TextDecoration.ITALIC, false))
+                .lore(lore)
+                .amount(quantity)
+                .build();
+    }
+
     /**
      * Build a pure item from an existing ItemStack with the default rarity.
      *
@@ -111,6 +144,16 @@ public class PureItem {
         return ItemStack.builder(Objects.requireNonNull(block.registry().material()))
                 .displayName(Component.text(name).color(RARITY.getColor()).decoration(TextDecoration.ITALIC, false))
                 .lore(lore)
+                .build();
+    }
+
+    private static ItemStack buildItemStack(Block block, int quantity) {
+        List<Component> lore = lore();
+        String name = Utils.cleanName(block.name());
+        return ItemStack.builder(Objects.requireNonNull(block.registry().material()))
+                .displayName(Component.text(name).color(RARITY.getColor()).decoration(TextDecoration.ITALIC, false))
+                .lore(lore)
+                .amount(quantity)
                 .build();
     }
 

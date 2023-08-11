@@ -15,9 +15,9 @@ import fr.traquolix.content.items.types.swords.EndSword;
 import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.events.*;
-import fr.traquolix.locations.cave.generator.CaveGenerator;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest;
+import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest2;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
@@ -92,12 +92,15 @@ public class Main {
         instance = instanceManager.createInstanceContainer();
         // Set the ChunkGenerator
 
-        CaveGenerator caveGenerator = new CaveGenerator(instance);
-        instance.setGenerator(caveGenerator);
-        caveGenerator.populate();
+        //CaveGenerator caveGenerator = new CaveGenerator(instance);
+        //instance.setGenerator(caveGenerator);
+        //caveGenerator.populate();
 
-        //instance.setGenerator(unit ->
-        //        unit.modifier().fillHeight(0, 40, Block.STONE));
+        instance.setGenerator(unit ->
+                unit.modifier().fillHeight(0, 40, Block.STONE));
+
+        Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
+        dwarf.spawn(instance, new Pos(0, 40, 0));
 
         // Set render distance
         System.setProperty("minestom.chunk-view-distance", "16");
@@ -145,6 +148,7 @@ public class Main {
 
     private static void registerQuests() {
         new FirstColdResistanceItemQuest(0);
+        new FirstColdResistanceItemQuest2(1);
 
         logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");
     }
@@ -165,6 +169,7 @@ public class Main {
         MinecraftServer.getCommandManager().register(new QuestStepCommand());
         MinecraftServer.getCommandManager().register(new SetQuestCommand());
         MinecraftServer.getCommandManager().register(new RewardStashCommand());
+        MinecraftServer.getCommandManager().register(new TimeStepCommand());
         logger.info("[Registry] - " + MinecraftServer.getCommandManager().getCommands().size() + " commands registered.");
     }
 

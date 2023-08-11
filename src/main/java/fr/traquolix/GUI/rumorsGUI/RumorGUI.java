@@ -11,6 +11,7 @@ import fr.traquolix.quests.QuestEntityRegistry;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.QuestStep;
 import fr.traquolix.rewards.Reward;
+import fr.traquolix.time.NPCTimeline;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -29,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class RumorGUI extends AbstractGUI {
 
     protected AbstractEntity entity;
-    protected ConcurrentLinkedQueue<AbstractQuest> ques;
+    protected NPCTimeline ques;
     public RumorGUI(String name) {
         super(InventoryType.CHEST_6_ROW, name + " rumors");
 
@@ -60,6 +61,7 @@ public abstract class RumorGUI extends AbstractGUI {
 
     @Override
     public void refresh(CPlayer cPlayer) {
+        // TODO surement beaucoup à changer ici pour s'accomoder à la nouvelle timeline
         super.refresh(cPlayer);
 
         AtomicInteger slotCounters = new AtomicInteger(0);
@@ -67,7 +69,7 @@ public abstract class RumorGUI extends AbstractGUI {
 
         addNpcHeadAt(4);
 
-        ConcurrentLinkedQueue<AbstractQuest> quests = ques;
+        ConcurrentLinkedQueue<AbstractQuest> quests = ques.getAllQuests(ques.getCurrentTime());
         quests.forEach(abstractQuest -> {
             if (cPlayer.getCompletedQuests().contains(abstractQuest.getId())) {
                 return;

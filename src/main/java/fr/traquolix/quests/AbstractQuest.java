@@ -1,9 +1,9 @@
 package fr.traquolix.quests;
 
-import fr.traquolix.entity.AbstractEntity;
-import fr.traquolix.rewards.Reward;
 import fr.traquolix.content.generalities.requirements.Requirement;
+import fr.traquolix.entity.AbstractEntity;
 import fr.traquolix.player.CPlayer;
+import fr.traquolix.rewards.Reward;
 import fr.traquolix.utils.Utils;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -32,6 +32,7 @@ public abstract class AbstractQuest implements Cloneable {
     protected int id;
     protected int currentStep = 1;
     protected AbstractEntity questGiver;
+    protected int time;
     @Getter
     protected boolean finished = false;
     public abstract void initSteps();
@@ -41,6 +42,7 @@ public abstract class AbstractQuest implements Cloneable {
     public abstract void initQuestGiver();
 
     protected AbstractQuest(int id) {
+        initTime();
         initQuestRequirements();
         initSteps();
         initRewards();
@@ -51,8 +53,10 @@ public abstract class AbstractQuest implements Cloneable {
         this.id = id;
 
         QuestRegistry.getInstance().registerQuest(this);
-        QuestEntityRegistry.getInstance().registerQuest(questGiver, this);
+        QuestEntityRegistry.getInstance().registerQuest(questGiver, time, this);
     }
+
+    public abstract void initTime();
 
     public abstract void initRepresentation();
 

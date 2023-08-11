@@ -26,6 +26,11 @@ public class FirstColdResistanceItemQuest extends AbstractQuest {
     }
 
     @Override
+    public void initTime() {
+        time = 0;
+    }
+
+    @Override
     public void initRepresentation() {
         representation = ItemStack.of(Material.SNOW)
                 .withDisplayName(Component.text(name)

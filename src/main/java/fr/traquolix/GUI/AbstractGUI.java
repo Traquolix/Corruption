@@ -10,6 +10,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
+import net.minestom.server.inventory.click.ClickType;
 import net.minestom.server.inventory.condition.InventoryCondition;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
@@ -95,6 +96,15 @@ public abstract class AbstractGUI {
         inventory.setItemStack(slot, itemStack);
         inventory.addInventoryCondition((p, slot1, clickType1, inventoryConditionResult) -> {
             if (slot1 == slot) {
+                guiToOpen.open(PlayerRegistry.getInstance().getCPlayer(p.getUuid()));
+            }
+        });
+    }
+
+    public void addInventoryOpener(int slot, ItemStack itemStack, AbstractGUI guiToOpen, ClickType clickType) {
+        inventory.setItemStack(slot, itemStack);
+        inventory.addInventoryCondition((p, slot1, clickType1, inventoryConditionResult) -> {
+            if (slot1 == slot && clickType1 == clickType) {
                 guiToOpen.open(PlayerRegistry.getInstance().getCPlayer(p.getUuid()));
             }
         });

@@ -1,7 +1,6 @@
 package fr.traquolix.time;
 
 import fr.traquolix.quests.AbstractQuest;
-import lombok.Getter;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -9,13 +8,6 @@ import java.util.concurrent.ConcurrentMap;
 
 public class NPCTimeline implements TimeEvent {
     ConcurrentMap<Integer, ConcurrentLinkedQueue<AbstractQuest>> timeline = new ConcurrentHashMap<>();
-    @Getter
-    int currentTime = 0;
-
-    @Override
-    public void stepTime(int currentTime) {
-        this.currentTime = currentTime;
-    }
 
     public void add(int i, AbstractQuest quest) {
         if (timeline.containsKey(i)) {

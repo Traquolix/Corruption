@@ -30,7 +30,7 @@ public abstract class AbstractQuest implements Cloneable {
     protected List<QuestStep> steps = new ArrayList<>();
     protected ConcurrentLinkedQueue<Reward> rewards = new ConcurrentLinkedQueue<>();
     protected int id;
-    protected int currentStep = 1;
+    protected int currentStep = 0;
     protected AbstractEntity questGiver;
     protected int time;
     @Getter
@@ -110,7 +110,7 @@ public abstract class AbstractQuest implements Cloneable {
 
     public boolean step(CPlayer player) {
         AtomicBoolean canStep = new AtomicBoolean(true);
-        getSteps().get(currentStep-1).getRequirements().forEach(requirement -> {
+        getSteps().get(currentStep).getRequirements().forEach(requirement -> {
             if (!requirement.isMet(player)) {
                 canStep.set(false);
             }
@@ -118,7 +118,7 @@ public abstract class AbstractQuest implements Cloneable {
 
         if (canStep.get()) {
             logger.info("Step " + (currentStep) + " of quest " + name + " (" + id +") completed by " + player.getUuid());
-            if (currentStep == getSteps().size()) {
+            if (currentStep == getSteps().size()-1) {
                 logger.info("Quest " + name + " (" + id +") completed by " + player.getUuid());
                 finished = true;
 
@@ -145,7 +145,7 @@ public abstract class AbstractQuest implements Cloneable {
         } else {
             player.sendMessage(Component.text("The stars have not yet aligned for you to proceed. ").color(NamedTextColor.LIGHT_PURPLE));
             player.sendMessage(Component.text("To continue, you still need : ").color(NamedTextColor.LIGHT_PURPLE));
-            getSteps().get(currentStep-1).getRequirements().forEach(requirement -> {
+            getSteps().get(currentStep).getRequirements().forEach(requirement -> {
                 if (!requirement.isMet(player)) {
                     player.sendMessage(requirement.getText());
                 }

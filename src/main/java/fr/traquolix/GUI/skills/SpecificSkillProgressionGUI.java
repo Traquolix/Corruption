@@ -47,87 +47,27 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
         switch (tier) {
             case 1 -> {
                 int counter = 1;
-                for (int i: slotOrder){
-                    if (counter == abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.YELLOW_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)).withLore(Utils.generateLore(skill, abstractSkill)));
-                    }
-                    if (counter > abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.RED_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    if (counter < abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.GREEN_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    counter++;
-                }
+                generateTimeline(slotOrder, counter);
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Go back").decoration(TextDecoration.ITALIC, false)), new SkillGUI(cPlayer));
                 addCloseItem(49);
                 addInventoryOpener(50, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Next page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 2));
-                setItemStack(45, ItemStack.of(Material.BELL).withDisplayName(Component.text("Click to reset Tier " + Utils.toRomanNumeral(tier) + "perks", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true)));
-                addInventoryOpener(46, ItemStack.of(Material.FIRE_CORAL).withDisplayName(Component.text("Click to open perk tree of " + Utils.capitalizeFirstLetter(skill.name()), NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)), new SkillPerksTreeGUI(skill));
-                addInventoryCondition((player, slot, clickType, inventoryConditionResult) -> {
-                    if (slot == 45) {
-                        cPlayer.resetPerks(skill, tier);
-                    }
-                });
-                setItemStack(28, skill.getTier(tier));
-                setItemStack(7, skill.getTier(tier));
-                setItemStack(52, skill.getTier(tier));
+                addResetPerksItemStack(cPlayer);
             }
             case 2 -> {
                 int counter = 21;
-                for (int i: slotOrder){
-                    if (counter == abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.YELLOW_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)).withLore(Utils.generateLore(skill, abstractSkill)));
-                    }
-                    if (counter > abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.RED_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    if (counter < abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.GREEN_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    counter++;
-                }
+                generateTimeline(slotOrder, counter);
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Previous page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 1));
                 addCloseItem(49);
                 addInventoryOpener(50, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Next page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 3));
-                addInventoryOpener(46, ItemStack.of(Material.FIRE_CORAL).withDisplayName(Component.text("Click to open perk tree of " + Utils.capitalizeFirstLetter(skill.name()), NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)), new SkillPerksTreeGUI(skill));
-                setItemStack(45, ItemStack.of(Material.BELL).withDisplayName(Component.text("Click to reset Tier " + Utils.toRomanNumeral(tier) + "perks", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true)));
-                addInventoryCondition((player, slot, clickType, inventoryConditionResult) -> {
-                    if (slot == 45) {
-                        cPlayer.resetPerks(skill, tier);
-                    }
-                });
-                setItemStack(28, skill.getTier(tier));
-                setItemStack(7, skill.getTier(tier));
-                setItemStack(52, skill.getTier(tier));
+                addResetPerksItemStack(cPlayer);
             }
             case 3 -> {
                 int counter = 41;
-                for (int i: slotOrder){
-                    if (counter == abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.YELLOW_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)).withLore(Utils.generateLore(skill, abstractSkill)));
-                    }
-                    if (counter > abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.RED_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    if (counter < abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.GREEN_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    counter++;
-                }
+                generateTimeline(slotOrder, counter);
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Previous page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 2));
                 addCloseItem(49);
                 addInventoryOpener(50, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Next page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 4));
-                addInventoryOpener(46, ItemStack.of(Material.FIRE_CORAL).withDisplayName(Component.text("Click to open perk tree of " + Utils.capitalizeFirstLetter(skill.name()), NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)), new SkillPerksTreeGUI(skill));
-                setItemStack(45, ItemStack.of(Material.BELL).withDisplayName(Component.text("Click to reset Tier " + Utils.toRomanNumeral(tier) + "perks", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true)));
-                addInventoryCondition((player, slot, clickType, inventoryConditionResult) -> {
-                    if (slot == 45) {
-                        cPlayer.resetPerks(skill, tier);
-                    }
-                });
-                setItemStack(28, skill.getTier(tier));
-                setItemStack(7, skill.getTier(tier));
-                setItemStack(52, skill.getTier(tier));
+                addResetPerksItemStack(cPlayer);
             }
             case 4 -> {
                 int counter = 61;
@@ -146,16 +86,7 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Previous page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 3));
                 addCloseItem(49);
                 addInventoryOpener(50, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Next page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 5));
-                setItemStack(45, ItemStack.of(Material.BELL).withDisplayName(Component.text("Click to reset Tier " + Utils.toRomanNumeral(tier) + "perks", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true)));
-                addInventoryOpener(46, ItemStack.of(Material.FIRE_CORAL).withDisplayName(Component.text("Click to open perk tree of " + Utils.capitalizeFirstLetter(skill.name()), NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)), new SkillPerksTreeGUI(skill));
-                addInventoryCondition((player, slot, clickType, inventoryConditionResult) -> {
-                    if (slot == 45) {
-                        cPlayer.resetPerks(skill, tier);
-                    }
-                });
-                setItemStack(28, skill.getTier(tier));
-                setItemStack(7, skill.getTier(tier));
-                setItemStack(52, skill.getTier(tier));
+                addResetPerksItemStack(cPlayer);
             }
             case 5 -> {
                 int counter = 81;
@@ -173,18 +104,41 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
                 }
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Previous page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 4));
                 addCloseItem(49);
-                setItemStack(45, ItemStack.of(Material.BELL).withDisplayName(Component.text("Click to reset Tier " + Utils.toRomanNumeral(tier) + "perks", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true)));
-                addInventoryOpener(46, ItemStack.of(Material.FIRE_CORAL).withDisplayName(Component.text("Click to open perk tree of " + Utils.capitalizeFirstLetter(skill.name()), NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)), new SkillPerksTreeGUI(skill));
-                addInventoryCondition((player, slot, clickType, inventoryConditionResult) -> {
-                    if (slot == 45) {
-                        cPlayer.resetPerks(skill, tier);
-                    }
-                });
-                setItemStack(28, skill.getTier(tier));
-                setItemStack(7, skill.getTier(tier));
-                setItemStack(52, skill.getTier(tier));
+                addResetPerksItemStack(cPlayer);
             }
         }
 
+    }
+
+    private void addResetPerksItemStack(CPlayer cPlayer) {
+        setItemStack(45, ItemStack.of(Material.BELL).withDisplayName(Component.text("Click to reset Tier " + Utils.toRomanNumeral(tier) + " perks", NamedTextColor.RED).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true)));
+        addInventoryOpener(46, ItemStack.of(Material.FIRE_CORAL).withDisplayName(Component.text("Click to open perk tree of " + Utils.capitalizeFirstLetter(skill.name()), NamedTextColor.RED).decoration(TextDecoration.ITALIC, false)), new SkillPerksTreeGUI(skill));
+        addResetPerkInventoryCondition(cPlayer);
+    }
+
+    private void addResetPerkInventoryCondition(CPlayer cPlayer) {
+        addInventoryCondition((player, slot, clickType, inventoryConditionResult) -> {
+            if (slot == 45) {
+                cPlayer.resetPerks(skill, tier);
+            }
+        });
+        setItemStack(28, skill.getTier(tier));
+        setItemStack(7, skill.getTier(tier));
+        setItemStack(52, skill.getTier(tier));
+    }
+
+    private void generateTimeline(List<Integer> slotOrder, int counter) {
+        for (int i: slotOrder){
+            if (counter == abstractSkill.getLevel()) {
+                setItemStack(i, ItemStack.of(Material.YELLOW_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)).withLore(Utils.generateLore(skill, abstractSkill)));
+            }
+            if (counter > abstractSkill.getLevel()) {
+                setItemStack(i, ItemStack.of(Material.RED_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
+            }
+            if (counter < abstractSkill.getLevel()) {
+                setItemStack(i, ItemStack.of(Material.GREEN_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
+            }
+            counter++;
+        }
     }
 }

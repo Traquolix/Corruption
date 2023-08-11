@@ -8,21 +8,14 @@ import lombok.Getter;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 @Getter
-@Getter
 public class QuestEntityRegistry {
-
+    @Getter
     private static final QuestEntityRegistry instance = new QuestEntityRegistry();
 
     ConcurrentMap<AbstractEntity, NPCTimeline> questMap = new ConcurrentHashMap<>();
 
     public QuestEntityRegistry() {
 
-    }
-
-    public void stepTime(int currentTime) {
-        for (NPCTimeline timeline : questMap.values()) {
-            timeline.stepTime(currentTime);
-        }
     }
 
     public void registerEntity(NPCEntity npcEntity) {

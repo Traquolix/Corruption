@@ -32,7 +32,6 @@ public class PlayerRegistry {
     /**
      * Register a player and associate them with a custom player wrapper (CPlayer).
      *
-     * @param player  The Minestom Player entity to register.
      * @param cPlayer The custom player wrapper (CPlayer) to associate with the player.
      */
     public void registerPlayer(UUID playerUUID, CPlayer cPlayer) {
@@ -42,7 +41,6 @@ public class PlayerRegistry {
     /**
      * Unregister a player and remove their associated custom player wrapper (CPlayer).
      *
-     * @param player The Minestom Player entity to unregister.
      */
     public void unregisterPlayer(UUID playerUUID) {
         cPlayerMap.remove(playerUUID);
@@ -51,7 +49,6 @@ public class PlayerRegistry {
     /**
      * Retrieve the custom player wrapper (CPlayer) associated with the given Minestom Player entity.
      *
-     * @param player The Minestom Player entity to look up.
      * @return The custom player wrapper (CPlayer) associated with the player, or null if not found.
      */
     public CPlayer getCPlayer(UUID playerUUID) {

@@ -5,7 +5,7 @@ import net.kyori.adventure.text.TextComponent;
 
 import java.util.List;
 
-class Dialogue {
+public class Dialogue {
     List<TextComponent> line;
     int weight;
 

@@ -16,8 +16,8 @@ import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.events.*;
 import fr.traquolix.quests.QuestRegistry;
-import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest;
-import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest2;
+import fr.traquolix.quests.dwarf.*;
+import fr.traquolix.time.TimeManager;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
@@ -62,7 +62,7 @@ public class Main {
      * Default constructor.
      */
     public Main() {}
-
+ // TODO Faudra faire une documentation correcte et nettoyer le bordel dans les classes.
     /**
      * The main method to start the Corruption Minecraft server.
      * Initializes the server, registers items, blocks, events, and commands, and starts the server on a specified port.
@@ -77,19 +77,9 @@ public class Main {
         // Add an event callback to specify the spawning instance (and the spawn position)
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 
-        // init
-        InitTeams();
-
-        // Register items, blocks, events, and commands
-        registerItems();
-        registerBlocks();
-        registerEvents(globalEventHandler);
-        registerCommands();
-        registerEntities();
-        registerQuests();
-
         // Create the instance
         instance = instanceManager.createInstanceContainer();
+
         // Set the ChunkGenerator
 
         //CaveGenerator caveGenerator = new CaveGenerator(instance);
@@ -98,6 +88,18 @@ public class Main {
 
         instance.setGenerator(unit ->
                 unit.modifier().fillHeight(0, 40, Block.STONE));
+
+        // Init teams
+        InitTeams();
+        TimeManager timeManager = new TimeManager(instance);
+
+        // Register items, blocks, events, and commands
+        registerItems();
+        registerBlocks();
+        registerEvents(globalEventHandler);
+        registerCommands();
+        registerEntities();
+        registerQuests();
 
         Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
         dwarf.spawn(instance, new Pos(0, 40, 0));
@@ -148,7 +150,6 @@ public class Main {
 
     private static void registerQuests() {
         new FirstColdResistanceItemQuest(0);
-        new FirstColdResistanceItemQuest2(1);
 
         logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");
     }
@@ -170,6 +171,7 @@ public class Main {
         MinecraftServer.getCommandManager().register(new SetQuestCommand());
         MinecraftServer.getCommandManager().register(new RewardStashCommand());
         MinecraftServer.getCommandManager().register(new TimeStepCommand());
+        MinecraftServer.getCommandManager().register(new TellTimeCommand());
         logger.info("[Registry] - " + MinecraftServer.getCommandManager().getCommands().size() + " commands registered.");
     }
 

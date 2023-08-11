@@ -1,28 +1,22 @@
 package fr.traquolix.commands;
 
 import fr.traquolix.time.TimeManager;
-import net.kyori.adventure.text.Component;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.CommandContext;
 import net.minestom.server.command.builder.condition.Conditions;
-import net.minestom.server.entity.Player;
-import net.minestom.server.scoreboard.Scoreboard;
-import net.minestom.server.scoreboard.Sidebar;
 import org.jetbrains.annotations.NotNull;
-
-import static fr.traquolix.Main.logger;
 
 /**
  * A command class to give the night vision effect to a player forever.
  */
-public class TimeStepCommand extends Command {
+public class TellTimeCommand extends Command {
 
     /**
      * Constructs a new EffectCommand.
      */
-    public TimeStepCommand() {
-        super("steptime");
+    public TellTimeCommand() {
+        super("telltime");
         addSyntax(this::execute);
         setCondition(Conditions::playerOnly);
     }
@@ -34,6 +28,6 @@ public class TimeStepCommand extends Command {
      * @param commandContext The context of the command, containing the arguments and sender information.
      */
     private void execute(@NotNull CommandSender commandSender, @NotNull CommandContext commandContext) {
-        TimeManager.getInstance().stepTime();
+        commandSender.sendMessage("Time is currently set to " + TimeManager.getInstance().getCurrentTime() + ".");
     }
 }

@@ -18,16 +18,13 @@ import java.util.List;
 
 public class FirstColdResistanceItemQuest extends AbstractQuest {
 
-    public static int ID = 0;
-
     public FirstColdResistanceItemQuest(int id) {
         super(id);
-        FirstColdResistanceItemQuest.ID = id;
     }
 
     @Override
     public void initTime() {
-        time = 0;
+        time = 1;
     }
 
     @Override
@@ -75,6 +72,199 @@ public class FirstColdResistanceItemQuest extends AbstractQuest {
                                         .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
                         Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
                 )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
+                )
+        );
+        addStep(new QuestStep(
+                        List.of(
+
+                        ),
+                        List.of(
+                                Component.text("You are now ready to get up the peaks. Take care, it is difficult", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("to navigate without the right equipment.. Here, let me help you a bit. ",NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                                Component.text("You can see this as a ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                                        .append(Component.text("token of gratitude", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false))
+                                        .append(Component.text(" for having listened to me.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)),
+                                Component.text("As an hermit dwarf, I barely get company ! ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        )
                 )
         );
 

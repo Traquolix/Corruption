@@ -17,7 +17,7 @@ public class DialogueSelector {
     private int totalWeight;
     private Random random;
     private Dialogue defaultDialogue = new Dialogue(new ArrayList<>(List.of(Component.text("I have nothing to tell you right now.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false))), 1);
-
+    private Dialogue lastDialogue = null;
     public DialogueSelector() {
         dialogues = new DialogueTimeline();
         random = new Random();
@@ -29,18 +29,28 @@ public class DialogueSelector {
     }
 
     public List<TextComponent> getRandomDialogue(int i) {
-        int value = random.nextInt(totalWeight);
-        int weightSum = 0;
-        if (dialogues.get(i) != null) {
-            for (Dialogue dialogue : dialogues.get(i)) {
-                weightSum += dialogue.weight;
-                if (weightSum >= value) {
-                    return dialogue.line;
+        Dialogue selectedDialogue = null;
+        do {
+            int value = random.nextInt(totalWeight);
+            int weightSum = 0;
+            if (dialogues.get(i) != null) {
+                for (Dialogue dialogue : dialogues.get(i)) {
+                    weightSum += dialogue.weight;
+                    if (weightSum >= value) {
+                        selectedDialogue = dialogue;
+                        break;  // We found our dialogue, break out of the loop
+                    }
                 }
+                if (selectedDialogue == null) {
+                    selectedDialogue = defaultDialogue;
+                }
+            } else {
+                selectedDialogue = defaultDialogue;
             }
-        } else {
-            return defaultDialogue.line;
-        }
-        return null;  // This shouldn't happen if weights are set up correctly
+        } while (selectedDialogue == lastDialogue); // Keep looping until a different dialogue is selected
+
+        lastDialogue = selectedDialogue;
+        return selectedDialogue.line;
     }
+
 }

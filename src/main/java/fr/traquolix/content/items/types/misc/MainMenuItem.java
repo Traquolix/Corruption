@@ -1,5 +1,6 @@
 package fr.traquolix.content.items.types.misc;
 
+import fr.traquolix.GUI.MainMenuGUI;
 import fr.traquolix.GUI.skills.SkillGUI;
 import fr.traquolix.content.Rarity;
 import fr.traquolix.content.generalities.identifiers.Identifier;
@@ -45,6 +46,6 @@ public class MainMenuItem extends AbstractItem {
      */
     @Override
     public void use(CPlayer cplayer, AbstractItem item) {
-        new SkillGUI(cplayer).open(cplayer);
+        new MainMenuGUI(cplayer).open(cplayer);
     }
 }

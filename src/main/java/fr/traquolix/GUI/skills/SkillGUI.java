@@ -1,6 +1,7 @@
 package fr.traquolix.GUI.skills;
 
 import fr.traquolix.GUI.AbstractGUI;
+import fr.traquolix.GUI.MainMenuGUI;
 import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.skills.AbstractSkill;
@@ -48,10 +49,11 @@ public class SkillGUI extends AbstractGUI {
                             Component.text(Utils.capitalizeFirstLetter(skill.name()) + " " + Utils.toRomanNumeral(abstractSkill.getLevel()), NamedTextColor.YELLOW)
                                     .decoration(TextDecoration.ITALIC, false))
                     .withLore(Utils.generateLore(skill, abstractSkill)), new SpecificSkillProgressionGUI(skill, abstractSkill, 1));
-            addCloseItem(49);
-            addCplayerHead(4, cPlayer);
             slotCounters.getAndIncrement();
         }));
+        addCloseItem(49);
+        addCplayerHead(4, cPlayer);
+        addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Go back").decoration(TextDecoration.ITALIC, false)), new MainMenuGUI(cPlayer));
     }
 
     private void addCplayerHead(int i, CPlayer cPlayer) {

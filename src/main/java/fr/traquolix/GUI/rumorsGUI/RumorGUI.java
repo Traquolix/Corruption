@@ -58,7 +58,7 @@ public abstract class RumorGUI extends AbstractGUI {
         itemStack = itemStack.withDisplayName(entity.getName().decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
         itemStack = itemStack.withLore(npcEntity.getDefaultDialogues().getRandomDialogue(TimeManager.getInstance().getCurrentTime()));
 
-        setItemStack(slot, itemStack);
+        addInventoryOpener(slot, itemStack, this);
     }
 
     @Override

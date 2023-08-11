@@ -45,4 +45,8 @@ public class DialogueTimeline {
     public ConcurrentLinkedQueue<Dialogue> get(int i) {
         return timeline.get(i);
     }
+
+    public int getSize() {
+        return timeline.size();
+    }
 }

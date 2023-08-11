@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import static fr.traquolix.Main.logger;
+
 public class DialogueSelector {
 
     private DialogueTimeline dialogues;
@@ -29,6 +31,10 @@ public class DialogueSelector {
     }
 
     public List<TextComponent> getRandomDialogue(int i) {
+        if (dialogues.getSize() == 1) {
+            logger.warn("There is only one dialogue for this NPC, it should not. Make sure you have at least 2 dialogues if you add one to a time step / NPC.");
+            return List.of(Component.text("..."));
+        }
         Dialogue selectedDialogue = null;
         do {
             int value = random.nextInt(totalWeight);

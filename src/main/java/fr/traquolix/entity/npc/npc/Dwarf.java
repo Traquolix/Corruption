@@ -30,7 +30,7 @@ public class Dwarf extends NPCEntity  {
 
     @Override
     public void initUsername() {
-        super.username = "Dwarf";
+        super.username = "Leo the Dwarf";
     }
 
     @Override
@@ -50,7 +50,15 @@ public class Dwarf extends NPCEntity  {
                 10);
         defaultDialogues.addDialogue(
                 List.of(
-                Component.text("I miss you Aleana.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                        Component.text("I'm wasted on cross-country. We dwarves", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                        Component.text("are natural sprinters. Very dangerous over", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                        Component.text("short distances.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+
+                ),
+                10);
+        defaultDialogues.addDialogue(
+                List.of(
+                Component.text("I miss you Aleana. Where did you end up ?", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
                 ),
                 2);
         defaultDialogues.addDialogue(

@@ -21,7 +21,6 @@ import net.minestom.server.item.Material;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-// TODO Le stash est plein de toutes les récompenses du jeu. On les marque collectables en les faisant glint. Il y a des sous sections probablement, histoire que ce soit organisé.
 // TODO Cela peut éventuellement copier le système des collections sans le copier. Débloquer des crafts avec des achievements quoi.
 public class RewardStashGUI extends AbstractGUI {
     public static final Identifier identifier = new Identifier("gui", "reward_stash");
@@ -36,10 +35,8 @@ public class RewardStashGUI extends AbstractGUI {
 
     @Override
     public void refresh(CPlayer cPlayer) {
-        inventory.getInventoryConditions().clear();
-        inventory.clear();
+        super.refresh(cPlayer);
 
-        fillInventoryWith(backGroundItem);
         fill(10, 17, ItemStack.of(Material.AIR));
         fill(19, 26, ItemStack.of(Material.AIR));
         fill(28, 35, ItemStack.of(Material.AIR));
@@ -75,6 +72,11 @@ public class RewardStashGUI extends AbstractGUI {
                 }
             }
             AbstractQuest quest = QuestRegistry.getInstance().getQuest(id);
+            if (cPlayer.getCurrentQuests().get(id) != null) {
+                quest = QuestRegistry.getInstance().getQuest(id);
+                quest.setCurrentStep(cPlayer.getCurrentQuests().get(id));
+            }
+
             ItemStack item = quest.getRepresentation()
                     .withDisplayName(
                             Component.text(quest.getName())
@@ -91,11 +93,12 @@ public class RewardStashGUI extends AbstractGUI {
                         .append(Component.text(quest.getName(), NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false)));
             }
             setItemStack(currentSlot, item);
+            AbstractQuest finalQuest = quest;
             addInventoryCondition((p, slot, clickType, inventoryConditionResult) -> {
                 if (slot == currentSlot
                 && inventory.getItemStack(slot) != backGroundItem
                 && inventory.getItemStack(slot).getTag(Identifier.getGlobalTag()).contains(String.valueOf(id))) {
-                    new RewardGUI(id, rewards, "Rewards", quest).open(cPlayer);
+                    new RewardGUI(id, rewards, "Rewards", finalQuest).open(cPlayer);
                 }
             });
             slotCounter.getAndIncrement();

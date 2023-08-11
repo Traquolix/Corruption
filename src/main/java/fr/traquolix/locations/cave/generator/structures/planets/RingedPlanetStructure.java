@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 
 import java.util.*;
@@ -17,7 +18,7 @@ public class RingedPlanetStructure extends PlanetStructure {
     final Block spotBlock = Block.BLUE_CONCRETE;
     final List<Point> spotPoints = new ArrayList<>();
     final Block ringBlock = Block.ICE;
-    public RingedPlanetStructure(Instance instance) {
+    public RingedPlanetStructure(InstanceContainer instance) {
         super(instance, 15, 15, 15);
     }
 
@@ -199,8 +200,6 @@ public class RingedPlanetStructure extends PlanetStructure {
 
                             Pos pos = new Pos(center.blockX(), center.blockY(), center.blockZ());
 
-                            //System.out.println("x: " + x + " y: " + y + " z: " + z);
-                            //System.out.println("radiusX: " + getRadiusX() + " radiusY: " + getRadiusY() + " radiusZ: " + getRadiusZ());
                             switch(ringOrientation) {
                                 case 0 -> {
                                     double newY = yOffset - slope * Math.abs(z);

@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class FrenzyReceptacleStructure extends Structure {
     @Getter
     final int structureHeight = 9;
 
-    public FrenzyReceptacleStructure(Instance instance) {
+    public FrenzyReceptacleStructure(InstanceContainer instance) {
         super(instance);
     }
 

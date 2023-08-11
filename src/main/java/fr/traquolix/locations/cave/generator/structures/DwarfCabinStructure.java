@@ -1,9 +1,12 @@
 package fr.traquolix.locations.cave.generator.structures;
 
+import fr.traquolix.entity.EntityRegistry;
+import fr.traquolix.entity.npc.npc.Dwarf;
 import lombok.Getter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 
 import java.util.ArrayList;
@@ -17,12 +20,16 @@ public class DwarfCabinStructure extends Structure {
     @Getter
     final int structureHeight = 20;
 
-    public DwarfCabinStructure(Instance instance) {
+    public DwarfCabinStructure(InstanceContainer instance) {
         super(instance);
     }
 
     public void generateStructure(Point toBeGeneratedAt) {
         super.generateStructure(toBeGeneratedAt, Block.SPRUCE_PLANKS, Block.SPRUCE_FENCE, Block.BLUE_WOOL);
+
+
+        Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
+        dwarf.spawn(instance, toBeGeneratedAt);
     }
 
     @Override

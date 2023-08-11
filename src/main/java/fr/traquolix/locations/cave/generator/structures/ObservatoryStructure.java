@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class ObservatoryStructure extends Structure {
     Point telescopePointingAt = null;
     @Getter
     final static int STRUCTURE_HEIGHT = 20;
-    public ObservatoryStructure(Instance instance) {
+    public ObservatoryStructure(InstanceContainer instance) {
         super(instance);
     }
 

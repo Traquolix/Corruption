@@ -1,8 +1,10 @@
 package fr.traquolix.events;
 
+import fr.traquolix.content.Rarity;
 import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
+import fr.traquolix.content.items.types.misc.MainMenuItem;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
 import fr.traquolix.utils.Utils;
@@ -28,6 +30,10 @@ public class EntityChangeGearEvent {
         });
 
         globalEventHandler.addListener(PlayerSwapItemEvent.class, event -> {
+            AbstractItem item = itemRegistry.getItem(MainMenuItem.identifier);
+            if (event.getMainHandItem().equals(item.buildItemStack()) || event.getOffHandItem().equals(item.buildItemStack())) {
+                event.setCancelled(true);
+            }
             CPlayer cPlayer = playerRegistry.getCPlayer(event.getPlayer().getUuid());
             cPlayer.refreshBonuses();
             handleItemInHandEvent(event.getMainHandItem(), cPlayer);
@@ -44,6 +50,10 @@ public class EntityChangeGearEvent {
         });
 
         globalEventHandler.addListener(ItemDropEvent.class, event -> {
+            AbstractItem item = itemRegistry.getItem(MainMenuItem.identifier);
+            if (event.getItemStack().equals(item.buildItemStack())) {
+                event.setCancelled(true);
+            }
             CPlayer cPlayer = playerRegistry.getCPlayer(event.getPlayer().getUuid());
             cPlayer.refreshBonuses();
             handleItemInHandEvent(event.getPlayer().getItemInMainHand(), cPlayer);

@@ -42,7 +42,9 @@ public enum Rarity {
     /**
      * The "Supreme" rarity with red color.
      */
-    SUPREME("Supreme", NamedTextColor.RED);
+    SUPREME("Supreme", NamedTextColor.RED),
+
+    SPECIAL("Special", NamedTextColor.WHITE);
 
     /**
      * The name of the rarity.
@@ -80,6 +82,7 @@ public enum Rarity {
             case MYTHIC -> SUPREME;
             case SUPREME -> SUPREME; // Supreme is the highest rarity, so it remains the same.
             // Default case, returns the first rarity (COMMON) if none of the above cases match.
+            case SPECIAL -> null; // We should never get here.
         };
     }
 }

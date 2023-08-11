@@ -30,6 +30,7 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.instance.generator.GenerationUnit;
 import net.minestom.server.instance.generator.Generator;
@@ -119,7 +120,7 @@ public class CaveGenerator implements Generator {
      *
      * @param instance The Minestom instance for which to generate the caves.
      */
-    public CaveGenerator(Instance instance) {
+    public CaveGenerator(InstanceContainer instance) {
         this.instance = instance;
 
         frenzyManager = new FrenzyManager(instance);
@@ -193,7 +194,6 @@ public class CaveGenerator implements Generator {
                             }
                             continue;
                         } else if ((current.y() > snowStartHeight && current.y() < peakStartHeight) && (emeraldAndLapisNoise > 0.85 && (noise > 0.0000001 && noise < 0.02))) {
-                            System.out.println(current);
                             unit.modifier().setBlock(current, Block.LAPIS_BLOCK);
                             continue;
                         }

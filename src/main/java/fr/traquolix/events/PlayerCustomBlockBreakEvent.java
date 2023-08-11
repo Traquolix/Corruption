@@ -52,7 +52,6 @@ public class PlayerCustomBlockBreakEvent {
                 cPlayer.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
                 abstractBlock.brokeNatural(cPlayer);
             } else {
-                cPlayer.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
                 abstractBlock.broke(cPlayer);
             }
         } else {
@@ -101,6 +100,7 @@ public class PlayerCustomBlockBreakEvent {
     }
 
     private void handlePureItemCheck(CPlayer cPlayer, PlayerBlockBreakEvent event) {
+        // TODO Faire une lootTable pour les blocs naturels.
         if (!cPlayer.brokeBlock(event.getBlock())) {
             event.setCancelled(true);
             return;
@@ -110,6 +110,5 @@ public class PlayerCustomBlockBreakEvent {
 
         ItemStack itemStack = PureItem.getPureItem(event.getBlock());
         cPlayer.getPlayer().getInventory().addItemStack(itemStack);
-        cPlayer.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
     }
 }

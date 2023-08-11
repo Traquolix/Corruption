@@ -77,9 +77,8 @@ public class FirstColdResistanceItemQuest extends AbstractQuest {
 
     @Override
     public void initRewards() {
-        addReward(new CoinReward(100));
-        addReward(new CoinReward(100));
-        addReward(new ExperienceReward(Skill.FARMING, 200));
+        addReward(new CoinReward(500));
+        addReward(new ExperienceReward(Skill.MINING, 1000));
     }
 
     @Override

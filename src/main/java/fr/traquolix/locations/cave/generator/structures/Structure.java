@@ -9,6 +9,7 @@ import lombok.Setter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.batch.RelativeBlockBatch;
 import net.minestom.server.instance.block.Block;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +21,7 @@ import static fr.traquolix.Main.logger;
 public abstract class Structure {
 
     @Getter
-    final Instance instance;
+    final InstanceContainer instance;
     @Getter
     @Setter
     Point placedStructure = null;
@@ -37,7 +38,7 @@ public abstract class Structure {
     int orientation = 0; // 0 = North, 1 = East, 2 = South, 3 = West
     @Getter
     protected final RelativeBlockBatch batch = new RelativeBlockBatch();
-    public Structure(Instance instance) {
+    public Structure(InstanceContainer instance) {
         this.instance = instance;
     }
     protected abstract List<Integer> getRaycastsForDirection(Point center, Pos direction, int orientationBaseValue);
@@ -76,7 +77,7 @@ public abstract class Structure {
         addPillarPoints(corners, toBeGeneratedAt);
 
         for (Point point : rectanglePoints) {
-            getBatch().setBlock(point, rectanglePoint);
+            //getBatch().setBlock(point, rectanglePoint);
         }
         for (Point point : corners) {
             getBatch().setBlock(point, cornerPoint);

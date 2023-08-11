@@ -23,7 +23,6 @@ public abstract class AbstractGUI {
     protected Identifier identifier;
 
     protected AbstractGUI(InventoryType inventoryType, String name) {
-        initIdentifier();
         inventory = new Inventory(inventoryType, name);
         inventory.addInventoryCondition((p, slot, clickType, inventoryConditionResult) -> {
             inventoryConditionResult.setCancel(true);
@@ -50,7 +49,14 @@ public abstract class AbstractGUI {
         cPlayer.openGui(inventory);
     }
 
-    public abstract void refresh(CPlayer cPlayer);
+    public void refresh(CPlayer cPlayer) {
+        inventory.getInventoryConditions().clear();
+        inventory.clear();
+        inventory.addInventoryCondition((p, slot, clickType, inventoryConditionResult) -> {
+            inventoryConditionResult.setCancel(true);
+        });
+        fillInventoryWith(backGroundItem);
+    }
 
     public void close(CPlayer cPlayer) {
         cPlayer.closeGui();

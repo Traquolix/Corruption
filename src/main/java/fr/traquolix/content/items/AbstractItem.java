@@ -308,6 +308,9 @@ public abstract class AbstractItem {
                     .decoration(TextDecoration.ITALIC, false)
                     .color(NamedTextColor.DARK_GRAY));
         }
+        if (rarity == Rarity.SPECIAL) {
+            return loreBuilder;
+        }
         loreBuilder.add(Component.text(rarity.getName().toUpperCase())
                 .decoration(TextDecoration.ITALIC, false)
                 .decoration(TextDecoration.BOLD, true)

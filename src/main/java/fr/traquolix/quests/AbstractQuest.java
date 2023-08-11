@@ -67,7 +67,6 @@ public abstract class AbstractQuest implements Cloneable {
             }
         }
         if (canStart) {
-
             player.sendMessage(
                     Component.text("Quest ")
                             .color(NamedTextColor.GREEN)
@@ -77,7 +76,7 @@ public abstract class AbstractQuest implements Cloneable {
                                     .color(NamedTextColor.GOLD))
                             .append(Component.text(" started.")));
             logger.info("Quest " + name + " (" + id +") started by " + player.getUuid());
-            player.addCurrentQuests(this);
+            player.addCurrentQuests(id, currentStep);
         } else {
             player.sendMessage(Component.text("The constellations have not yet charted this path for you.").color(NamedTextColor.LIGHT_PURPLE));
             player.sendMessage(Component.text("Quest Locked - To start, achieve the following :").color(NamedTextColor.LIGHT_PURPLE));
@@ -136,6 +135,7 @@ public abstract class AbstractQuest implements Cloneable {
                 finish(player);
             } else {
                 this.currentStep++;
+                player.getCurrentQuests().put(id, currentStep);
             }
             return true;
         } else {
@@ -167,5 +167,9 @@ public abstract class AbstractQuest implements Cloneable {
             }
         }
         return true;
+    }
+
+    public void setCurrentStep(int step) {
+        this.currentStep = step;
     }
 }

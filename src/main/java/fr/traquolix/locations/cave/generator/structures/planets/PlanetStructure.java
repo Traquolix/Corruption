@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 
 import java.util.*;
@@ -20,7 +21,7 @@ public class PlanetStructure extends Structure {
     double radiusZ;
     Block block = Block.STONE;
 
-    public PlanetStructure(Instance instance, double radiusX, double radiusY, double radiusZ) {
+    public PlanetStructure(InstanceContainer instance, double radiusX, double radiusY, double radiusZ) {
         super(instance);
         setRadiusX(radiusX);
         setRadiusY(radiusY);

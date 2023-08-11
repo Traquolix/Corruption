@@ -1,7 +1,12 @@
 package fr.traquolix.utils;
 
+import fr.traquolix.skills.AbstractSkill;
+import fr.traquolix.skills.LevelCalculator;
+import fr.traquolix.skills.Skill;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
 
 import java.io.BufferedReader;
@@ -12,6 +17,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static fr.traquolix.Main.logger;
@@ -127,6 +133,39 @@ public class Utils {
         String[] C = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
         String[] X = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
         String[] I = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
-        return M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10];
+        return (M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10]).toUpperCase();
+    }
+
+    public static List<? extends Component> generateLore(Skill skill, AbstractSkill abstractSkill) {
+        List<Component> lore = new ArrayList<>();
+
+        double currentExperience = abstractSkill.getExperience();
+        double experienceRequiredForNextLevel = LevelCalculator.getInstance().getRequiredExperienceUntilNextLevel(abstractSkill.getLevel());
+        double experienceRequiredPreviousLevel = LevelCalculator.getInstance().getRequiredExperienceUntilNextLevel(abstractSkill.getLevel()-1);
+
+        double totalExperienceOfStep = experienceRequiredForNextLevel - experienceRequiredPreviousLevel;
+        double currentAdvancement = currentExperience - experienceRequiredPreviousLevel;
+
+        double percentage = Math.floor(currentAdvancement/totalExperienceOfStep*100);
+
+        lore.add(Component.empty());
+        lore.add(Component.text("Progress:", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
+                .append(Component.space())
+                .append(Component.text(String.format("%.2f", percentage) + "%", NamedTextColor.YELLOW)));
+        lore.add(getProgressionBar(percentage).append(Component.text("  " + currentAdvancement, NamedTextColor.YELLOW)).append(Component.text(" / ", NamedTextColor.GOLD)).append(Component.text(totalExperienceOfStep + " ", NamedTextColor.YELLOW)).decoration(TextDecoration.ITALIC, false));
+
+        return lore;
+    }
+
+    private static Component getProgressionBar(double percentage) {
+        TextComponent.Builder builder = Component.text();
+        int numberOfBars = (int)Math.floor(percentage / 5);
+        for (int i = 0; i < numberOfBars; i++) {
+            builder.append(Component.text("-", NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, false));
+        }
+        for (int i = 0; i < 20 - numberOfBars; i++) {
+            builder.append(Component.text("-", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+        }
+        return builder.build();
     }
 }

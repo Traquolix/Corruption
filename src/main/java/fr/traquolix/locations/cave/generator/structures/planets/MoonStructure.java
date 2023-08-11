@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 
 import java.util.*;
@@ -18,7 +19,7 @@ public class MoonStructure extends PlanetStructure {
     final Block coreDecoration = Block.AMETHYST_CLUSTER;
     final List<Point> craterPoints = new ArrayList<>();
     final Set<Point> corePoints = new HashSet<>();
-    public MoonStructure(Instance instance) {
+    public MoonStructure(InstanceContainer instance) {
         super(instance, 15, 15, 15);
     }
 

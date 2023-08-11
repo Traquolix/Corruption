@@ -8,13 +8,12 @@ import fr.traquolix.entity.npc.NPCEntity;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.quests.QuestEntityRegistry;
+import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.QuestStep;
 import fr.traquolix.rewards.Reward;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.minestom.server.entity.EntityType;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.inventory.condition.InventoryCondition;
 import net.minestom.server.item.ItemStack;
@@ -23,7 +22,6 @@ import net.minestom.server.item.metadata.PlayerHeadMeta;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -62,13 +60,11 @@ public abstract class RumorGUI extends AbstractGUI {
 
     @Override
     public void refresh(CPlayer cPlayer) {
-        inventory.getInventoryConditions().clear();
-        inventory.clear();
+        super.refresh(cPlayer);
 
         AtomicInteger slotCounters = new AtomicInteger(0);
         List<Integer> questSlotsAvailable = List.of(19, 21, 23, 25, 37, 39, 41, 43);
 
-        fill(slotCounters.get(), inventory.getSize(), backGroundItem);
         addNpcHeadAt(4);
 
         ConcurrentLinkedQueue<AbstractQuest> quests = ques;
@@ -103,10 +99,9 @@ public abstract class RumorGUI extends AbstractGUI {
                 });
                 addInventoryCondition(condition);
             } else {
-                AbstractQuest alreadyRunningQuest = cPlayer.getCurrentQuests().get(abstractQuest.getId());
-                if (alreadyRunningQuest == null) {
-                    return;
-                }
+                AbstractQuest alreadyRunningQuest = QuestRegistry.getInstance().getQuest(abstractQuest.getId());
+                if (alreadyRunningQuest == null) return;
+                alreadyRunningQuest.setCurrentStep(cPlayer.getCurrentQuests().get(abstractQuest.getId()));
 
                 QuestStep currentStep = alreadyRunningQuest.getSteps().get(alreadyRunningQuest.getCurrentStep()-1);
 
@@ -159,8 +154,8 @@ public abstract class RumorGUI extends AbstractGUI {
             fill(0, 8, backGroundItem);
         }
         addCloseItem(49);
-        //TODO Ajouter une visualisation de la timeline, des quêtes qu'on a réussi à terminer à un moment T etc.
-        // TODO Une sorte d'almanach de connaissances, qui différence une quête entre
+        // TODO Ajouter une visualisation de la timeline, des quêtes qu'on a réussi à terminer à un moment T etc.
+        //  Une sorte d'almanach de connaissances, qui différence une quête entre
         //  l'avoir déjà fait une fois dans sa vie (Aka on a le knowledge pour afficher quand est ce que ça va arriver)
         //  , l'avoir faite pendant la boucle actuelle (Marquée comme complétée, et évidemment considérée comme découverte),
         //  et l'avoir découverte mais ne pas l'avoir faite pendant cette boucle

@@ -12,8 +12,6 @@ import java.util.Random;
 
 public class CloudBlock extends AbstractBlock {
 
-    //TODO Un nuage peut te faire passer à travers le sol. Ne PAS corriger, en faire une mécanique.
-
     final public static Identifier identifier = new Identifier("block", "cloud");
     final public AbstractItem drop = new CloudBlockItem();
     final public AbstractItem rareDrop = new CelestiteItem();

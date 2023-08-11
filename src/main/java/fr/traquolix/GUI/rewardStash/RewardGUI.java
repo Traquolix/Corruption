@@ -47,10 +47,7 @@ public class RewardGUI extends AbstractGUI {
 
     @Override
     public void refresh(CPlayer cPlayer) {
-
-        inventory.getInventoryConditions().clear();
-        inventory.clear();
-        fillInventoryWith(backGroundItem);
+        super.refresh(cPlayer);
 
         AtomicInteger slotCounter = new AtomicInteger(0);
         List<Integer> questSlotsAvailable = List.of(
@@ -116,6 +113,8 @@ public class RewardGUI extends AbstractGUI {
         AbstractEntity entity = quest.getQuestGiver();
         ItemStack itemStack = ItemStack.of(Material.PLAYER_HEAD);
         itemStack = itemStack.withDisplayName(entity.getName().decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
+        itemStack = itemStack.withLore(quest.getDescription());
+
 
         setItemStack(slot, itemStack);
     }

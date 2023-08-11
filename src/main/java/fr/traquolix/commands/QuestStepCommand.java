@@ -2,6 +2,8 @@ package fr.traquolix.commands;
 
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
+import fr.traquolix.quests.AbstractQuest;
+import fr.traquolix.quests.QuestRegistry;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.arguments.ArgumentType;
@@ -27,8 +29,10 @@ public class QuestStepCommand extends Command {
             CPlayer player = PlayerRegistry.getInstance().getCPlayer(((Player) sender).getUuid());
 
             int questId = context.get(idArg);
-            player.getCurrentQuests().forEach((id, quest) -> {
+            player.getCurrentQuests().forEach((id, step) -> {
                 if (id == questId) {
+                    AbstractQuest quest = QuestRegistry.getInstance().getQuest(id);
+                    quest.setCurrentStep(step);
                     quest.step(player);
                 }
             });

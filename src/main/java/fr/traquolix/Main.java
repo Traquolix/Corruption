@@ -15,15 +15,14 @@ import fr.traquolix.content.items.types.swords.EndSword;
 import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.events.*;
+import fr.traquolix.locations.cave.generator.CaveGenerator;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.Player;
 import net.minestom.server.entity.PlayerSkin;
-import net.minestom.server.entity.fakeplayer.FakePlayer;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerSkinInitEvent;
 import net.minestom.server.extras.MojangAuth;
@@ -31,13 +30,8 @@ import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.network.packet.server.play.TeamsPacket;
-import net.minestom.server.scoreboard.Team;
-import net.minestom.server.scoreboard.TeamBuilder;
-import net.minestom.server.scoreboard.TeamManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.UUID;
 
 /**
  * The main class of the Corruption Minecraft server.
@@ -62,7 +56,7 @@ public class Main {
 
     //TODO Faire une statistique de compréhension ? Pour déchiffrer la langue au fur et à mesure ? Utiliser le carnet comme dans Tunic ?
     public static final Logger logger = LoggerFactory.getLogger(Main.class);
-
+ // TODO Faire un sytème de charme / et ou / talisman
     public static InstanceContainer instance;
     /**
      * Default constructor.
@@ -98,12 +92,12 @@ public class Main {
         instance = instanceManager.createInstanceContainer();
         // Set the ChunkGenerator
 
-        //CaveGenerator caveGenerator = new CaveGenerator(instance);
-        //instance.setGenerator(caveGenerator);
-        //caveGenerator.populate();
+        CaveGenerator caveGenerator = new CaveGenerator(instance);
+        instance.setGenerator(caveGenerator);
+        caveGenerator.populate();
 
-        instance.setGenerator(unit ->
-                unit.modifier().fillHeight(0, 40, Block.STONE));
+        //instance.setGenerator(unit ->
+        //        unit.modifier().fillHeight(0, 40, Block.STONE));
 
         // Set render distance
         System.setProperty("minestom.chunk-view-distance", "16");
@@ -116,10 +110,6 @@ public class Main {
             PlayerSkin skin = PlayerSkin.fromUuid(String.valueOf(event.getPlayer().getUuid()));
             event.setSkin(skin);
         });
-
-        Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
-        dwarf.spawn(instance, new Pos(0, 40, 0));
-
 
         // Start the server on port 25565
         minecraftServer.start("0.0.0.0", 25565);
@@ -191,6 +181,7 @@ public class Main {
         new PlayerCustomBlockBreakEvent(globalEventHandler);
         new PlayerPlaceCustomBlockEvent(globalEventHandler);
         new PlayerInteractWithNPCsEvent(globalEventHandler);
+        new PlayerInventoryPreClickEvent(globalEventHandler);
 
     }
 
@@ -212,6 +203,7 @@ public class Main {
         new StoneBlockItem();
         new CloudBlockItem();
         new AirItem();
+        new MainMenuItem();
 
         // -- Minerals
         new BloodstoneItem();

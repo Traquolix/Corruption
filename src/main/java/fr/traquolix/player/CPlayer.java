@@ -4,6 +4,7 @@ import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.content.items.types.misc.AirItem;
+import fr.traquolix.content.items.types.misc.MainMenuItem;
 import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.rewards.PersonalRewardRegistry;
@@ -20,7 +21,6 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.advancements.FrameType;
 import net.minestom.server.advancements.notifications.Notification;
@@ -53,8 +53,12 @@ public class CPlayer {
     final Player player;
     final ConcurrentMap<Skill, AbstractSkill> skills = new ConcurrentHashMap<>();
     final ConcurrentMap<Stat, AbstractStat> stats = new ConcurrentHashMap<>();
-    final ConcurrentMap<Integer, AbstractQuest> currentQuests = new ConcurrentHashMap<>();
+    // TODO : Quand on ouvre un dialogue avec un NPC, toutes les quêtes qu'il a de disponible sont ajoutées aux quêtes découvertes.
+    // TODO : Seules les quêtes découvertes sont affichées au rewardStash, le reste est masqué, mais généré quand même.
+    final ConcurrentLinkedQueue<Integer> discoveredQuests = new ConcurrentLinkedQueue<>();
+    final ConcurrentMap<Integer, Integer> currentQuests = new ConcurrentHashMap<>();
     final ConcurrentLinkedQueue<Integer> completedQuests = new ConcurrentLinkedQueue<>();
+
     double currentMana = 0;
     final int manaRegenSpeed = 500; // In milliseconds
     final ConcurrentMap<Stat, AbstractStat> bonusStats = new ConcurrentHashMap<>();
@@ -76,9 +80,11 @@ public class CPlayer {
 
 
         //TODO Test values
-
         configFlags.put(Flag.REWARD_STASH_SHOW_CLAIMED, false);
         configFlags.put(Flag.RUMORS_SHOW_COMPLETED, true);
+
+        // Add Main menu
+        player.getInventory().setItemStack(8, ItemRegistry.getInstance().getItem(MainMenuItem.identifier).buildItemStack());
 
         // Load skills, stats, and set default values
         loadSkills();
@@ -321,6 +327,11 @@ public class CPlayer {
      */
     public boolean brokeBlock(Block block) {
         if (!canUseItem()) return false;
+        if (block.hasTag(Identifier.getNaturalTag())) {
+            if (block.getTag(Identifier.getNaturalTag()).equals(false)) {
+                return true;
+            }
+        }
 
         // Check the block type and gain experience accordingly
         for (PureMiningGainRegistry value : PureMiningGainRegistry.values()) {
@@ -333,6 +344,8 @@ public class CPlayer {
                 gainExperience(Skill.FARMING, value.getXp());
             }
         }
+        Random random = new Random();
+        getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
         return true;
     }
 
@@ -456,8 +469,8 @@ public class CPlayer {
         player.getInventory().addItemStack(item.buildItemStack());
     }
 
-    public void addCurrentQuests(AbstractQuest abstractQuest) {
-        currentQuests.put(abstractQuest.getId(), abstractQuest.clone());
+    public void addCurrentQuests(int id, int step) {
+        currentQuests.put(id, step);
     }
 
     public void removeCurrentQuests(AbstractQuest abstractQuest) {
@@ -486,5 +499,9 @@ public class CPlayer {
 
     public boolean hasFlag(Flag flag) {
         return configFlags.get(flag);
+    }
+
+    public void resetPerks(Skill skill, int page) {
+        System.out.println("IMPLEMENTE MOI PD");
     }
 }

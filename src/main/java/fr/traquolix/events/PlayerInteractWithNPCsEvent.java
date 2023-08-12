@@ -4,6 +4,7 @@ import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.content.generalities.identifiers.Identifier;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
+import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerEntityInteractEvent;
 
@@ -18,6 +19,7 @@ public class PlayerInteractWithNPCsEvent {
             if (!event.getTarget().hasTag(Identifier.getGlobalTag())) return;
             Identifier identifier = new Identifier(event.getTarget().getTag(Identifier.getGlobalTag()));
             if (!Objects.equals(identifier.getGroup(), "npc")) return;
+            if (event.getHand().equals(Player.Hand.OFF)) return;
             EntityRegistry.getInstance().getEntity(identifier).onInteract(cPlayer);
         });
     }

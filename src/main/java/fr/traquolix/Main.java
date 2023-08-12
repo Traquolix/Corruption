@@ -15,6 +15,7 @@ import fr.traquolix.content.items.types.swords.EndSword;
 import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.events.*;
+import fr.traquolix.mercenaries.JackTheRipper.JackTheRipper;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.dwarf.*;
 import fr.traquolix.time.TimeManager;
@@ -100,6 +101,7 @@ public class Main {
         registerCommands();
         registerEntities();
         registerQuests();
+        registerMercenaries();
 
         Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
         dwarf.spawn(instance, new Pos(0, 40, 0));
@@ -118,6 +120,10 @@ public class Main {
 
         // Start the server on port 25565
         minecraftServer.start("0.0.0.0", 25565);
+    }
+
+    private static void registerMercenaries() {
+        new JackTheRipper();
     }
 
     private static void InitTeams() {
@@ -172,6 +178,7 @@ public class Main {
         MinecraftServer.getCommandManager().register(new RewardStashCommand());
         MinecraftServer.getCommandManager().register(new TimeStepCommand());
         MinecraftServer.getCommandManager().register(new TellTimeCommand());
+        MinecraftServer.getCommandManager().register(new IncarnateCommand());
         logger.info("[Registry] - " + MinecraftServer.getCommandManager().getCommands().size() + " commands registered.");
     }
 

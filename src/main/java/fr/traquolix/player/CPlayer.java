@@ -5,6 +5,9 @@ import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.content.items.types.misc.AirItem;
 import fr.traquolix.content.items.types.misc.MainMenuItem;
+import fr.traquolix.mercenaries.AbstractMercenary;
+import fr.traquolix.mercenaries.MercenaryCamp;
+import fr.traquolix.mercenaries.MercenaryRegistry;
 import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.rewards.PersonalRewardRegistry;
@@ -27,6 +30,7 @@ import net.minestom.server.advancements.notifications.Notification;
 import net.minestom.server.advancements.notifications.NotificationCenter;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
+import net.minestom.server.entity.PlayerSkin;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.item.ItemStack;
@@ -65,6 +69,9 @@ public class CPlayer {
     Task manaRegenTask;
     PersonalRewardRegistry personalRewardRegistry = new PersonalRewardRegistry();
     ConcurrentMap<Flag, Boolean> configFlags = new ConcurrentHashMap<>();
+    MercenaryCamp mercenaryCamp = new MercenaryCamp();
+    Component trueName;
+    AbstractMercenary currentMercenary = null;
 
     /**
      * Constructor to create a new CPlayer instance for the given Minestom Player entity.
@@ -73,6 +80,7 @@ public class CPlayer {
      */
     public CPlayer(Player player) {
         this.player = player;
+        this.trueName = player.getDisplayName();
 
         // Register the player with the PlayerRegistry
         PlayerRegistry.getInstance().registerPlayer(player.getUuid(), this);
@@ -82,6 +90,7 @@ public class CPlayer {
         //TODO Test values
         configFlags.put(Flag.REWARD_STASH_SHOW_CLAIMED, false);
         configFlags.put(Flag.RUMORS_SHOW_COMPLETED, true);
+        mercenaryCamp.addMercenary(MercenaryRegistry.getInstance().getById("jack_the_ripper"));
 
         // Add Main menu
         player.getInventory().setItemStack(8, ItemRegistry.getInstance().getItem(MainMenuItem.identifier).buildItemStack());
@@ -503,5 +512,19 @@ public class CPlayer {
 
     public void resetPerks(Skill skill, int page) {
         System.out.println("IMPLEMENTE MOI PD");
+    }
+
+    public void setMercenary(AbstractMercenary mercenary) {
+        currentMercenary = mercenary;
+        player.setSkin(mercenary.getSkin());
+        mercenaryCamp.getMercenaryById(mercenary.getIdentifier().getId()).getSkin();
+        player.setDisplayName(mercenary.getDisplayName());
+    }
+
+    public void removeMercenary() {
+        currentMercenary = null;
+        PlayerSkin playerSkin = PlayerSkin.fromUuid(String.valueOf(player.getUuid()));
+        player.setSkin(playerSkin);
+        player.setDisplayName(trueName);
     }
 }

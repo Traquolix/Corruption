@@ -30,7 +30,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class RumorGUI extends AbstractGUI {
-
+// TODO Pagination des quêtes disponibles si il y en a plus de 8. N'afficher que les quêtes qui sont faisables et disponibles, et dont on complête les requirements pour les lancer.
+    //  TODO Tuto avec des petites mécaniques une par une (Portal) La clock est donnée à ce moment là, et upgradée par la science et le craft du joueur.
     protected AbstractEntity entity;
     protected NPCTimeline ques;
     public RumorGUI(String name) {
@@ -56,14 +57,13 @@ public abstract class RumorGUI extends AbstractGUI {
         ItemStack itemStack = ItemStack.of(Material.PLAYER_HEAD).withMeta(metaBuilder.build());
 
         itemStack = itemStack.withDisplayName(entity.getName().decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));
-        itemStack = itemStack.withLore(npcEntity.getDefaultDialogues().getRandomDialogue(TimeManager.getInstance().getCurrentTime()));
+        itemStack = itemStack.withLore(npcEntity.getDefaultDialogues().getRandomDialogue(TimeManager.getInstance().getCurrentTime()-1));
 
         addInventoryOpener(slot, itemStack, this);
     }
 
     @Override
     public void refresh(CPlayer cPlayer) {
-        // TODO surement beaucoup à changer ici pour s'accomoder à la nouvelle timeline
         super.refresh(cPlayer);
 
         AtomicInteger slotCounters = new AtomicInteger(0);
@@ -71,7 +71,7 @@ public abstract class RumorGUI extends AbstractGUI {
 
         addNpcHeadAt(4);
 
-        ConcurrentLinkedQueue<AbstractQuest> quests = ques.getAllQuests(TimeManager.getInstance().getCurrentTime());
+        ConcurrentLinkedQueue<AbstractQuest> quests = ques.getAllQuests(TimeManager.getInstance().getCurrentTime()-1);
         if (quests != null) {
             quests.forEach(abstractQuest -> {
                 if (cPlayer.getCompletedQuests().contains(abstractQuest.getId())) {

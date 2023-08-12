@@ -16,7 +16,7 @@ import net.minestom.server.timer.TaskSchedule;
 
 import java.util.*;
 
-public abstract class Zone {
+public abstract class Zone {//TODO Display the damage tick to players
     Instance instance;
     Map<Player, Task> playerTasks = new HashMap<>();
     @Getter

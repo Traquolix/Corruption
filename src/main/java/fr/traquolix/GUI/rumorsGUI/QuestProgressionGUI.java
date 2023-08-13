@@ -141,6 +141,11 @@ public class QuestProgressionGUI extends AbstractGUI {
     }
 
     public void addNpcHeadAt(int slot) {
+        if (abstractQuest.getQuestGiver() == null) {
+            ItemStack itemStack = ItemStack.of(Material.NETHER_STAR).withDisplayName(Component.text("Mission").decoration(TextDecoration.ITALIC, false));
+            setItemStack(slot, itemStack);
+            return;
+        }
 
         NPCEntity npcEntity = (NPCEntity) abstractQuest.getQuestGiver();
 

@@ -161,10 +161,10 @@ public class Utils {
         TextComponent.Builder builder = Component.text();
         int numberOfBars = (int)Math.floor(percentage / 5);
         for (int i = 0; i < numberOfBars; i++) {
-            builder.append(Component.text("-", NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, false));
+            builder.append(Component.text(" ", NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, true));
         }
         for (int i = 0; i < 20 - numberOfBars; i++) {
-            builder.append(Component.text("-", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+            builder.append(Component.text(" ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.STRIKETHROUGH, true));
         }
         return builder.build();
     }

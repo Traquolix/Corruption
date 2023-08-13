@@ -31,10 +31,13 @@ public class Dwarf extends NPCEntity  {
     @Override
     public void initUsername() {
         super.username = "Leo the Dwarf";
+        // TODO Being able to define the name of the NPC depending on the mercenary who is talking to him ?
+        //  To reflect their relationship, or how they see him, while keeping the same name ? Might be a bit confusing.
     }
 
     @Override
     public void initDefaultDialogues() {
+        // TODO Should have default dialogues depending on the mercenary who is talking to him. Maybe we could take into account the fact that he got his quest resolved previously ? I do not know. Might need a revamp if that's the case.
         defaultDialogues.addDialogue(0,
                 List.of(
                         Component.text("Finally, some company. It's been a long time ", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),

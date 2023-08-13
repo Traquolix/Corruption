@@ -1,10 +1,11 @@
 package fr.traquolix.time;
 
+import fr.traquolix.player.PlayerRegistry;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.Component;
+import net.minestom.server.entity.Player;
 import net.minestom.server.instance.InstanceContainer;
-import net.minestom.server.scoreboard.Sidebar;
 
 import static fr.traquolix.Main.logger;
 
@@ -27,12 +28,12 @@ public class TimeManager {
         logger.info("[Time] - Time has been advanced from " + (currentTime-1) + " to " + currentTime + " !");
         currentTime++;
 
-        Sidebar scoreboard = new Sidebar(Component.text("Scoreboard"));
-        scoreboard.createLine(new Sidebar.ScoreboardLine(
-                "current_time_line",
-                Component.text("Time : " + (TimeManager.getInstance().getCurrentTime()-1)),
-                0));
+        for (Player player:instanceContainer.getPlayers()) {
+            PlayerRegistry.getInstance().getCPlayer(player.getUuid()).getSidebar().updateLineContent(
+                    "current_time_line",
+                    Component.text("Time : " + (TimeManager.getInstance().getCurrentTime()-1))
+            );
 
-        instanceContainer.getPlayers().forEach(scoreboard::addViewer);
+        }
     }
 }

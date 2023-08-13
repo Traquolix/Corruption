@@ -15,9 +15,11 @@ import fr.traquolix.content.items.types.swords.EndSword;
 import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.events.*;
+import fr.traquolix.locations.cave.generator.CaveGenerator;
 import fr.traquolix.mercenaries.JackTheRipper.JackTheRipper;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.dwarf.*;
+import fr.traquolix.quests.missions.ExploreAPlanet;
 import fr.traquolix.time.TimeManager;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
@@ -81,15 +83,6 @@ public class Main {
         // Create the instance
         instance = instanceManager.createInstanceContainer();
 
-        // Set the ChunkGenerator
-
-        //CaveGenerator caveGenerator = new CaveGenerator(instance);
-        //instance.setGenerator(caveGenerator);
-        //caveGenerator.populate();
-
-        instance.setGenerator(unit ->
-                unit.modifier().fillHeight(0, 40, Block.STONE));
-
         // Init teams
         InitTeams();
         TimeManager timeManager = new TimeManager(instance);
@@ -99,12 +92,18 @@ public class Main {
         registerBlocks();
         registerEvents(globalEventHandler);
         registerCommands();
-        registerEntities();
-        registerQuests();
         registerMercenaries();
 
-        Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
-        dwarf.spawn(instance, new Pos(0, 40, 0));
+        //Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
+        //dwarf.spawn(instance, new Pos(0, 40, 0));
+
+
+        // Set the ChunkGenerator
+
+        CaveGenerator caveGenerator = new CaveGenerator(instance);
+        instance.setGenerator(caveGenerator);
+        caveGenerator.populate();
+
 
         // Set render distance
         System.setProperty("minestom.chunk-view-distance", "16");
@@ -145,19 +144,6 @@ public class Main {
                 .collisionRule(TeamsPacket.CollisionRule.NEVER)
                 .nameTagVisibility(TeamsPacket.NameTagVisibility.ALWAYS)
                 .build();
-    }
-
-    private static void registerEntities() {
-
-        new Dwarf(EntityType.PLAYER);
-
-        logger.info("[Registry] - " + EntityRegistry.getInstance().getSize() + " entities registered.");
-    }
-
-    private static void registerQuests() {
-        new FirstColdResistanceItemQuest(0);
-
-        logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");
     }
 
     /**

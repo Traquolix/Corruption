@@ -13,6 +13,7 @@ public abstract class AbstractMercenary implements Cloneable {
         MercenaryRegistry.getInstance().register(this.identifier, this);
     }
 
+    // TODO Nemesis system avec les camps de faction ?
     public abstract void initIdentifier();
 
     Ability specialAbility;

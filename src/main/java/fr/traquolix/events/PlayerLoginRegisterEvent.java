@@ -5,29 +5,18 @@ import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.NPCEntity;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
+import fr.traquolix.quests.QuestRegistry;
+import fr.traquolix.quests.missions.Mission;
 import fr.traquolix.time.TimeManager;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.GameMode;
-import net.minestom.server.entity.Metadata;
 import net.minestom.server.entity.Player;
-import net.minestom.server.event.Event;
-import net.minestom.server.event.EventNode;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerLoginEvent;
 import net.minestom.server.event.player.PlayerSpawnEvent;
-import net.minestom.server.network.packet.server.play.EntityMetaDataPacket;
-import net.minestom.server.network.packet.server.play.PlayerInfoUpdatePacket;
-import net.minestom.server.network.packet.server.play.SpawnPlayerPacket;
-import net.minestom.server.network.packet.server.play.TeamsPacket;
-import net.minestom.server.scoreboard.Sidebar;
-import net.minestom.server.scoreboard.TeamManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A class that handles player login and registration events.
@@ -66,19 +55,18 @@ public class PlayerLoginRegisterEvent {
                     ((NPCEntity) entity).initEntity(cPlayer);
                 }
             });
+            cPlayer.addCurrentMission((Mission)QuestRegistry.getInstance().getQuest(1));
 
                     // Set the base health value of the player to 20 (if needed)
             // player.setBaseStatValue(Stat.HEALTH, 20);
         });
 
         globalEventHandler.addListener(PlayerSpawnEvent.class, event -> {
-            Sidebar scoreboard = new Sidebar(Component.text("Scoreboard"));
-            scoreboard.createLine(new Sidebar.ScoreboardLine(
-                    "current_time_line",
-                    Component.text("Time : " + (TimeManager.getInstance().getCurrentTime()-1)),
-                    0));
-
-            scoreboard.addViewer(event.getPlayer());
+            CPlayer cplayer = PlayerRegistry.getInstance().getCPlayer(event.getPlayer().getUuid());
+            cplayer.getSidebar().updateLineContent("current_time_line",
+                    Component.text("Time : " + (TimeManager.getInstance().getCurrentTime()-1))
+                    );
+            cplayer.getSidebar().addViewer(cplayer.getPlayer());
         });
 
     }

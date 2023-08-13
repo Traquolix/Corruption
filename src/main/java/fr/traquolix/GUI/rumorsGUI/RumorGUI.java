@@ -45,7 +45,11 @@ public abstract class RumorGUI extends AbstractGUI {
          ques = QuestEntityRegistry.getInstance().getQuests(entity);
     }
 
-
+    // TODO To encourage emergent gameplay, give entities their own goals and needs which will push them to move about, and hopefully enter into conflict without the player having to react to it.
+    //   We can think of rain world for this, especially for the entities roaming about. We have to think if you add other emergent gameplay, for example with the factions that could be a thing. Maybe. But what else ? Probably the elements, too. Like, your weapons create elements with spells, and things react to this ?
+    //   If a boss or an entity is not killed in a precedent loop, the might do things around them, have consequences.
+    //   Maybe you can make it so other entities will fight with you ? Like they have to kill something, but it's open ended on which boss they kill, and how they do it ? But I wonder how to make that emergent.
+    //   Everything a player does can affect the system. So it makes it difficult to predict and create emergent gameplay.
     public abstract void initEntity();
 
     public void addNpcHeadAt(int slot) {

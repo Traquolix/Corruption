@@ -14,6 +14,8 @@ import fr.traquolix.content.blocks.misc.CloudBlock;
 import fr.traquolix.content.blocks.misc.IndestructibleCoalBlock;
 import fr.traquolix.content.blocks.misc.SandOfTimeBlock;
 import fr.traquolix.content.blocks.ores.BloodstoneOreBlock;
+import fr.traquolix.entity.EntityRegistry;
+import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.locations.cave.frenzy.FrenzyManager;
 import fr.traquolix.locations.cave.generator.decorations.VineGenerator;
 import fr.traquolix.locations.cave.generator.structures.DwarfCabinStructure;
@@ -25,10 +27,14 @@ import fr.traquolix.locations.cave.generator.structures.planets.PlanetStructure;
 import fr.traquolix.locations.cave.generator.structures.planets.RingedPlanetStructure;
 import fr.traquolix.locations.cave.generator.zones.Blizzard;
 import fr.traquolix.locations.cave.generator.zones.Space;
+import fr.traquolix.quests.QuestRegistry;
+import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest;
+import fr.traquolix.quests.missions.ExploreAPlanet;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.entity.EntityType;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
@@ -42,7 +48,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static fr.traquolix.Main.logger;
+import static fr.traquolix.Main.*;
 
 /**
  * A custom generator to create cave-like terrain with ores and rare blocks.
@@ -71,7 +77,7 @@ public class CaveGenerator implements Generator {
     final int seed = random.nextInt();
     final FrenzyManager frenzyManager;
     @Getter
-    final List<Structure> structures = new ArrayList<>();
+    final static List<Structure> structures = new ArrayList<>();
     final VineGenerator vineGenerator;
     Point highestPoint = new Pos(-1000, -1000, -1000);
     @Getter
@@ -386,18 +392,28 @@ public class CaveGenerator implements Generator {
     public void populate() {
         preLoad().thenRun(() -> {
             logger.info("[Completion] - Cave chunks preloading");
+            registerEntities();
             buildStructures();
             loadLocationInCommands();
             // TODO Generate a random planet
             loadZones();
+
+            registerQuests();
             // TODO Add elements (gas pockets, etc.)
             logger.info("--- Generation finished ---");
         });
     }
 
     private void loadZones() {
+        ObservatoryStructure observatoryStructure = null;
+        for (Structure structure:structures) {
+            if (structure instanceof ObservatoryStructure) {
+                observatoryStructure = (ObservatoryStructure) structure;
+            }
+        }
         new Blizzard(instance).generateZone(new Pos(-caveSizeX, snowStartHeight, -caveSizeZ), new Pos(caveSizeX, maxHeightSize, caveSizeZ));
-        new Space(instance).generateZone(new Pos(-caveSizeX, highestPoint.y() + ObservatoryStructure.getSTRUCTURE_HEIGHT(), -caveSizeZ), new Pos(caveSizeX, maxHeightSize, caveSizeZ));
+        assert observatoryStructure != null;
+        new Space(instance).generateZone(new Pos(-caveSizeX, highestPoint.y() + observatoryStructure.getStructureHeight(), -caveSizeZ), new Pos(caveSizeX, maxHeightSize, caveSizeZ));
     }
 
     private void loadLocationInCommands() {
@@ -491,5 +507,19 @@ public class CaveGenerator implements Generator {
             }
         }
         logger.info("[Completion] - Cave prepopulation");
+    }
+
+    public static void registerEntities() {
+
+        new Dwarf(EntityType.PLAYER);
+
+        logger.info("[Registry] - " + EntityRegistry.getInstance().getSize() + " entities registered.");
+    }
+
+    public static void registerQuests() {
+        new FirstColdResistanceItemQuest(0);
+        new ExploreAPlanet(1);
+
+        logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");
     }
 }

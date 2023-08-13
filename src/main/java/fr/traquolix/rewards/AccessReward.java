@@ -12,8 +12,10 @@ import net.minestom.server.item.Material;
 public class AccessReward implements Reward {
     //private Access accessType; // Assuming AccessType is an enum or class defining various access types
 
+    String access;
     RewardState rewardState = RewardState.UNCLAIMED;
-    public AccessReward() {
+    public AccessReward(String string) {
+        access = string;
     }
 
     @Override
@@ -28,12 +30,13 @@ public class AccessReward implements Reward {
 
     @Override
     public void applyToPlayer(CPlayer player) {
+        player.sendMessage(Component.text("Congrats you are now good to go"));
         //player.grantAccess(accessType);
     }
 
     @Override
     public TextComponent getText() {
-        return Component.text("→ Access to something")
+        return Component.text("→ Access to something : " + Utils.capitalizeFirstLetter(access))
                 .decoration(TextDecoration.ITALIC, false)
                 .color(NamedTextColor.YELLOW);
     }

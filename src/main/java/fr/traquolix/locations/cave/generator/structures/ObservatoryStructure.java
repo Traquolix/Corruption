@@ -16,15 +16,12 @@ import java.util.Random;
 
 @Getter
 public class ObservatoryStructure extends Structure {
-
     @Getter
     final int halfStructureSize = 9;
     @Getter
     final int structureHeight = 20;
     @Setter
     Point telescopePointingAt = null;
-    @Getter
-    final static int STRUCTURE_HEIGHT = 20;
     public ObservatoryStructure(InstanceContainer instance) {
         super(instance);
     }

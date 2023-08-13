@@ -110,6 +110,12 @@ public class RewardGUI extends AbstractGUI {
     }
 
     public void addNpcHeadAt(int slot) {
+        if (quest.getQuestGiver() == null) {
+            ItemStack itemStack = ItemStack.of(Material.NETHER_STAR).withDisplayName(Component.text("Mission").decoration(TextDecoration.ITALIC, false));
+            setItemStack(slot, itemStack);
+            return;
+        }
+
         AbstractEntity entity = quest.getQuestGiver();
         ItemStack itemStack = ItemStack.of(Material.PLAYER_HEAD);
         itemStack = itemStack.withDisplayName(entity.getName().decoration(TextDecoration.ITALIC, false).decoration(TextDecoration.BOLD, true));

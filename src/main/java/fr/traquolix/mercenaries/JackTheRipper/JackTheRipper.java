@@ -9,7 +9,7 @@ import net.minestom.server.entity.PlayerSkin;
 @Getter
 public class JackTheRipper extends AbstractMercenary {
     public static final Identifier identifier = new Identifier("mercenary", "jack_the_ripper");
-
+// TODO For a nemesis system, it must be quite rare.
     public JackTheRipper() {
         super();
     }

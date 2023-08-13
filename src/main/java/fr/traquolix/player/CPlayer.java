@@ -10,6 +10,7 @@ import fr.traquolix.mercenaries.MercenaryCamp;
 import fr.traquolix.mercenaries.MercenaryRegistry;
 import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.quests.QuestRegistry;
+import fr.traquolix.quests.missions.Mission;
 import fr.traquolix.rewards.PersonalRewardRegistry;
 import fr.traquolix.skills.AbstractSkill;
 import fr.traquolix.skills.Skill;
@@ -17,6 +18,7 @@ import fr.traquolix.skills.farming.PureFarmingGainRegistry;
 import fr.traquolix.skills.mining.PureMiningGainRegistry;
 import fr.traquolix.stats.AbstractStat;
 import fr.traquolix.stats.Stat;
+import fr.traquolix.time.TimeManager;
 import fr.traquolix.utils.Utils;
 import lombok.Getter;
 import net.kyori.adventure.key.Key;
@@ -24,6 +26,7 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.advancements.FrameType;
 import net.minestom.server.advancements.notifications.Notification;
@@ -35,6 +38,7 @@ import net.minestom.server.instance.block.Block;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.network.player.PlayerConnection;
+import net.minestom.server.scoreboard.Sidebar;
 import net.minestom.server.timer.Scheduler;
 import net.minestom.server.timer.Task;
 import net.minestom.server.timer.TaskSchedule;
@@ -69,9 +73,13 @@ public class CPlayer {
     Task manaRegenTask;
     PersonalRewardRegistry personalRewardRegistry = new PersonalRewardRegistry();
     ConcurrentMap<Flag, Boolean> configFlags = new ConcurrentHashMap<>();
-    MercenaryCamp mercenaryCamp = new MercenaryCamp();
+    MercenaryCamp mercenaryCamp = new MercenaryCamp(); // TODO I really like the idea of specific skills that can unlock part of the map.
+                                                       //  but I'm afraid it's a complex, too complex system for a first demo. Maybe keep it simple. Make one quest line, with 2 or 3 mercenaries, and they have to cooperate with a single way to access the rest of the quest.
+                                                       //   The quest is set in stone, and the mercenary sent are aswell for now. There is no other objective, and the player can "reset" their mercenary, and are being sent back to the start with a time + 1 done.
     Component trueName;
     AbstractMercenary currentMercenary = null;
+    Mission currentMission;
+    Sidebar sidebar;
 
     /**
      * Constructor to create a new CPlayer instance for the given Minestom Player entity.
@@ -101,6 +109,24 @@ public class CPlayer {
         loadBonusStats();
         setDefaultStats();
         loadRewardRegistry();
+
+        sidebar = new Sidebar(Component.text("Corruption"));
+        sidebar.createLine(new Sidebar.ScoreboardLine(
+                "current_time_line",
+                Component.text("Time : " + (TimeManager.getInstance().getCurrentTime()-1)),
+                2));
+
+        sidebar.createLine(new Sidebar.ScoreboardLine(
+                "mission_name",
+                Component.text("Your mission :"),
+                1));
+
+        sidebar.createLine(new Sidebar.ScoreboardLine(
+                "current_mission",
+                Component.text("None"),
+                0));
+
+        sidebar.addViewer(player);
     }
 
     private void loadRewardRegistry() {
@@ -519,6 +545,13 @@ public class CPlayer {
         player.setSkin(mercenary.getSkin());
         mercenaryCamp.getMercenaryById(mercenary.getIdentifier().getId()).getSkin();
         player.setDisplayName(mercenary.getDisplayName());
+        // TODO Maybe we should update the state of the world here ? So everything can change related to this ?
+        //  But everything changes related to the mercenary AND the time, wouldn't that be a bit too complicated ?
+        //  I still have to think about this, it might be a bit too much for a prototype.
+
+
+        // TODO Peut être qu'on peut dire qu'il n'y a pas besoin d'avoir plusieurs mercenaires en mission, un seul suffit.
+        //  Mais ils ont chacun un gameplay différent, et débloquent des choses différentes pour le joueur, histoire de le motiver à jouer d'autres choses ?
     }
 
     public void removeMercenary() {
@@ -526,5 +559,32 @@ public class CPlayer {
         PlayerSkin playerSkin = PlayerSkin.fromUuid(String.valueOf(player.getUuid()));
         player.setSkin(playerSkin);
         player.setDisplayName(trueName);
+    }
+
+    public void addCurrentMission(Mission mission) {
+        mission.startAutoActualizationOfTheMission(this);
+        this.sidebar.updateLineContent("current_mission",
+                ((AbstractQuest)mission).getCurrentQuestStep().getFirstRequirement().getText());
+        currentMission = mission;
+    }
+
+    public void removeCurrentMission() {
+        currentMission.stopSelfActualization(this);
+        this.sidebar.updateLineContent("current_mission",
+                Component.text("Mission completed !")
+                        .color(NamedTextColor.GREEN));
+        currentMission = null;
+    }
+
+
+    public void currentMissionStep() {
+        ((AbstractQuest)currentMission).setCurrentStep(((AbstractQuest)currentMission).getCurrentStep()+1);
+    }
+
+    public void sendProgressionActionBar(String leftElement, String rightElement, NamedTextColor actionBarColor, NamedTextColor separationBarColor) {
+        player.sendActionBar(
+                Component.text(leftElement, actionBarColor)
+                        .append(Component.text(" / ", separationBarColor))
+                        .append(Component.text(rightElement, actionBarColor)).decoration(TextDecoration.BOLD, false));
     }
 }

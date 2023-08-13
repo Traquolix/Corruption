@@ -15,4 +15,8 @@ public class QuestStep {
         this.requirements = requirements;
         this.text = text;
     }
+
+    public Requirement getFirstRequirement() {
+        return requirements.get(0);
+    }
 }

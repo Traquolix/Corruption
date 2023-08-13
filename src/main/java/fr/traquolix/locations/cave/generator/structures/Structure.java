@@ -77,7 +77,7 @@ public abstract class Structure {
         addPillarPoints(corners, toBeGeneratedAt);
 
         for (Point point : rectanglePoints) {
-            //getBatch().setBlock(point, rectanglePoint);
+            getBatch().setBlock(point, rectanglePoint);
         }
         for (Point point : corners) {
             getBatch().setBlock(point, cornerPoint);

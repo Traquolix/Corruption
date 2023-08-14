@@ -5,12 +5,8 @@ import fr.traquolix.content.items.AbstractItem;
 import fr.traquolix.content.items.ItemRegistry;
 import fr.traquolix.content.items.types.misc.AirItem;
 import fr.traquolix.content.items.types.misc.MainMenuItem;
-import fr.traquolix.mercenaries.AbstractMercenary;
-import fr.traquolix.mercenaries.MercenaryCamp;
-import fr.traquolix.mercenaries.MercenaryRegistry;
 import fr.traquolix.quests.AbstractQuest;
 import fr.traquolix.quests.QuestRegistry;
-import fr.traquolix.quests.missions.Mission;
 import fr.traquolix.rewards.PersonalRewardRegistry;
 import fr.traquolix.skills.AbstractSkill;
 import fr.traquolix.skills.Skill;
@@ -33,7 +29,6 @@ import net.minestom.server.advancements.notifications.Notification;
 import net.minestom.server.advancements.notifications.NotificationCenter;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
-import net.minestom.server.entity.PlayerSkin;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.item.ItemStack;
@@ -66,19 +61,13 @@ public class CPlayer {
     final ConcurrentLinkedQueue<Integer> discoveredQuests = new ConcurrentLinkedQueue<>();
     final ConcurrentMap<Integer, Integer> currentQuests = new ConcurrentHashMap<>();
     final ConcurrentLinkedQueue<Integer> completedQuests = new ConcurrentLinkedQueue<>();
-
     double currentMana = 0;
     final int manaRegenSpeed = 500; // In milliseconds
     final ConcurrentMap<Stat, AbstractStat> bonusStats = new ConcurrentHashMap<>();
     Task manaRegenTask;
     PersonalRewardRegistry personalRewardRegistry = new PersonalRewardRegistry();
     ConcurrentMap<Flag, Boolean> configFlags = new ConcurrentHashMap<>();
-    MercenaryCamp mercenaryCamp = new MercenaryCamp(); // TODO I really like the idea of specific skills that can unlock part of the map.
-                                                       //  but I'm afraid it's a complex, too complex system for a first demo. Maybe keep it simple. Make one quest line, with 2 or 3 mercenaries, and they have to cooperate with a single way to access the rest of the quest.
-                                                       //   The quest is set in stone, and the mercenary sent are aswell for now. There is no other objective, and the player can "reset" their mercenary, and are being sent back to the start with a time + 1 done.
     Component trueName;
-    AbstractMercenary currentMercenary = null;
-    Mission currentMission;
     Sidebar sidebar;
 
     /**
@@ -98,7 +87,6 @@ public class CPlayer {
         //TODO Test values
         configFlags.put(Flag.REWARD_STASH_SHOW_CLAIMED, false);
         configFlags.put(Flag.RUMORS_SHOW_COMPLETED, true);
-        mercenaryCamp.addMercenary(MercenaryRegistry.getInstance().getById("jack_the_ripper"));
 
         // Add Main menu
         player.getInventory().setItemStack(8, ItemRegistry.getInstance().getItem(MainMenuItem.identifier).buildItemStack());
@@ -538,47 +526,6 @@ public class CPlayer {
 
     public void resetPerks(Skill skill, int page) {
         System.out.println("IMPLEMENTE MOI PD");
-    }
-
-    public void setMercenary(AbstractMercenary mercenary) {
-        currentMercenary = mercenary;
-        player.setSkin(mercenary.getSkin());
-        mercenaryCamp.getMercenaryById(mercenary.getIdentifier().getId()).getSkin();
-        player.setDisplayName(mercenary.getDisplayName());
-        // TODO Maybe we should update the state of the world here ? So everything can change related to this ?
-        //  But everything changes related to the mercenary AND the time, wouldn't that be a bit too complicated ?
-        //  I still have to think about this, it might be a bit too much for a prototype.
-
-
-        // TODO Peut être qu'on peut dire qu'il n'y a pas besoin d'avoir plusieurs mercenaires en mission, un seul suffit.
-        //  Mais ils ont chacun un gameplay différent, et débloquent des choses différentes pour le joueur, histoire de le motiver à jouer d'autres choses ?
-    }
-
-    public void removeMercenary() {
-        currentMercenary = null;
-        PlayerSkin playerSkin = PlayerSkin.fromUuid(String.valueOf(player.getUuid()));
-        player.setSkin(playerSkin);
-        player.setDisplayName(trueName);
-    }
-
-    public void addCurrentMission(Mission mission) {
-        mission.startAutoActualizationOfTheMission(this);
-        this.sidebar.updateLineContent("current_mission",
-                ((AbstractQuest)mission).getCurrentQuestStep().getFirstRequirement().getText());
-        currentMission = mission;
-    }
-
-    public void removeCurrentMission() {
-        currentMission.stopSelfActualization(this);
-        this.sidebar.updateLineContent("current_mission",
-                Component.text("Mission completed !")
-                        .color(NamedTextColor.GREEN));
-        currentMission = null;
-    }
-
-
-    public void currentMissionStep() {
-        ((AbstractQuest)currentMission).setCurrentStep(((AbstractQuest)currentMission).getCurrentStep()+1);
     }
 
     public void sendProgressionActionBar(String leftElement, String rightElement, NamedTextColor actionBarColor, NamedTextColor separationBarColor) {

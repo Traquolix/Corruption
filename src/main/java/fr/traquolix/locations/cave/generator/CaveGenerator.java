@@ -13,9 +13,6 @@ import fr.traquolix.content.blocks.BlockRegistry;
 import fr.traquolix.content.blocks.misc.CloudBlock;
 import fr.traquolix.content.blocks.misc.IndestructibleCoalBlock;
 import fr.traquolix.content.blocks.misc.SandOfTimeBlock;
-import fr.traquolix.content.blocks.ores.BloodstoneOreBlock;
-import fr.traquolix.entity.EntityRegistry;
-import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.locations.cave.frenzy.FrenzyManager;
 import fr.traquolix.locations.cave.generator.decorations.VineGenerator;
 import fr.traquolix.locations.cave.generator.structures.DwarfCabinStructure;
@@ -27,14 +24,10 @@ import fr.traquolix.locations.cave.generator.structures.planets.PlanetStructure;
 import fr.traquolix.locations.cave.generator.structures.planets.RingedPlanetStructure;
 import fr.traquolix.locations.cave.generator.zones.Blizzard;
 import fr.traquolix.locations.cave.generator.zones.Space;
-import fr.traquolix.quests.QuestRegistry;
-import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest;
-import fr.traquolix.quests.missions.ExploreAPlanet;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.EntityType;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
@@ -66,13 +59,13 @@ public class CaveGenerator implements Generator {
     // TODO Traps ?
     // TODO Missions / achievements locaux ? Pas sur, ça pourrait rendre le système un peu trop externe au jeu principal.
     public final Instance instance;
-    final public static double caveSizeZ = 300;
-    final public static double caveSizeY = 200;
-    final public static double caveSizeX = 300;
+    final public static double caveSizeZ = 150;
+    final public static double caveSizeY = 100;
+    final public static double caveSizeX = 150;
     final public static double snowStartHeight = caveSizeY - 60;
     final public static double peakStartHeight = caveSizeY - 30;
     final public static double maxHeightSize = 320;
-    final public static double cloudsHeight = 250;
+    final public static double cloudsHeight = 175;
     final Random random = new Random();
     final int seed = random.nextInt();
     final FrenzyManager frenzyManager;
@@ -163,18 +156,18 @@ public class CaveGenerator implements Generator {
         int MAX_Z = unit.size().blockZ();
 
         for (int x = 0; x < MAX_X; x++) {
-            for (int y = 0; y < MAX_Y; y++) {
+            for (int y = -32; y < MAX_Y; y++) {
                 for (int z = 0; z < MAX_Z; z++) {
                     Point current = start.add(x, y, z);
 
                     // Skip generation outside the defined cave area
-                    if (Math.abs(current.x()) > caveSizeX || Math.abs(current.z()) > caveSizeZ || current.y() < 0) {
+                    if (Math.abs(current.x()) > caveSizeX || Math.abs(current.z()) > caveSizeZ || current.y() < -32) {
                         //unit.modifier().setBlock(current, Block.AIR);
                         continue;
                     }
 
                     // Generate indestructible_coal_block for the borders of the cave area
-                    if (current.y() == 0 || Math.abs(current.x()) == caveSizeX || Math.abs(current.z()) == caveSizeZ || current.y() == maxHeightSize-1) {
+                    if (current.y() == -32 || Math.abs(current.x()) == caveSizeX || Math.abs(current.z()) == caveSizeZ || current.y() == maxHeightSize-1) {
                         unit.modifier().setBlock(current, BlockRegistry.getInstance().getBlock(IndestructibleCoalBlock.identifier).getNaturalBlock());
                         continue;
                     }
@@ -263,7 +256,7 @@ public class CaveGenerator implements Generator {
                     }
 
 
-                    if (current.y() == 1 && !(noise > 0.0000001)) {
+                    if (current.y() == -31 && !(noise > 0.0000001)) {
                         switch (random.nextInt(10)) {
                             case 0 -> unit.modifier().setBlock(start.add(x, y, z), Block.GILDED_BLACKSTONE);
                             case 1 -> unit.modifier().setBlock(start.add(x, y, z), Block.CRACKED_POLISHED_BLACKSTONE_BRICKS);
@@ -274,19 +267,19 @@ public class CaveGenerator implements Generator {
                     }
 
                     // Generate rare ores and blocks based on noise values
-                    if ((current.y() > 1 && current.y() < 50) && (emeraldAndLapisNoise > 0.85 && (noise > 0.0000001 && noise < 0.02))) {
+                    if ((current.y() > 1 && current.y() < snowStartHeight) && (emeraldAndLapisNoise > 0.85 && (noise > 0.0000001 && noise < 0.02))) {
                         unit.modifier().setBlock(current, Block.EMERALD_BLOCK);
-                    } else if ((noise > 0.0000001 && noise < 0.01) && veinsNoise > 0.85 && (current.y() >= 50 && current.y() <= caveSizeY-50)) {
-                        Block block = BlockRegistry.getInstance().getBlock(BloodstoneOreBlock.identifier).getNaturalBlock();
-                        unit.modifier().setBlock(current, block);
-                        frenzyManager.addFrenzyBlock(current, block);
-                    } else if ((noise > 0.0000001 && noise < 0.02) && veinsNoise > 0.65 && (current.y() >= 50 && current.y() <= caveSizeY-50)) {
-                        unit.modifier().setBlock(current, Block.GOLD_BLOCK);
                     } else if (sandNoise > 0.9 && (noise > 0.0000001 && noise < 0.01)) {
                         unit.modifier().setBlock(current, BlockRegistry.getInstance().getBlock(SandOfTimeBlock.identifier).getNaturalBlock());
                         frenzyManager.addSandBlock(current);
-                    } else if ((blackStoneNoise > 0.0000001 && blackStoneNoise < 0.05) && (noise > 0.0000001 && noise < 0.1)) {
-                        unit.modifier().setBlock(current, Block.BLACKSTONE);
+                    } else if ((blackStoneNoise > 0.0000001 && blackStoneNoise < 0.03) && (noise > 0.0000001 && noise < 0.1)) {
+                        unit.modifier().setBlock(current, Block.DEEPSLATE);
+                        if ((blackStoneNoise > 0.0125 &&blackStoneNoise < 0.0175) ) {
+                            if (random.nextInt(2) == 0) {
+                                unit.modifier().setBlock(current, Block.DEEPSLATE_IRON_ORE);
+                            }
+
+                        }
                     } else if (noise > 0.0000001 && noise < 0.0001 && current.y() < snowStartHeight-10) {
                         Point gradient = computeGradient(current);
                         if (Math.abs(gradient.y()) > Math.abs(gradient.x()) && Math.abs(gradient.y()) > Math.abs(gradient.z())) {
@@ -301,10 +294,10 @@ public class CaveGenerator implements Generator {
                         if (Math.abs(gradient.y()) > Math.abs(gradient.x()) && Math.abs(gradient.y()) > Math.abs(gradient.z()) && gradient.y() < 0) {
                             // The gradient is primarily vertical and positive; this is a floor
                             if (isFlat(current, flatnessThreshold)) {
-                                if (current.y() > 5
-                                        && current.y() < snowStartHeight-40
-                                        && Math.abs(current.x()) < caveSizeX-25
-                                        && Math.abs(current.z()) < caveSizeZ-25) {
+                                if (current.y() > -32
+                                        && current.y() < snowStartHeight-30
+                                        && Math.abs(current.x()) < caveSizeX-20
+                                        && Math.abs(current.z()) < caveSizeZ-20) {
                                     for (Structure structure : structures) {
                                         if (structure instanceof FrenzyReceptacleStructure || structure instanceof DwarfCabinStructure) {
                                             structure.getPossibleLocations().add(current);
@@ -312,11 +305,16 @@ public class CaveGenerator implements Generator {
                                     }
                                 }
                             } else {
-                                unit.modifier().setBlock(current, Block.DEEPSLATE);
+                                unit.modifier().setBlock(current, Block.STONE);
                             }
                         }
                     } else if (noise > 0.0000001) {
-                        unit.modifier().setBlock(current, Block.DEEPSLATE);
+                        if (random.nextInt(20) == 0) {
+                            unit.modifier().setBlock(current, Block.ANDESITE);
+
+                        } else {
+                            unit.modifier().setBlock(current, Block.STONE);
+                        }
                     } else {
                         unit.modifier().setBlock(current, Block.AIR);
                     }
@@ -413,7 +411,7 @@ public class CaveGenerator implements Generator {
         }
         new Blizzard(instance).generateZone(new Pos(-caveSizeX, snowStartHeight, -caveSizeZ), new Pos(caveSizeX, maxHeightSize, caveSizeZ));
         assert observatoryStructure != null;
-        new Space(instance).generateZone(new Pos(-caveSizeX, highestPoint.y() + observatoryStructure.getStructureHeight(), -caveSizeZ), new Pos(caveSizeX, maxHeightSize, caveSizeZ));
+        new Space(instance).generateZone(new Pos(-caveSizeX, Math.max(highestPoint.y(), cloudsHeight) + observatoryStructure.getStructureHeight(), -caveSizeZ), new Pos(caveSizeX, maxHeightSize, caveSizeZ));
     }
 
     private void loadLocationInCommands() {
@@ -507,19 +505,5 @@ public class CaveGenerator implements Generator {
             }
         }
         logger.info("[Completion] - Cave prepopulation");
-    }
-
-    public static void registerEntities() {
-
-        new Dwarf(EntityType.PLAYER);
-
-        logger.info("[Registry] - " + EntityRegistry.getInstance().getSize() + " entities registered.");
-    }
-
-    public static void registerQuests() {
-        new FirstColdResistanceItemQuest(0);
-        new ExploreAPlanet(1);
-
-        logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");
     }
 }

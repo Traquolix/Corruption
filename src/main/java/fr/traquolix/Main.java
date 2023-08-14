@@ -15,11 +15,8 @@ import fr.traquolix.content.items.types.swords.EndSword;
 import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.events.*;
-import fr.traquolix.locations.cave.generator.CaveGenerator;
-import fr.traquolix.mercenaries.JackTheRipper.JackTheRipper;
 import fr.traquolix.quests.QuestRegistry;
 import fr.traquolix.quests.dwarf.*;
-import fr.traquolix.quests.missions.ExploreAPlanet;
 import fr.traquolix.time.TimeManager;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
@@ -31,6 +28,7 @@ import net.minestom.server.event.player.PlayerSkinInitEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
+import net.minestom.server.instance.LightingChunk;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.network.packet.server.play.TeamsPacket;
 import org.slf4j.Logger;
@@ -42,7 +40,23 @@ import org.slf4j.LoggerFactory;
  */
 @Getter
 public class Main {
+    //TODO Et si je faisais compact claustrophobia ? Tu farm dans une petite boîte pour l'agrandir et l'agrandir, et tu débloques des trucs au fur et à mesure ?
+    // On peut chercher de l'inspiration de ce côté, non ?
+    // Finalement, Material Energy ou l'on load des zones me semble encore meilleur pour un tas de raisons.
+    // Seul et unique inconvénient, tu passes ton temps à farmer tout seul, non entouré.
+    // Suffit d'imaginer des zones publiques, ou des donjons, dont l'accès est bloqué par l'accès à un disque qui load un portail ?
+    // Possibilité d'avoir des disques "vides", pour construire comme on veut.
+    // Et quand on viens visiter ta zone privée, tu peux définir des disques par défaut.
+    // Et tu peux débloquer des emplacements de disque au fur et à mesure ?
+    // Faut voir. Peut être avoir plein d'emplacements, mais faut choisir en fonction de la taille du disque que t'essaie de load car tu peux pas load tout en même temps ?
+    // Cela nécessiterait d'avoir toutes tes zones à côté. Sinon, tu les met toutes à côté, mais par défaut, y'a un mur, et si tu load une grosse zone, le mur est cassey / reposé ensuite.
+    // On peut regen la cave, mais ça consomme le disque, et il faut finir un truc pour en récupérer / crafter un autre ?
 
+
+    // TODO On peut même imaginer qu'on peut accèder à une partie différente du "labo" (base personnelle de base) avec certains disques ? Débloquer des morceaux ? Ou alors, débloquer des agrandissements ?
+
+
+    // TODO Maybe the mercenary idea is not a good one for now.
 
     //TODO Bon début, mais utiliser un coffre pour afficher les différentes quêtes et leurs progressions en
     // fonction du NPC sur lequel on clique avec l'item en question serait mieux.
@@ -92,17 +106,22 @@ public class Main {
         registerBlocks();
         registerEvents(globalEventHandler);
         registerCommands();
-        registerMercenaries();
+        registerEntities();
+        registerQuests();
 
-        //Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
-        //dwarf.spawn(instance, new Pos(0, 40, 0));
+        Dwarf dwarf = (Dwarf) EntityRegistry.getInstance().getEntity(Dwarf.identifier);
+        dwarf.spawn(instance, new Pos(0, 40, 0));
+
+        instance.setGenerator(unit ->
+                unit.modifier().fillHeight(0, 40, Block.STONE));
+        instance.setChunkSupplier(LightingChunk::new);
 
 
         // Set the ChunkGenerator
 
-        CaveGenerator caveGenerator = new CaveGenerator(instance);
-        instance.setGenerator(caveGenerator);
-        caveGenerator.populate();
+        //CaveGenerator caveGenerator = new CaveGenerator(instance);
+        //instance.setGenerator(caveGenerator);
+        //caveGenerator.populate();
 
 
         // Set render distance
@@ -119,10 +138,6 @@ public class Main {
 
         // Start the server on port 25565
         minecraftServer.start("0.0.0.0", 25565);
-    }
-
-    private static void registerMercenaries() {
-        new JackTheRipper();
     }
 
     private static void InitTeams() {
@@ -164,7 +179,6 @@ public class Main {
         MinecraftServer.getCommandManager().register(new RewardStashCommand());
         MinecraftServer.getCommandManager().register(new TimeStepCommand());
         MinecraftServer.getCommandManager().register(new TellTimeCommand());
-        MinecraftServer.getCommandManager().register(new IncarnateCommand());
         logger.info("[Registry] - " + MinecraftServer.getCommandManager().getCommands().size() + " commands registered.");
     }
 
@@ -231,5 +245,20 @@ public class Main {
         new CloudBlock();
 
         logger.info("[Registry] - " + BlockRegistry.getInstance().getSize() + " blocks registered.");
+    }
+
+
+    public static void registerEntities() {
+
+        new Dwarf(EntityType.PLAYER);
+
+        logger.info("[Registry] - " + EntityRegistry.getInstance().getSize() + " entities registered.");
+    }
+
+    public static void registerQuests() {
+        new FirstColdResistanceItemQuest(0);
+        //new ExploreAPlanet(1);
+
+        logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");
     }
 }

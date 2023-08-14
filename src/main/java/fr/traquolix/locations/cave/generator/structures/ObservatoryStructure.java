@@ -87,7 +87,7 @@ public class ObservatoryStructure extends Structure {
 
         RaycastResult raycastResult = null;
         for (Point point : points) {
-            raycastResult = raycastAirBlocks(point, direction, 50, getInstance());
+            raycastResult = raycastAirBlocks(point, direction, 150, getInstance());
             averageAir.add(orientationBaseValue * 100 + raycastResult.count());
         }
 

@@ -5,8 +5,6 @@ import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.NPCEntity;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.player.PlayerRegistry;
-import fr.traquolix.quests.QuestRegistry;
-import fr.traquolix.quests.missions.Mission;
 import fr.traquolix.time.TimeManager;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
@@ -55,7 +53,6 @@ public class PlayerLoginRegisterEvent {
                     ((NPCEntity) entity).initEntity(cPlayer);
                 }
             });
-            cPlayer.addCurrentMission((Mission)QuestRegistry.getInstance().getQuest(1));
 
                     // Set the base health value of the player to 20 (if needed)
             // player.setBaseStatValue(Stat.HEALTH, 20);

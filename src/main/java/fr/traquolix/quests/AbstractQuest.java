@@ -3,7 +3,6 @@ package fr.traquolix.quests;
 import fr.traquolix.content.generalities.requirements.Requirement;
 import fr.traquolix.entity.AbstractEntity;
 import fr.traquolix.player.CPlayer;
-import fr.traquolix.quests.missions.Mission;
 import fr.traquolix.rewards.Reward;
 import fr.traquolix.utils.Utils;
 import lombok.Getter;
@@ -75,18 +74,7 @@ public abstract class AbstractQuest implements Cloneable {
             }
         }
         if (canStart) {
-            if (this instanceof Mission) {
-                player.sendMessage(
-                        Component.text("Mission ")
-                                .color(NamedTextColor.GREEN)
-                                .decoration(TextDecoration.ITALIC, false)
-                                .append(Component.text("[" + getName() + "]")
-                                        .hoverEvent(Utils.concatenateComponents(description))
-                                        .color(NamedTextColor.RED))
-                                .append(Component.text(" started.")));
-                player.addCurrentMission((Mission) this);
-            } else {
-                player.sendMessage(
+            player.sendMessage(
                         Component.text("Quest ")
                                 .color(NamedTextColor.GREEN)
                                 .decoration(TextDecoration.ITALIC, false)
@@ -96,7 +84,7 @@ public abstract class AbstractQuest implements Cloneable {
                                 .append(Component.text(" started.")));
                 logger.info("Quest " + name + " (" + id +") started by " + player.getUuid());
                 player.addCurrentQuests(id, currentStep);
-            }
+
 
         } else {
             player.sendMessage(Component.text("The constellations have not yet charted this path for you.").color(NamedTextColor.LIGHT_PURPLE));
@@ -111,53 +99,28 @@ public abstract class AbstractQuest implements Cloneable {
         return canStart;
     }
     public void finish(CPlayer player) {
-        if (this instanceof Mission) {
-            logger.info("Mission " + name + " (" + id +") completed by " + player.getUuid());
-            finished = true;
+        logger.info("Quest " + name + " (" + id +") completed by " + player.getUuid());
+        finished = true;
 
-            player.sendMessage((Component.text("[" + getName() + "]")
-                    .hoverEvent(Utils.concatenateComponents(getDescription()))
-                    .color(NamedTextColor.GOLD)
-                    .append(Component.text(" completed !")
-                            .color(NamedTextColor.GREEN)))
-                    .hoverEvent(
-                            (Component.text("Click")
-                                    .decoration(TextDecoration.BOLD, true)
-                                    .color(NamedTextColor.YELLOW))
-                                    .append(
-                                            Component.text(" to open your reward stash !")
-                                                    .color(NamedTextColor.YELLOW)))
-                    .clickEvent(ClickEvent.runCommand("/rewardstash"))
-            );
+        player.sendMessage((Component.text("[" + getName() + "]")
+                .hoverEvent(Utils.concatenateComponents(getDescription()))
+                .color(NamedTextColor.GOLD)
+                .append(Component.text(" completed !")
+                        .color(NamedTextColor.GREEN)))
+                .hoverEvent(
+                        (Component.text("Click")
+                                .decoration(TextDecoration.BOLD, true)
+                                .color(NamedTextColor.YELLOW))
+                                .append(
+                                        Component.text(" to open your reward stash !")
+                                                .color(NamedTextColor.YELLOW)))
+                .clickEvent(ClickEvent.runCommand("/rewardstash"))
+        );
 
-
-            player.removeCurrentMission();
-            player.getPersonalRewardRegistry().setRewardsAccessible(id);
-            player.getPersonalRewardRegistry().claimAllReward(id, player);
-        } else {
-            logger.info("Quest " + name + " (" + id +") completed by " + player.getUuid());
-            finished = true;
-
-            player.sendMessage((Component.text("[" + getName() + "]")
-                    .hoverEvent(Utils.concatenateComponents(getDescription()))
-                    .color(NamedTextColor.GOLD)
-                    .append(Component.text(" completed !")
-                            .color(NamedTextColor.GREEN)))
-                    .hoverEvent(
-                            (Component.text("Click")
-                                    .decoration(TextDecoration.BOLD, true)
-                                    .color(NamedTextColor.YELLOW))
-                                    .append(
-                                            Component.text(" to open your reward stash !")
-                                                    .color(NamedTextColor.YELLOW)))
-                    .clickEvent(ClickEvent.runCommand("/rewardstash"))
-            );
-
-            player.removeCurrentQuests(this);
-            player.getPersonalRewardRegistry().setRewardsAccessible(id);
-            player.getPersonalRewardRegistry().claimAllReward(id, player);
-            player.addCompletedQuests(this);
-        }
+        player.removeCurrentQuests(this);
+        player.getPersonalRewardRegistry().setRewardsAccessible(id);
+        player.getPersonalRewardRegistry().claimAllReward(id, player);
+        player.addCompletedQuests(this);
     }
 
     public void addStep(QuestStep step) {
@@ -178,24 +141,16 @@ public abstract class AbstractQuest implements Cloneable {
 
         if (canStep.get()) {
             String appellation;
-            if (this instanceof Mission) {
-                appellation = "mission";
-            } else {
-                appellation = "quest";
-            }
+            appellation = "quest";
             logger.info("Step " + (currentStep) + " of " + appellation + " " + name + " (" + id +") completed by " + player.getUuid());
             if (currentStep == getSteps().size()-1) {
                 finish(player);
             } else {
                 this.currentStep++;
-                if (!(this instanceof Mission)) {
-                    player.getCurrentQuests().put(id, currentStep);
-                }
+                player.getCurrentQuests().put(id, currentStep);
             }
             return true;
         } else {
-            if (this instanceof Mission) return false;
-
             player.sendMessage(Component.text("The stars have not yet aligned for you to proceed. ").color(NamedTextColor.LIGHT_PURPLE));
             player.sendMessage(Component.text("To continue, you still need : ").color(NamedTextColor.LIGHT_PURPLE));
             getSteps().get(currentStep).getRequirements().forEach(requirement -> {

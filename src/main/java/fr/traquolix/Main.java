@@ -16,7 +16,7 @@ import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.events.*;
 import fr.traquolix.quests.QuestRegistry;
-import fr.traquolix.quests.dwarf.*;
+import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest;
 import fr.traquolix.time.TimeManager;
 import lombok.Getter;
 import net.minestom.server.MinecraftServer;
@@ -28,7 +28,6 @@ import net.minestom.server.event.player.PlayerSkinInitEvent;
 import net.minestom.server.extras.MojangAuth;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.InstanceManager;
-import net.minestom.server.instance.LightingChunk;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.network.packet.server.play.TeamsPacket;
 import org.slf4j.Logger;
@@ -114,8 +113,6 @@ public class Main {
 
         instance.setGenerator(unit ->
                 unit.modifier().fillHeight(0, 40, Block.STONE));
-        instance.setChunkSupplier(LightingChunk::new);
-
 
         // Set the ChunkGenerator
 

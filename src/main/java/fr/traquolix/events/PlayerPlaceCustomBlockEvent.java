@@ -13,14 +13,13 @@ public class PlayerPlaceCustomBlockEvent {
 
     public PlayerPlaceCustomBlockEvent(GlobalEventHandler globalEventHandler) {
         globalEventHandler.addListener(PlayerBlockPlaceEvent.class, event -> {
-            if (event.getBlockPosition().y() > CaveGenerator.peakStartHeight + CaveGenerator.getHighestHeight()) {
+            if (event.getBlockPosition().y() > CaveGenerator.peakStartHeight + 50) {
                 event.setCancelled(true);
                 return;
             }
             ItemStack itemStack = event.getPlayer().getInventory().getItemInMainHand();
             if (itemStack.hasTag(Identifier.getGlobalTag())) {
                 Identifier identifier = new Identifier(itemStack.getTag(Identifier.getGlobalTag()));
-                identifier.setGroup("block");
                 AbstractBlock abstractBlock = BlockRegistry.getInstance().getBlock(identifier);
                 abstractBlock.onPlace(event.getPlayer(), event.getBlockPosition());
                 event.setCancelled(true);

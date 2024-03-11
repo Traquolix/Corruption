@@ -7,7 +7,7 @@ import lombok.Getter;
  */
 @Getter
 public abstract class AbstractSkill {
-    int level = 0;
+    int level = 1;
     double experience = 0;
 
     /**

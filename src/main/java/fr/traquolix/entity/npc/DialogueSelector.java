@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -48,16 +49,21 @@ public class DialogueSelector {
     // TODO Les quêtes peuvent impacter le monde, mais il faut pas que les quetes donnent des récompenses trop élevées. Ou alors il doit y en avoir BEAUCOUP qui impactent l'environnement, pour pas qu'on se sente lésé pendant une timeloop je suppose. Elles doivent avoir peu de conséquences techniques, mais peuvent avoir des conséquences en terme d'histoire.
     //  Il faut voir si l'impact d'une quête ne risque pas de dérégler d'autres quêtes autour par contre, et ne pas bloquer des accès. Si on fait en sorte qu'un accès se ferme si *quelqu'un* fait la quête, well, quelqu'un fera toujours la quête, et l'accès sera toujours bloqué... Faut voir.
     public List<TextComponent> getRandomDialogue(int i) {
-        if (dialogues.getSize(i) == 1) {
+
+        if ((dialogues.getSize(i) == 1 || dialogues.getSize(i) == 0)) {
             logger.warn("There is only one dialogue for this NPC, it should not. Make sure you have at least 2 dialogues if you add one to a time step / NPC.");
-            return List.of(Component.text("..."));
+            return List.of(Component.text("...", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
         }
         Dialogue selectedDialogue = null;
         do {
             int value = random.nextInt(totalWeight);
             int weightSum = 0;
             if (dialogues.get(i) != null) {
-                for (Dialogue dialogue : dialogues.get(i)) {
+                ConcurrentLinkedQueue<Dialogue> allPossiblesdialogues = dialogues.get(i);
+                if (dialogues.get(-1) != null)
+                    allPossiblesdialogues.addAll(dialogues.get(-1));
+
+                for (Dialogue dialogue : allPossiblesdialogues) {
                     weightSum += dialogue.weight;
                     if (weightSum >= value) {
                         selectedDialogue = dialogue;

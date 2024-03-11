@@ -20,7 +20,7 @@ public class CloudBlockItem extends AbstractItem {
                 ItemType.ITEM,
                 Material.WHITE_STAINED_GLASS,
                 Rarity.UNCOMMON,
-                "A literal cloud as a block.");
+                "A literal cloud as a block. But it seems to have lost its fluffiness.");
     }
 
     /**

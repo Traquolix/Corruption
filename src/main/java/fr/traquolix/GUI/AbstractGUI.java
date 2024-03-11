@@ -14,6 +14,8 @@ import net.minestom.server.inventory.click.ClickType;
 import net.minestom.server.inventory.condition.InventoryCondition;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
+import net.minestom.server.item.StackingRule;
+
 @Getter
 public abstract class AbstractGUI {
     protected Inventory inventory;

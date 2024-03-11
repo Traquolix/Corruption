@@ -31,7 +31,6 @@ public class PlayerCustomBlockBreakEvent {
     }
 
     private void handleBlockBreakEvent(PlayerBlockBreakEvent event) {
-        Random random = new Random();
         CPlayer cPlayer = PlayerRegistry.getInstance().getCPlayer(event.getPlayer().getUuid());
         assert cPlayer != null;
 
@@ -49,7 +48,6 @@ public class PlayerCustomBlockBreakEvent {
             boolean natural = event.getBlock().getTag(Identifier.getNaturalTag());
             AbstractBlock abstractBlock = BlockRegistry.getInstance().getBlock(new Identifier(event.getBlock().getTag(Identifier.getGlobalTag())));
             if (natural) {
-                cPlayer.getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
                 abstractBlock.brokeNatural(cPlayer);
             } else {
                 abstractBlock.broke(cPlayer);

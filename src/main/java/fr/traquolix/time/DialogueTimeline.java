@@ -47,6 +47,6 @@ public class DialogueTimeline {
     }
 
     public int getSize(int i) {
-        return timeline.get(i).size();
+        return timeline.get(i) == null ? 0 : timeline.get(i).size();
     }
 }

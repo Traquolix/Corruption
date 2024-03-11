@@ -48,7 +48,7 @@ public class SkillGUI extends AbstractGUI {
                     .withDisplayName(
                             Component.text(Utils.capitalizeFirstLetter(skill.name()) + " " + Utils.toRomanNumeral(abstractSkill.getLevel()), NamedTextColor.YELLOW)
                                     .decoration(TextDecoration.ITALIC, false))
-                    .withLore(Utils.generateLore(skill, abstractSkill)), new SpecificSkillProgressionGUI(skill, abstractSkill, 1));
+                    .withLore(Utils.generateLoreProgressBar(abstractSkill)), new SpecificSkillProgressionGUI(skill, abstractSkill, 1));
             slotCounters.getAndIncrement();
         }));
         addCloseItem(49);

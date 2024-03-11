@@ -4,9 +4,10 @@ import fr.traquolix.content.generalities.requirements.ResistColdRequirement;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.damage.DamageType;
+import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.event.player.PlayerDisconnectEvent;
-import net.minestom.server.event.player.PlayerLoginEvent;
 import net.minestom.server.event.player.PlayerMoveEvent;
+import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.particle.Particle;
 
@@ -30,7 +31,7 @@ public class Blizzard extends Zone {
                 if (isInZone(player.getPosition())) {
                     if (doNotHaveRequirements(player)) {
                         player.getEntityMeta().setTickFrozen(Math.min(100, player.getEntityMeta().getTickFrozen() + 10));
-                        player.damage(DamageType.VOID, 0.1f);
+                        player.damage(DamageType.OUT_OF_WORLD, 0.1f);
                     } else {
                         player.getEntityMeta().setTickFrozen(Math.max(0, player.getEntityMeta().getTickFrozen() - 10));
                     }
@@ -46,7 +47,7 @@ public class Blizzard extends Zone {
             }
         });
 
-        MinecraftServer.getGlobalEventHandler().addListener(PlayerLoginEvent.class, (event) -> {
+        MinecraftServer.getGlobalEventHandler().addListener(PlayerSpawnEvent.class, (event) -> {
             manageParticleTask(event.getPlayer(), Particle.SNOWFLAKE);
         });
 

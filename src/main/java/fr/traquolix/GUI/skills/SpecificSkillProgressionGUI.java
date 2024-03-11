@@ -12,6 +12,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
+import net.minestom.server.item.StackingRule;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
         switch (tier) {
             case 1 -> {
                 int counter = 1;
-                generateTimeline(slotOrder, counter);
+                generateSkillProgress(slotOrder, counter);
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Go back").decoration(TextDecoration.ITALIC, false)), new SkillGUI(cPlayer));
                 addCloseItem(49);
                 addInventoryOpener(50, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Next page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 2));
@@ -55,7 +56,7 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
             }
             case 2 -> {
                 int counter = 21;
-                generateTimeline(slotOrder, counter);
+                generateSkillProgress(slotOrder, counter);
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Previous page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 1));
                 addCloseItem(49);
                 addInventoryOpener(50, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Next page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 3));
@@ -63,7 +64,7 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
             }
             case 3 -> {
                 int counter = 41;
-                generateTimeline(slotOrder, counter);
+                generateSkillProgress(slotOrder, counter);
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Previous page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 2));
                 addCloseItem(49);
                 addInventoryOpener(50, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Next page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 4));
@@ -71,18 +72,7 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
             }
             case 4 -> {
                 int counter = 61;
-                for (int i: slotOrder){
-                    if (counter == abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.YELLOW_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)).withLore(Utils.generateLore(skill, abstractSkill)));
-                    }
-                    if (counter > abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.RED_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    if (counter < abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.LIME_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    counter++;
-                }
+                generateSkillProgress(slotOrder, counter);
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Previous page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 3));
                 addCloseItem(49);
                 addInventoryOpener(50, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Next page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 5));
@@ -90,18 +80,7 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
             }
             case 5 -> {
                 int counter = 81;
-                for (int i: slotOrder){
-                    if (counter == abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.YELLOW_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)).withLore(Utils.generateLore(skill, abstractSkill)));
-                    }
-                    if (counter > abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.RED_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    if (counter < abstractSkill.getLevel()) {
-                        setItemStack(i, ItemStack.of(Material.LIME_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
-                    }
-                    counter++;
-                }
+                generateSkillProgress(slotOrder, counter);
                 addInventoryOpener(48, ItemStack.of(Material.ARROW).withDisplayName(Component.text("Previous page").decoration(TextDecoration.ITALIC, false)), new SpecificSkillProgressionGUI(skill, abstractSkill, 4));
                 addCloseItem(49);
                 addResetPerksItemStack(cPlayer);
@@ -127,16 +106,16 @@ public class SpecificSkillProgressionGUI extends AbstractGUI {
         setItemStack(52, skill.getTier(tier));
     }
 
-    private void generateTimeline(List<Integer> slotOrder, int counter) {
+    private void generateSkillProgress(List<Integer> slotOrder, int counter) {
         for (int i: slotOrder){
             if (counter == abstractSkill.getLevel()) {
-                setItemStack(i, ItemStack.of(Material.YELLOW_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)).withLore(Utils.generateLore(skill, abstractSkill)));
+                setItemStack(i, ItemStack.of(Material.YELLOW_STAINED_GLASS_PANE, counter).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.YELLOW)).withLore(Utils.generateLoreProgressBar(abstractSkill)));
             }
             if (counter > abstractSkill.getLevel()) {
-                setItemStack(i, ItemStack.of(Material.RED_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
+                setItemStack(i, ItemStack.of(Material.RED_STAINED_GLASS_PANE, counter).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.RED)));
             }
             if (counter < abstractSkill.getLevel()) {
-                setItemStack(i, ItemStack.of(Material.GREEN_STAINED_GLASS_PANE).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false)));
+                setItemStack(i, ItemStack.of(Material.GREEN_STAINED_GLASS_PANE, counter).withDisplayName(Component.text("Level " + Utils.toRomanNumeral(counter)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GREEN)));
             }
             counter++;
         }

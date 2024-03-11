@@ -5,25 +5,15 @@ import fr.traquolix.entity.AbstractEntity;
 import fr.traquolix.player.CPlayer;
 import fr.traquolix.quests.QuestEntityRegistry;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.coordinate.Point;
 import net.minestom.server.entity.*;
-import net.minestom.server.instance.Instance;
-import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.network.packet.server.play.EntityMetaDataPacket;
 import net.minestom.server.network.packet.server.play.PlayerInfoUpdatePacket;
-import net.minestom.server.network.packet.server.play.SpawnPlayerPacket;
-import net.minestom.server.network.packet.server.play.TeamsPacket;
-import net.minestom.server.network.player.PlayerConnection;
-import net.minestom.server.scoreboard.TeamManager;
-import net.minestom.server.timer.TaskSchedule;
-import org.jetbrains.annotations.NotNull;
+import net.minestom.server.network.packet.server.play.SpawnEntityPacket;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public abstract class NPCEntity extends AbstractEntity {
 // TODO Introduire le système de timeline (en fonction de quand on va le voir, il propose d'autres quêtes).
@@ -48,13 +38,29 @@ public abstract class NPCEntity extends AbstractEntity {
     public abstract void initUsername();
 
     public void initEntity(CPlayer player) {
-        final List<PlayerInfoUpdatePacket.Property> properties = new ArrayList<>();
-        properties.add(new PlayerInfoUpdatePacket.Property("textures", skin.textures(), skin.signature()));
+        updateNewViewer(player);
+    }
 
-        player.getPlayer().sendPacket(new PlayerInfoUpdatePacket(PlayerInfoUpdatePacket.Action.ADD_PLAYER,
-                new PlayerInfoUpdatePacket.Entry(getEntity().getUuid(), username, properties, false, 0, GameMode.CREATIVE, null, null)));
-        player.getPlayer().sendPacket(new SpawnPlayerPacket(Integer.parseInt(id), getEntity().getUuid(), getEntity().getPosition()));
-        player.getPlayer().sendPacket(new EntityMetaDataPacket(Integer.parseInt(id), Map.of(17, Metadata.Byte((byte) 127 /*All layers enabled*/))));
+    private void updateNewViewer(CPlayer player) {
+
+        String skinTexture = skin.textures();
+        String skinSignature = skin.signature();
+
+
+        var properties = new ArrayList<PlayerInfoUpdatePacket.Property>();
+        if (skinTexture != null && skinSignature != null) {
+            properties.add(new PlayerInfoUpdatePacket.Property("textures", skinTexture, skinSignature));
+        }
+        var entry = new PlayerInfoUpdatePacket.Entry(getEntity().getUuid(), username, properties, false,
+                0, GameMode.SURVIVAL, null, null);
+        player.sendPacket(new PlayerInfoUpdatePacket(PlayerInfoUpdatePacket.Action.ADD_PLAYER, entry));
+
+        // Spawn the player entity
+        getEntity().updateNewViewer(player.getPlayer());
+
+        // Enable skin layers
+        player.sendPackets(new EntityMetaDataPacket(getEntity().getEntityId(), Map.of(17, Metadata.Byte((byte) 127))));
+        getEntity().setInvisible(false);
     }
 
     public abstract void initDefaultDialogues();

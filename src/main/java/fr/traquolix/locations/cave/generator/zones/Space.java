@@ -25,7 +25,7 @@ public class Space extends Zone {
                 instance.getPlayers().forEach((player -> manageParticleTask(player, Particle.ASH)));
                 if (isInZone(event.getPlayer().getPosition())) {
                     if (doNotHaveRequirements(event.getPlayer())) {
-                        event.getPlayer().damage(DamageType.VOID, 0.2f);
+                        event.getPlayer().damage(DamageType.OUT_OF_WORLD, 0.2f);
                     }
                 }
             }

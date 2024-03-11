@@ -15,7 +15,9 @@ import fr.traquolix.content.items.types.swords.EndSword;
 import fr.traquolix.entity.EntityRegistry;
 import fr.traquolix.entity.npc.npc.Dwarf;
 import fr.traquolix.events.*;
+import fr.traquolix.locations.cave.generator.CaveGenerator;
 import fr.traquolix.quests.QuestRegistry;
+import fr.traquolix.quests.dwarf.ClickQuest;
 import fr.traquolix.quests.dwarf.FirstColdResistanceItemQuest;
 import fr.traquolix.time.TimeManager;
 import lombok.Getter;
@@ -112,7 +114,7 @@ public class Main {
         dwarf.spawn(instance, new Pos(0, 40, 0));
 
         instance.setGenerator(unit ->
-                unit.modifier().fillHeight(0, 40, Block.STONE));
+                unit.modifier().fillHeight(0, 40, Block.EMERALD_BLOCK));
 
         // Set the ChunkGenerator
 
@@ -176,6 +178,7 @@ public class Main {
         MinecraftServer.getCommandManager().register(new RewardStashCommand());
         MinecraftServer.getCommandManager().register(new TimeStepCommand());
         MinecraftServer.getCommandManager().register(new TellTimeCommand());
+        MinecraftServer.getCommandManager().register(new GetTagCommand());
         logger.info("[Registry] - " + MinecraftServer.getCommandManager().getCommands().size() + " commands registered.");
     }
 
@@ -254,6 +257,7 @@ public class Main {
 
     public static void registerQuests() {
         new FirstColdResistanceItemQuest(0);
+        new ClickQuest(1);
         //new ExploreAPlanet(1);
 
         logger.info("[Registry] - " + QuestRegistry.getInstance().getSize() + " quests registered.");

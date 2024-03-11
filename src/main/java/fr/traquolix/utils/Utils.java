@@ -7,7 +7,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.serializer.ComponentSerializer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -136,7 +135,7 @@ public class Utils {
         return (M[num/1000] + C[(num%1000)/100] + X[(num%100)/10] + I[num%10]).toUpperCase();
     }
 
-    public static List<? extends Component> generateLore(Skill skill, AbstractSkill abstractSkill) {
+    public static List<? extends Component> generateLoreProgressBar(AbstractSkill abstractSkill) {
         List<Component> lore = new ArrayList<>();
 
         double currentExperience = abstractSkill.getExperience();

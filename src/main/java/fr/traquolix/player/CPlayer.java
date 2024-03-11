@@ -32,6 +32,8 @@ import net.minestom.server.entity.Player;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.item.ItemStack;
+import net.minestom.server.network.packet.server.SendablePacket;
+import net.minestom.server.network.packet.server.play.EntityMetaDataPacket;
 import net.minestom.server.network.player.PlayerConnection;
 import net.minestom.server.scoreboard.Sidebar;
 import net.minestom.server.timer.Scheduler;
@@ -171,7 +173,14 @@ public class CPlayer {
      * @param amount The amount of experience points to gain.
      */
     public void gainExperience(Skill skill, double amount) {
-        if (skills.get(skill).gainExperience(amount)) {
+
+        boolean hasLeveledUp = skills.get(skill).gainExperience(amount);
+
+        Random random = new Random();
+        getPlayer().playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.MASTER, 0.3f, random.nextFloat(1.85f, 2f)));
+
+
+        if (hasLeveledUp) {
             int currentLevel = getLevel(skill);
             int previousLevel = currentLevel-1;
 
@@ -533,5 +542,13 @@ public class CPlayer {
                 Component.text(leftElement, actionBarColor)
                         .append(Component.text(" / ", separationBarColor))
                         .append(Component.text(rightElement, actionBarColor)).decoration(TextDecoration.BOLD, false));
+    }
+
+    public void sendPacket(SendablePacket packet) {
+        player.sendPacket(packet);
+    }
+
+    public void sendPackets(EntityMetaDataPacket entityMetaDataPacket) {
+        player.sendPackets(entityMetaDataPacket);
     }
 }

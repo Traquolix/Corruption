@@ -51,7 +51,7 @@ public class Dwarf extends NPCEntity  {
 
                 ),
                 10);
-        defaultDialogues.addDialogue(0,
+        defaultDialogues.addDialogue(-1,
                 List.of(
                         Component.text("I'm wasted on cross-country. We dwarves", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
                         Component.text("are natural sprinters. Very dangerous over", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
@@ -59,17 +59,17 @@ public class Dwarf extends NPCEntity  {
 
                 ),
                 10);
-        defaultDialogues.addDialogue(0,
+        defaultDialogues.addDialogue(-1,
                 List.of(
                 Component.text("I miss you Aleana. Where did you end up ?", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
                 ),
                 2);
-        defaultDialogues.addDialogue(0,
+        defaultDialogues.addDialogue(-1,
                 List.of(
                 Component.text("You human don't know what a Dwarf is capable of !", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
                 ),
                 10);
-        defaultDialogues.addDialogue(0,
+        defaultDialogues.addDialogue(-1,
                 List.of(
                 Component.text("Come back to me if you find anything interesting.", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)
                 ),

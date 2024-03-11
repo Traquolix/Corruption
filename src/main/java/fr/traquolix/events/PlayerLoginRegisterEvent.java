@@ -13,7 +13,8 @@ import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
-import net.minestom.server.event.player.PlayerLoginEvent;
+import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
+import net.minestom.server.event.player.AsyncPlayerPreLoginEvent;
 import net.minestom.server.event.player.PlayerSpawnEvent;
 
 /**
@@ -28,12 +29,17 @@ public class PlayerLoginRegisterEvent {
      * @param globalEventHandler The global event handler to register the listener.
      */
     public PlayerLoginRegisterEvent(GlobalEventHandler globalEventHandler) {
-        globalEventHandler.addListener(PlayerLoginEvent.class, event -> {
+
+        globalEventHandler.addListener(AsyncPlayerConfigurationEvent.class, event -> {
+            event.setSpawningInstance(Main.instance);
+        });
+        globalEventHandler.addListener(PlayerSpawnEvent.class, event -> {
 
             final Player player = event.getPlayer();
             player.setGameMode(GameMode.CREATIVE);
-            event.setSpawningInstance(Main.instance);
-            player.setRespawnPoint(new Pos(0, 41, 0));
+
+            player.teleport(new Pos(0, 100, 0));
+            player.spawn();
 
             player.setTeam(MinecraftServer.getTeamManager().getTeam("players"));
 
@@ -46,24 +52,21 @@ public class PlayerLoginRegisterEvent {
                 cPlayer = new CPlayer(player);
                 PlayerRegistry.getInstance().getCPlayer(player.getUuid()).refreshEquipment();
             }
-
+            CPlayer cplayer = PlayerRegistry.getInstance().getCPlayer(event.getPlayer().getUuid());
+            cplayer.getSidebar().updateLineContent("current_time_line",
+                    Component.text("Time : " + (TimeManager.getInstance().getCurrentTime() - 1))
+            );
+            cplayer.getSidebar().addViewer(cplayer.getPlayer());
 
             EntityRegistry.getInstance().getEntityMap().forEach((id, entity) -> {
                 if (entity.getType() == EntityType.PLAYER) {
-                    ((NPCEntity) entity).initEntity(cPlayer);
+                    ((NPCEntity) entity).initEntity(cplayer);
                 }
+
+
+                // Set the base health value of the player to 20 (if needed)
+                // player.setBaseStatValue(Stat.HEALTH, 20);
             });
-
-                    // Set the base health value of the player to 20 (if needed)
-            // player.setBaseStatValue(Stat.HEALTH, 20);
-        });
-
-        globalEventHandler.addListener(PlayerSpawnEvent.class, event -> {
-            CPlayer cplayer = PlayerRegistry.getInstance().getCPlayer(event.getPlayer().getUuid());
-            cplayer.getSidebar().updateLineContent("current_time_line",
-                    Component.text("Time : " + (TimeManager.getInstance().getCurrentTime()-1))
-                    );
-            cplayer.getSidebar().addViewer(cplayer.getPlayer());
         });
 
     }
